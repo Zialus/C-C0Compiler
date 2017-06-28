@@ -2,7 +2,7 @@
 
 %{
 #include "tree.h"
-#include "parser.tab.h"
+#include "parser.h"
 #include <stdlib.h>
 %}
 
