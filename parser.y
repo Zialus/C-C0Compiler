@@ -3,6 +3,9 @@
 #include "tree.h"
 #include "printer.c"
 #include "assembler.h"
+
+FILE *yyin;
+
 int yylex(void);
 void yyerror(const char *);
 %}
@@ -121,8 +124,10 @@ INT VAR SEMICOLON     	 { $$ = DECL_declare(INT_TYPE, $2);	}
 
 %%
 
-int main(){
+int main(int argc, char **argv){
+    yyin = fopen(argv[1], "r");
 	yyparse();
+	fclose(yyin);
 	return 0;
 }
 
