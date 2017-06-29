@@ -334,6 +334,7 @@ Pair compile(I_list il) {
 }
 
 void superF(I_list il) {
+  fflush(STDIN_FILENO);
   int f = 0, d = 0;
   if ((f = open("out.asm", O_CREAT | O_WRONLY | O_TRUNC, S_IWUSR | S_IRUSR)) <
       0) {
