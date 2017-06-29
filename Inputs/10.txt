@@ -1,0 +1,9 @@
+int main(){
+  if(x == z){
+  a = b;
+  int c;
+  }
+  else
+    c = 26;
+  return 0;
+}

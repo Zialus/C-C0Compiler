@@ -7,6 +7,7 @@ script:
     - cd build
     - cmake -D CMAKE_BUILD_TYPE=Release ..
     - make
+    - ctest -V
 
 before_install:
     - eval "${MATRIX_EVAL}"

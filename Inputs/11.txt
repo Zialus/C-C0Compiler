@@ -1,0 +1,10 @@
+int main(){
+int a;
+int b;
+bool c;
+bool d;
+
+a = 1+4+3+1+213+x;
+
+return 0;
+}

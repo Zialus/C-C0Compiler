@@ -1,0 +1,5 @@
+int main(){
+
+a = 1+2*x-6/y;
+return 0;
+}

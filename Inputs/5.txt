@@ -1,0 +1,15 @@
+int main(){
+
+    if (2);
+    while (a+2+y);
+
+    if (1) {
+    while(3){
+    int a;
+    }
+
+    }
+
+    return 0;
+
+}
