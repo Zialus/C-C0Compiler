@@ -310,8 +310,7 @@ Pair compile_exp(A_exp e) {
 Pair compile(I_list il) {
   // printf("COMPILe\n" );
 
-  Pair tl = malloc(sizeof(*tl));
-  tl = NULL;
+  Pair tl = NULL;
   switch (il->kind) {
     case A_EXP_:
       tl = compile_exp(il->head.a_exp);
@@ -393,8 +392,9 @@ void compile_decl(DECL decl) {
 Pair compile_cmd(CMD cmd) {
   // printf("COMPILE_CMD\n");
 
-  Pair p = malloc(sizeof(*p));
-  TACList tl = malloc(sizeof(*tl));
+  Pair p = NULL;
+  TACList tl = NULL;
+
   switch (cmd->kind) {
     case IF_KIND:
       tl = compile_if(cmd);
@@ -420,7 +420,7 @@ TACList compile_ass(CMD d) {
   Address addr2 = p_exp->addr;
   TAC t = makeTAC(A_Asn, addr1, addr2, NULL);
   TACList l = makeTACList(t, NULL);
-  TACList aux = malloc(sizeof(*aux));
+  TACList aux;
   if (p_exp->clist == NULL) {
     p_exp->clist = l;
     aux = p_exp->clist;
@@ -434,11 +434,11 @@ TACList compile_ass(CMD d) {
 TACList compile_while(CMD wh) {
   //  printf("WHILE\n" );
 
-  TACList w = malloc(sizeof(*w)), jlb = malloc(sizeof(*jlb)),
-          j = malloc(sizeof(*j));
+  TACList jlb = malloc(sizeof(*jlb));
+
   Pair p_exp = compile_exp(wh->u.w.while_), ptl = malloc(sizeof(*ptl));
   // cria while_label e coloca exp. na cauda da label
-  w = makeTACList(makeTAC(Label, makeNewLabel(), NULL, NULL), p_exp->clist);
+  TACList w = makeTACList(makeTAC(Label, makeNewLabel(), NULL, NULL), p_exp->clist);
   // adiciona On_false label
   jlb->head = makeTAC(On_False, makeVar(final_reg), makeNewLabel(), NULL);
   w = append(w, jlb);
@@ -448,7 +448,7 @@ TACList compile_while(CMD wh) {
       w = append(w, ptl->clist);
     }
   }
-  j = makeTACList(makeTAC(GoToLabel, w->head->addr1, NULL, NULL), NULL);
+  TACList j = makeTACList(makeTAC(GoToLabel, w->head->addr1, NULL, NULL), NULL);
   w = append(w, j);
   // adiciona label if false ao final do while
   w = append(w,
@@ -459,14 +459,13 @@ TACList compile_while(CMD wh) {
 TACList compile_if(CMD ift) {
   //  printf("IF\n" );
 
-  TACList ilb = malloc(sizeof(*ilb)), jlb = malloc(sizeof(*jlb)),
-          elb = malloc(sizeof(*elb));  // fl = malloc(sizeof(*fl));
+  TACList  jlb = malloc(sizeof(*jlb));
   Pair then_list = malloc(sizeof(*then_list)),
        else_list = malloc(sizeof(*else_list));
   // IF LABEL
   Pair p_exp = compile_exp(ift->u.if_else.if_);
   // cria if_label e coloca exp. na cauda da label
-  ilb = makeTACList(makeTAC(Label, makeNewLabel(), NULL, NULL), p_exp->clist);
+  TACList ilb = makeTACList(makeTAC(Label, makeNewLabel(), NULL, NULL), p_exp->clist);
   // IF_FALSE
   jlb->head = makeTAC(On_False, makeVar(final_reg), makeNewLabel(),
                       NULL);  // cria jump_label
@@ -491,7 +490,7 @@ TACList compile_if(CMD ift) {
       ilb = append(ilb, aux);
   }
   // adiciona jump_label (else/fim do if)
-  elb = makeTACList(
+  TACList elb = makeTACList(
       makeTAC(Label, makeVar(jlb->head->addr2->content.var), NULL, NULL), NULL);
   ilb = append(ilb, elb);
   // else
