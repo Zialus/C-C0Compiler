@@ -86,6 +86,7 @@ Address makeNewVar() {
   itoa(i, v);
   strcat(var, v);
   i++;
+  free(v);
   return makeReg(var);
 }
 
@@ -97,6 +98,7 @@ Address makeNewLabel() {
   itoa(lb, v);
   strcat(var, v);
   lb++;
+  free(v);
   return makeVar(var);
 }
 
