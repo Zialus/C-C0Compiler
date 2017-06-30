@@ -151,18 +151,12 @@ OpKind getOp(A_AOper o) {
   switch (o) {
     case OpPlus:
       return A_Plus;
-      break;
     case OpMinus:
       return A_Minus;
-      break;
     case OpTimes:
       return A_Times;
-      break;
     case OpDiv:
       return A_Div;
-      break;
-    default:
-      return -1;
   }
 }
 
@@ -184,8 +178,8 @@ OpKind getBop(A_BOper o) {
       return A_AND;
     case OpOR:
       return A_OR;
-    default:
-      return -1;
+    case OpASSIGN:
+      return A_Asn;
   }
 }
 
