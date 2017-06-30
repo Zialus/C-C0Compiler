@@ -133,18 +133,18 @@ Output makeOutput(char* c, TACList l) {
 }
 
 TACList append(TACList cl1, TACList cl2) {
-  TACList cl3 = malloc(sizeof(TACList));
+  TACList cl3;
   if (cl1 != NULL) {
     cl3 = cl1;
-    int k = 0;
     while (cl3->tail != NULL) {
       cl3 = cl3->tail;
-      ++k;
     }
     cl3->tail = cl2;
-  } else
-    cl1 = cl3;
-  return cl1;
+  }
+  else { // cl1 is NULL cl2 could be NULL or not, doesn't matter
+    cl3 = cl2;
+  }
+  return cl3;
 }
 
 OpKind getOp(A_AOper o) {
