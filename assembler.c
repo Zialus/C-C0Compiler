@@ -295,7 +295,7 @@ Pair compile_exp(A_exp e) {
 Pair compile(I_list il) {
   // printf("COMPILe\n" );
 
-  Pair tl;
+  Pair tl = NULL;
   switch (il->kind) {
     case A_EXP_:
       tl = compile_exp(il->head.a_exp);
