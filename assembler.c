@@ -85,9 +85,11 @@ Address makeNewVar() {
   // supondo que não serão usados 100 registos
   itoa(i, v);
   strcat(var, v);
-  i++;
   free(v);
-  return makeReg(var);
+  i++;
+  Address a = makeReg(var);
+  free(var);
+  return a;
 }
 
 Address makeNewLabel() {
@@ -97,9 +99,11 @@ Address makeNewLabel() {
   // supondo que não serão usados 100 registos
   itoa(lb, v);
   strcat(var, v);
-  lb++;
   free(v);
-  return makeVar(var);
+  lb++;
+  Address a = makeVar(var);
+  free(var);
+  return a;
 }
 
 TAC makeTAC(OpKind o, Address a1, Address a2, Address a3) {
@@ -272,6 +276,7 @@ Pair compile_exp(A_exp e) {
       char* var = malloc(sizeof(char) * 2);
       itoa(p->addr->content.val, var);
       final_reg = var;
+      free(var);
       return p;
     case A_varExp:
       p = makePair(makeVar(e->u.var), NULL);
@@ -286,6 +291,7 @@ Pair compile_exp(A_exp e) {
       p = makePair(makeVal(e->u.intt), NULL);
       itoa(val, v);
       final_reg = v;
+      free(v);
       return p;
     default:
       return NULL;
@@ -341,6 +347,7 @@ void superF(I_list il) {
   if (p->clist != NULL)
     print_TACLIST(p->clist);
   close(f);
+  free(p);
 }
 
 void compile_decl(DECL decl) {
