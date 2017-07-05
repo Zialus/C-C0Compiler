@@ -245,7 +245,6 @@ Pair compile_exp(A_exp e) {
       //última var. ()é usada no salto
       final_reg = res->addr->content.var;
       return res;
-      break;
     case A_AopExp:
       t0 = makeNewVar();                   // var. resultado
       auxA = compile_exp(e->u.opA.left);   // ramo esq.
@@ -267,19 +266,16 @@ Pair compile_exp(A_exp e) {
         list = tmp;
       res = makePair(t0, list);
       return res;
-      break;
     case A_intExp:
       p = makePair(makeVal(e->u.intt), NULL);
       char* var = malloc(sizeof(char) * 2);
       itoa(p->addr->content.val, var);
       final_reg = var;
       return p;
-      break;
     case A_varExp:
       p = makePair(makeVar(e->u.var), NULL);
       final_reg = p->addr->content.var;
       return p;
-      break;
     case A_boolExp:
       printf("");
       char* v = malloc(sizeof(char) * 2);
@@ -290,10 +286,8 @@ Pair compile_exp(A_exp e) {
       itoa(val, v);
       final_reg = v;
       return p;
-      break;
     default:
       return NULL;
-      break;
   }
 }
 
@@ -301,7 +295,7 @@ Pair compile_exp(A_exp e) {
 Pair compile(I_list il) {
   // printf("COMPILe\n" );
 
-  Pair tl = NULL;
+  Pair tl;
   switch (il->kind) {
     case A_EXP_:
       tl = compile_exp(il->head.a_exp);
@@ -383,8 +377,7 @@ void compile_decl(DECL decl) {
 Pair compile_cmd(CMD cmd) {
   // printf("COMPILE_CMD\n");
 
-  Pair p = NULL;
-  TACList tl = NULL;
+  TACList tl;
 
   switch (cmd->kind) {
     case IF_KIND:
@@ -396,10 +389,8 @@ Pair compile_cmd(CMD cmd) {
     case WHILE_KIND:
       tl = compile_while(cmd);
       break;
-    default:
-      break;
   }
-  p = makePair(NULL, tl);
+  Pair p = makePair(NULL, tl);
   return p;
 }
 
@@ -428,14 +419,13 @@ TACList compile_while(CMD wh) {
   TACList jlb = malloc(sizeof(*jlb));
 
   Pair p_exp = compile_exp(wh->u.w.while_);
-  Pair ptl;
   // cria while_label e coloca exp. na cauda da label
   TACList w = makeTACList(makeTAC(Label, makeNewLabel(), NULL, NULL), p_exp->clist);
   // adiciona On_false label
   jlb->head = makeTAC(On_False, makeVar(final_reg), makeNewLabel(), NULL);
   w = append(w, jlb);
   if (wh->u.w.while_I_list_) {
-    ptl = compile(wh->u.w.while_I_list_);
+    Pair ptl = compile(wh->u.w.while_I_list_);
     if (ptl != NULL) {
       w = append(w, ptl->clist);
     }
@@ -451,9 +441,7 @@ TACList compile_while(CMD wh) {
 TACList compile_if(CMD ift) {
   //  printf("IF\n" );
 
-  TACList  jlb = malloc(sizeof(*jlb));
-  Pair then_list;
-  Pair else_list;
+  TACList jlb = malloc(sizeof(*jlb));
   // IF LABEL
   Pair p_exp = compile_exp(ift->u.if_else.if_);
   // cria if_label e coloca exp. na cauda da label
@@ -467,7 +455,7 @@ TACList compile_if(CMD ift) {
   Address end_if = makeNewLabel();
   if (ift->u.if_else.then_I_list_ != NULL) {
     TACList aux = malloc(sizeof(*aux));
-    then_list = compile(ift->u.if_else.then_I_list_);
+    Pair then_list = compile(ift->u.if_else.then_I_list_);
     // adiciona jump ao fim das instruçoes (salta else)
     // VERIFICA SE EXISTE else
     if (ift->u.if_else.else_I_list_ != NULL && then_list != NULL)
@@ -487,7 +475,7 @@ TACList compile_if(CMD ift) {
   ilb = append(ilb, elb);
   // else
   if (ift->u.if_else.else_I_list_ != NULL) {
-    else_list = compile(ift->u.if_else.else_I_list_);
+    Pair else_list = compile(ift->u.if_else.else_I_list_);
     // adiciona end_if ao fim da lista de instruções
     if (else_list != NULL) {
       else_list->clist =
