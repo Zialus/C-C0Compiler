@@ -185,14 +185,11 @@ OpKind getBop(A_BOper o) {
 
 Pair compile_exp(A_exp e) {
   // printf("EXP\n" );
-  Pair auxA = malloc(sizeof(*auxA)), auxB = malloc(sizeof(*auxB)),
-       p = malloc(sizeof(*p)), res = malloc(sizeof(*res));
-  TACList list = malloc(sizeof(*list)), list3 = malloc(sizeof(*list3)),
-          tmp = malloc(sizeof(*tmp));
-  Address t0 = malloc(sizeof(*t0)), t1 = malloc(sizeof(*t1)),
-          t2 = malloc(sizeof(*t2));
-  TAC elem = malloc(sizeof(*elem)), elem1 = malloc(sizeof(*elem1)),
-      elem2 = malloc(sizeof(*elem2));
+  Pair auxA , auxB, p , res ;
+  TACList list = malloc(sizeof(*list)), list3 = malloc(sizeof(*list3));
+  TACList tmp;
+  Address t0 , t1, t2 ;
+  TAC elem, elem1 , elem2;
   OpKind op;
   switch (e->kind) {
     case A_BopExp:
@@ -430,7 +427,8 @@ TACList compile_while(CMD wh) {
 
   TACList jlb = malloc(sizeof(*jlb));
 
-  Pair p_exp = compile_exp(wh->u.w.while_), ptl = malloc(sizeof(*ptl));
+  Pair p_exp = compile_exp(wh->u.w.while_);
+  Pair ptl;
   // cria while_label e coloca exp. na cauda da label
   TACList w = makeTACList(makeTAC(Label, makeNewLabel(), NULL, NULL), p_exp->clist);
   // adiciona On_false label
@@ -454,8 +452,8 @@ TACList compile_if(CMD ift) {
   //  printf("IF\n" );
 
   TACList  jlb = malloc(sizeof(*jlb));
-  Pair then_list = malloc(sizeof(*then_list)),
-       else_list = malloc(sizeof(*else_list));
+  Pair then_list;
+  Pair else_list;
   // IF LABEL
   Pair p_exp = compile_exp(ift->u.if_else.if_);
   // cria if_label e coloca exp. na cauda da label
