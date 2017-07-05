@@ -186,7 +186,8 @@ OpKind getBop(A_BOper o) {
 Pair compile_exp(A_exp e) {
   // printf("EXP\n" );
   Pair auxA , auxB, p , res ;
-  TACList list = malloc(sizeof(*list)), list3 = malloc(sizeof(*list3));
+  TACList list;
+  TACList list3;
   TACList tmp;
   Address t0 , t1, t2 ;
   TAC elem, elem1 , elem2;
@@ -454,7 +455,7 @@ TACList compile_if(CMD ift) {
   // then statement
   Address end_if = makeNewLabel();
   if (ift->u.if_else.then_I_list_ != NULL) {
-    TACList aux = malloc(sizeof(*aux));
+    TACList aux = NULL;
     Pair then_list = compile(ift->u.if_else.then_I_list_);
     // adiciona jump ao fim das instruçoes (salta else)
     // VERIFICA SE EXISTE else
