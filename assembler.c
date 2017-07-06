@@ -283,17 +283,17 @@ Pair compile_exp(A_exp e) {
       p = makePair(makeVar(e->u.var), NULL);
       final_reg = p->addr->content.var;
       return p;
-    case A_boolExp:
-      printf("");
+    case A_boolExp: {
       char* v = malloc(sizeof(char) * 2);
       int val = 0;
       if (e->u.booll == BOOL_TRUE)
         val = 1;
       p = makePair(makeVal(e->u.intt), NULL);
       itoa(val, v);
-      free(final_reg);
+      free(final_reg);  // Xcode and Valgrind don't seem to think this is necessary :S
       final_reg = v;
       return p;
+    }
     default:
       return NULL;
   }
