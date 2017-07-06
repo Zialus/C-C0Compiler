@@ -78,7 +78,7 @@ void print_A_exp(A_exp exp) {
       }
       print_A_exp(exp->u.opA.right);
       break;
-    default:
+    case A_varExp:
       printf("Var( %s ) ", exp->u.var);
   }
   printf(")");
