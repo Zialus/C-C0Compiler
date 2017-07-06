@@ -320,6 +320,7 @@ Pair compile(I_list il) {
     if (tl != NULL && aux != NULL) {
       // printf("IF\n" );
       tl->clist = append(tl->clist, aux->clist);
+      free(aux);
     } else if (aux != NULL)
       tl = aux;
   }
@@ -454,6 +455,7 @@ TACList compile_if(CMD ift) {
   Pair p_exp = compile_exp(ift->u.if_else.if_);
   // cria if_label e coloca exp. na cauda da label
   TACList ilb = makeTACList(makeTAC(Label, makeNewLabel(), NULL, NULL), p_exp->clist);
+  free(p_exp);
   // IF_FALSE
   jlb->head = makeTAC(On_False, makeVar(final_reg), makeNewLabel(),
                       NULL);  // cria jump_label
@@ -466,16 +468,20 @@ TACList compile_if(CMD ift) {
     Pair then_list = compile(ift->u.if_else.then_I_list_);
     // adiciona jump ao fim das instruçoes (salta else)
     // VERIFICA SE EXISTE else
-    if (ift->u.if_else.else_I_list_ != NULL && then_list != NULL)
-      then_list->clist =
-          append(then_list->clist,
-                 makeTACList(makeTAC(GoToLabel, end_if, NULL, NULL), NULL));
-    else if (ift->u.if_else.else_I_list_ != NULL)
+    if (ift->u.if_else.else_I_list_ != NULL && then_list != NULL) {
+      then_list->clist = append(then_list->clist, makeTACList(makeTAC(GoToLabel, end_if, NULL, NULL), NULL));
+    }
+    else if (ift->u.if_else.else_I_list_ != NULL) {
       aux = makeTACList(makeTAC(GoToLabel, end_if, NULL, NULL), NULL);
-    if (then_list != NULL)
+    }
+
+    if (then_list != NULL) {
       ilb = append(ilb, then_list->clist);
-    else
+      free(aux);
+    }
+    else {
       ilb = append(ilb, aux);
+    }
   }
   // adiciona jump_label (else/fim do if)
   TACList elb = makeTACList(
@@ -486,11 +492,11 @@ TACList compile_if(CMD ift) {
     Pair else_list = compile(ift->u.if_else.else_I_list_);
     // adiciona end_if ao fim da lista de instruções
     if (else_list != NULL) {
-      else_list->clist =
-          append(else_list->clist,
-                 makeTACList(makeTAC(Label, end_if, NULL, NULL), NULL));
+      else_list->clist = append(else_list->clist, makeTACList(makeTAC(Label, end_if, NULL, NULL), NULL));
       ilb = append(ilb, else_list->clist);
+      free(else_list);
     }
   }
+  free(end_if); // Not sure about this one. XCode told me to do it.... :X
   return ilb;
 }
