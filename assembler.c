@@ -1,4 +1,4 @@
-#include "printMips.c"
+#include "printMips.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

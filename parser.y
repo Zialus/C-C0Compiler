@@ -1,7 +1,7 @@
 %{
 #include <stdio.h>
 #include "tree.h"
-#include "printer.c"
+#include "printer.h"
 #include "assembler.h"
 
 FILE *yyin;

@@ -1,6 +1,4 @@
-#include "assembler.h"
-#include <stdio.h>
-#include <stdlib.h>
+#include "printMips.h"
 
 void print_AUX(TAC t) {}
 
