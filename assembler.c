@@ -96,6 +96,7 @@ Address makeNewLabel() {
   char* v = malloc(sizeof(char) * 3);
   char* var = malloc(sizeof(char) * 4);
   var[0] = 'l';
+  var[1] = '\0';
   // supondo que não serão usados 100 registos
   itoa(lb, v);
   strcat(var, v);
