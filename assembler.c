@@ -190,7 +190,7 @@ OpKind getBop(A_BOper o) {
 Pair compile_exp(A_exp e) {
   // printf("EXP\n" );
   Pair auxA , auxB, p , res ;
-  TACList list;
+  TACList list = NULL;
   TACList list3;
   TACList tmp;
   Address t0 , t1, t2 ;
