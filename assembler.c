@@ -290,8 +290,8 @@ Pair compile_exp(A_exp e) {
         val = 1;
       p = makePair(makeVal(e->u.intt), NULL);
       itoa(val, v);
+      free(final_reg);
       final_reg = v;
-      free(v);
       return p;
     default:
       return NULL;
