@@ -21,7 +21,8 @@ void print_Address(Address a) {
 
 void print_TAC(TAC t) {
   // printf("TAC\n" );
-  Address aux2 = malloc(sizeof(*aux2)), aux3 = malloc(sizeof(*aux3));
+  Address aux2 = NULL;
+  Address aux3 = NULL;
   switch (t->op) {
     case A_Plus:
       // load
