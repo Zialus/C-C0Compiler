@@ -132,5 +132,5 @@ int main(int argc, char **argv){
 }
 
 void yyerror(const char *c){
-    printf("syntax error\n");
+    printf("Error: %s\n",c);
 }
