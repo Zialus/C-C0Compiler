@@ -5,7 +5,7 @@
 typedef struct A_exp_* A_exp;
 typedef struct cmd* CMD;
 typedef struct cmdlist* CMD_List;
-typedef struct DEC* DECL;
+typedef struct decl* DECL;
 typedef struct Instruction_list* I_list;
 typedef enum {
     OpPlus, OpMinus, OpTimes, OpDiv
@@ -20,8 +20,8 @@ typedef enum {
     BOOL_TRUE, BOOL_FALSE
 } Bool;
 
-/*** EPRESSOES ***/
 
+// ----- Expression ----- //
 struct A_exp_ {
     enum {
         A_AopExp, A_BopExp, A_intExp, A_boolExp, A_varExp
@@ -48,9 +48,10 @@ A_exp A_VarExp_(char*);
 A_exp A_BoolExp_(Bool);
 A_exp A_AOpExp_(A_AOper, A_exp, A_exp);
 A_exp A_BOpExp_(A_BOper, A_exp, A_exp);
+// ----- Expression ----- //
 
 
-/*** COMANDOS ***/
+// ----- Commands ----- //
 struct cmd {
     enum {
         WHILE_KIND, IF_KIND, ASSIGN_KIND
@@ -75,18 +76,20 @@ struct cmd {
 CMD CMD_if_then_else(A_exp, I_list, I_list);
 CMD CMD_while(A_exp, I_list);
 CMD CMD_assignment(char*, A_exp);
+// ----- Commands ----- //
 
 
-/*** DECLARAÇOES ***/
-struct DEC {
+// ----- Declarations ----- //
+struct decl {
     Type type;
     char var[MAX_SIZE];
 };
 
 DECL DECL_declare(Type, char*);
+// ----- Declarations ----- //
 
 
-/*** LISTA DE INSTRUÇOES ***/
+// ----- Instruction List ----- //
 struct Instruction_list {
     enum {
         A_EXP_, CMD_, DECL_
@@ -102,4 +105,7 @@ struct Instruction_list {
 I_list Head_A_exp(A_exp, I_list);
 I_list Head_CMD(CMD, I_list);
 I_list Head_DECL(DECL, I_list);
-#endif
+// ----- Instruction List ----- //
+
+
+#endif // TREE_H

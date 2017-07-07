@@ -3,14 +3,13 @@
 #include <stdio.h>
 #include <string.h>
 
-/*** CONSTRUTORES ***/
 void check_if_fucked_up(int n, int buffer_size){
     if (n >= buffer_size ) {
         printf("you fucked up!!!!!!!!!!!\n");
     }
 }
 
-/*** EXPRESSOES ***/
+// ----- Expression CONSTRUCTORS ----- //
 A_exp A_IntExp_(int i) {
     A_exp p = malloc(sizeof(*p));
     p->kind = A_intExp;
@@ -52,8 +51,10 @@ A_exp A_BOpExp_(A_BOper oper, A_exp l, A_exp r) {
     p->u.opB.right = r;
     return p;
 }
+// ----- Expression CONSTRUCTORS ----- //
 
-/*** COMANDOS ***/
+
+// ----- Commands CONSTRUCTORS ----- //
 CMD CMD_if_then_else(A_exp if_exp, I_list then_, I_list else_) {
     CMD cmd = malloc(sizeof(*cmd));
     cmd->kind = IF_KIND;
@@ -81,18 +82,23 @@ CMD CMD_assignment(char* v, A_exp exp) {
     cmd->u.ass.assignment_ = exp;
     return cmd;
 }
+// ----- Commands CONSTRUCTORS ----- //
 
-/*** DECLARAÇOES ***/
+
+// ----- Declarations CONSTRUCTORS ----- //
 DECL DECL_declare(Type t, char* v) {
     DECL decl = malloc(sizeof(*decl));
     decl->type = t;
 
     int n = snprintf(decl->var, sizeof(decl->var), "%s", v);
     check_if_fucked_up(n,sizeof(decl->var));
+
     return decl;
 }
+// ----- Declarations CONSTRUCTORS ----- //
 
-/*** LISTA DE INSTRUÇOES ***/
+
+// ----- Instruction List CONSTRUCTORS ----- //
 I_list Head_A_exp(A_exp head, I_list tail) {
     I_list il = malloc(sizeof(*il));
     il->kind = A_EXP_;
@@ -116,3 +122,4 @@ I_list Head_DECL(DECL head, I_list tail) {
     il->tail = tail;
     return il;
 }
+// ----- Instruction List CONSTRUCTORS ----- //
