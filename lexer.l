@@ -17,44 +17,44 @@ WS [ \r\n\t]*
 
 WS           { }
 
-"int main()" {return(MAIN);}
+"int main()" { return(MAIN); }
 
-";"          {return(SEMICOLON);}
+";"          { return(SEMICOLON); }
 
-"="          {return(ASSIGN);}
-"=="         {return(EQ);}
-">"          {return(G);}
-"<"          {return(L);}
-"<="         {return(LEQ);}
-">="         {return(GEQ);}
-"!="         {return(NOTEQ);}
+"="          { return(ASSIGN); }
+"=="         { return(EQ); }
+">"          { return(G); }
+"<"          { return(L); }
+"<="         { return(LEQ); }
+">="         { return(GEQ); }
+"!="         { return(NOTEQ); }
 
-"||"         {return(OR);}
-"&&"         {return(AND);}
+"||"         { return(OR); }
+"&&"         { return(AND); }
 
-"true"       {return(TRUE);}
-"false"      {return(FALSE);}
+"true"       { return(TRUE); }
+"false"      { return(FALSE); }
 
-"+"          {return(Plus);}
-"-"          {return(Minus);}
-"*"          {return(Times);}
-"/"          {return(Div);}
+"+"          { return(Plus); }
+"-"          { return(Minus); }
+"*"          { return(Times); }
+"/"          { return(Div); }
 
-"if"         {return(IF);}
-"else"       {return(ELSE);}
-"while"      {return(WHILE);}
+"if"         { return(IF); }
+"else"       { return(ELSE); }
+"while"      { return(WHILE); }
 
 
-"int"        {return(INT);}
-"bool"       {return(BOOL);}
+"int"        { return(INT); }
+"bool"       { return(BOOL); }
 
-"("          {return(P0);}
-")"          {return(P1);}
+"("          { return(P0); }
+")"          { return(P1); }
 
-"{"          {return(CB0);}
-"}"          {return(CB1);}
+"{"          { return(CB0); }
+"}"          { return(CB1); }
 
-"return"     {return(RETURN);}
+"return"     { return(RETURN); }
 
 {DIGIT}+  { yylval.number = atoi(yytext); return(NUM); }
 {ID}+     { yylval.identifier = strdup(yytext); return(VAR); }
