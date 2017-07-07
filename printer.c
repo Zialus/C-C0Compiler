@@ -19,8 +19,8 @@ void print_tree(I_list l) {
 }
 
 /*** IMPRIME EXPRESSÕES ***/
-void print_A_exp(A_exp exp) {
-  printf("A_exp( ");
+void print_A_exp(A_EXP exp) {
+  printf("A_EXP( ");
   switch (exp->kind) {
     case A_intExp:
       printf("Int(%d) ", exp->u.intt);

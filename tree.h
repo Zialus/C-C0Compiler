@@ -2,7 +2,7 @@
 #define TREE_H
 
 #define MAX_SIZE 50
-typedef struct A_exp_* A_exp;
+typedef struct A_exp* A_EXP;
 typedef struct cmd* CMD;
 typedef struct cmdlist* CMD_List;
 typedef struct decl* DECL;
@@ -22,7 +22,7 @@ typedef enum {
 
 
 // ----- Expression ----- //
-struct A_exp_ {
+struct A_exp {
     enum {
         A_AopExp, A_BopExp, A_intExp, A_boolExp, A_varExp
     } kind;
@@ -32,22 +32,22 @@ struct A_exp_ {
         char var[MAX_SIZE];
         struct {
             A_AOper oper;
-            A_exp left;
-            A_exp right;
+            A_EXP left;
+            A_EXP right;
         } opA;
         struct {
             A_BOper oper;
-            A_exp left;
-            A_exp right;
+            A_EXP left;
+            A_EXP right;
         } opB;
     } u;
 };
 
-A_exp A_IntExp_(int);
-A_exp A_VarExp_(char*);
-A_exp A_BoolExp_(Bool);
-A_exp A_AOpExp_(A_AOper, A_exp, A_exp);
-A_exp A_BOpExp_(A_BOper, A_exp, A_exp);
+A_EXP A_IntExp_(int);
+A_EXP A_VarExp_(char*);
+A_EXP A_BoolExp_(Bool);
+A_EXP A_AOpExp_(A_AOper, A_EXP, A_EXP);
+A_EXP A_BOpExp_(A_BOper, A_EXP, A_EXP);
 // ----- Expression ----- //
 
 
@@ -58,24 +58,24 @@ struct cmd {
     } kind;
     union {
         struct {
-            A_exp if_;
+            A_EXP if_;
             I_list then_I_list_;
             I_list else_I_list_;
         } if_else;
         struct {
-            A_exp while_;
+            A_EXP while_;
             I_list while_I_list_;
         } w;
         struct {
             char var_[MAX_SIZE];
-            A_exp assignment_;
+            A_EXP assignment_;
         } ass;
     } u;
 };
 
-CMD CMD_if_then_else(A_exp, I_list, I_list);
-CMD CMD_while(A_exp, I_list);
-CMD CMD_assignment(char*, A_exp);
+CMD CMD_if_then_else(A_EXP, I_list, I_list);
+CMD CMD_while(A_EXP, I_list);
+CMD CMD_assignment(char*, A_EXP);
 // ----- Commands ----- //
 
 
@@ -95,14 +95,14 @@ struct Instruction_list {
         A_EXP_, CMD_, DECL_
     } kind;
     union {
-        A_exp a_exp;
+        A_EXP a_exp;
         CMD cmd;
         DECL decl;
     } head;
     I_list tail;
 };
 
-I_list Head_A_exp(A_exp, I_list);
+I_list Head_A_exp(A_EXP, I_list);
 I_list Head_CMD(CMD, I_list);
 I_list Head_DECL(DECL, I_list);
 // ----- Instruction List ----- //

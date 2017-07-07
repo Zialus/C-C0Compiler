@@ -188,7 +188,7 @@ OpKind getBop(A_BOper o) {
   }
 }
 
-Pair compile_exp(A_exp e) {
+Pair compile_exp(A_EXP e) {
   // printf("EXP\n" );
   Pair auxA , auxB, p , res ;
   TACList list = NULL;

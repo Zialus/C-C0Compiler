@@ -43,7 +43,7 @@ TACList append(TACList, TACList);
 
 OpKind getOp(A_AOper);
 
-Pair compile_exp(A_exp);
+Pair compile_exp(A_EXP);
 Pair compile(I_list);
 void compile_decl(DECL);
 Pair compile_cmd(CMD);

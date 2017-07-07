@@ -12,7 +12,7 @@ void yyerror(const char *);
 
 %union{
     int numero;
-    A_exp a_exp;
+    A_EXP a_exp;
     char *ident;
     CMD cmd;
     DECL decl;
