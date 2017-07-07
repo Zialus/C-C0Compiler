@@ -1,5 +1,6 @@
 %{
 #include <stdio.h>
+
 #include "tree.h"
 #include "printer.h"
 #include "assembler.h"
@@ -11,16 +12,16 @@ void yyerror(const char *);
 %}
 
 %union{
-    int numero;
+    int number;
     A_EXP a_exp;
-    char *ident;
+    char* identifier;
     CMD cmd;
     DECL decl;
     I_list i_l;
 }
 
-%token <numero> NUM
-%token <ident> VAR
+%token <number> NUM
+%token <identifier> VAR
 %token SEMICOLON P0 P1
 %token Plus Minus Times Div EQ G L LEQ GEQ NOTEQ OR AND IF ELSE WHILE ASSIGN
 %token INT BOOL

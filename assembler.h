@@ -81,4 +81,5 @@ struct Output_ {
   TACList clist;
 };
 
-#endif
+
+#endif // ASSEMBLER_H

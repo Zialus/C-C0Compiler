@@ -1,20 +1,21 @@
 %option noyywrap
 
 %{
+#include <stdlib.h>
+
 #include "tree.h"
 #include "parser.h"
-#include <stdlib.h>
 %}
 
 
 DIGIT [0-9]
 ID [a-zA-Z][A-Za-z0-9]*
+WS [ \r\n\t]*
 
 
 %%
-[\t\n]+
 
-
+WS           { }
 
 "int main()" {return(MAIN);}
 
@@ -55,5 +56,5 @@ ID [a-zA-Z][A-Za-z0-9]*
 
 "return"     {return(RETURN);}
 
-{DIGIT}+  { yylval.numero = atoi(yytext);   return(NUM);}
-{ID}+     { yylval.ident  = strdup(yytext); return(VAR);}
+{DIGIT}+  { yylval.number = atoi(yytext); return(NUM); }
+{ID}+     { yylval.identifier = strdup(yytext); return(VAR); }

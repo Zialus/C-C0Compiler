@@ -1,7 +1,8 @@
-#include "tree.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+
+#include "tree.h"
 
 void check_if_fucked_up(int n, int buffer_size){
     if (n >= buffer_size ) {

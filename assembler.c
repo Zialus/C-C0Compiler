@@ -1,12 +1,14 @@
-#include "printMips.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
 #include <fcntl.h>
+#include <search.h>
+
+#include "printMips.h"
 #include "tree.h"
 #include "assembler.h"
-#include <search.h>
+
 #define MAX_SIZE 50
 
 // variaveis para crirar nomes de registos temporarios

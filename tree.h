@@ -2,6 +2,7 @@
 #define TREE_H
 
 #define MAX_SIZE 50
+
 typedef struct A_exp* A_EXP;
 typedef struct cmd* CMD;
 typedef struct cmdlist* CMD_List;
