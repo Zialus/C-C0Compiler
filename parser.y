@@ -11,12 +11,12 @@ void yyerror(const char *);
 %}
 
 %union{
-  int numero;
-  A_exp a_exp;
-  char *ident;
-  CMD cmd;
-  DECL decl;
-  I_list i_l;
+    int numero;
+    A_exp a_exp;
+    char *ident;
+    CMD cmd;
+    DECL decl;
+    I_list i_l;
 }
 
 %token <numero> NUM
@@ -126,11 +126,11 @@ INT VAR SEMICOLON        { $$ = DECL_declare(INT_TYPE, $2);  }
 
 int main(int argc, char **argv){
     yyin = fopen(argv[1], "r");
-  yyparse();
-  fclose(yyin);
-  return 0;
+    yyparse();
+    fclose(yyin);
+    return 0;
 }
 
 void yyerror(const char *c){
-  printf("syntax error\n");
+    printf("syntax error\n");
 }
