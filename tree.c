@@ -4,6 +4,11 @@
 #include <string.h>
 
 /*** CONSTRUTORES ***/
+void check_if_fucked_up(int n, int buffer_size){
+    if (n >= buffer_size ) {
+        printf("you fucked up!!!!!!!!!!!\n");
+    }
+}
 
 /*** EXPRESSOES ***/
 A_exp A_IntExp_(int i) {
@@ -23,7 +28,10 @@ A_exp A_BoolExp_(Bool b) {
 A_exp A_VarExp_(char* c) {
     A_exp p = malloc(sizeof(*p));
     p->kind = A_varExp;
-    strcpy(p->u.var, c);
+
+    int n = snprintf(p->u.var, sizeof(p->u.var), "%s", c);
+    check_if_fucked_up(n,sizeof(p->u.var));
+
     return p;
 }
 
@@ -66,7 +74,10 @@ CMD CMD_while(A_exp while_exp, I_list while_) {
 CMD CMD_assignment(char* v, A_exp exp) {
     CMD cmd = malloc(sizeof(*cmd));
     cmd->kind = ASSIGN_KIND;
-    strcpy(cmd->u.ass.var_, v);
+
+    int n = snprintf(cmd->u.ass.var_, sizeof(cmd->u.ass.var_), "%s", v);
+    check_if_fucked_up(n,sizeof(cmd->u.ass.var_));
+
     cmd->u.ass.assignment_ = exp;
     return cmd;
 }
@@ -75,7 +86,9 @@ CMD CMD_assignment(char* v, A_exp exp) {
 DECL DECL_declare(Type t, char* v) {
     DECL decl = malloc(sizeof(*decl));
     decl->type = t;
-    strcpy(decl->var, v);
+
+    int n = snprintf(decl->var, sizeof(decl->var), "%s", v);
+    check_if_fucked_up(n,sizeof(decl->var));
     return decl;
 }
 
