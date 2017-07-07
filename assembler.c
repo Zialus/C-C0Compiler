@@ -435,6 +435,7 @@ TACList compile_while(CMD wh) {
   TACList w = makeTACList(makeTAC(Label, makeNewLabel(), NULL, NULL), p_exp->clist);
   // adiciona On_false label
   jlb->head = makeTAC(On_False, makeVar(final_reg), makeNewLabel(), NULL);
+  jlb->tail = NULL;
   w = append(w, jlb);
   if (wh->u.w.while_I_list_) {
     Pair ptl = compile(wh->u.w.while_I_list_);
@@ -460,8 +461,8 @@ TACList compile_if(CMD ift) {
   TACList ilb = makeTACList(makeTAC(Label, makeNewLabel(), NULL, NULL), p_exp->clist);
   free(p_exp);
   // IF_FALSE
-  jlb->head = makeTAC(On_False, makeVar(final_reg), makeNewLabel(),
-                      NULL);  // cria jump_label
+  jlb->head = makeTAC(On_False, makeVar(final_reg), makeNewLabel(), NULL);  // cria jump_label
+  jlb->tail = NULL;
   // adiciona jump_label ao fim da exp.
   ilb = append(ilb, jlb);
   // then statement
