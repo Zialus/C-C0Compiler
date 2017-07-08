@@ -19,7 +19,7 @@
 // variaveis para crirar nomes de registos temporarios
 int i = 0;
 int lb = 0;
-char* final_reg = "";
+char final_reg[MAX_SIZE];
 
 // tabela de símbolos
 int init_hash = 0;
@@ -236,7 +236,10 @@ Pair compile_exp(A_EXP e) {
 
       res = makePair(t0, list);
       //última var. ()é usada no salto
-      final_reg = res->addr->content.var;
+
+      int n0 = snprintf(final_reg, sizeof(final_reg), "%s",res->addr->content.var);
+      check_if_buffer_was_big_enough(n0, sizeof(final_reg));
+
       return res;
     case A_AopExp:
       t0 = makeNewVar();                   // var. resultado
@@ -263,14 +266,19 @@ Pair compile_exp(A_EXP e) {
       p = makePair(makeVal(e->u.intt), NULL);
 
       char var[MAX_SIZE_INTS];
-      int n = snprintf(var, sizeof(var), "%d", p->addr->content.val);
-      check_if_buffer_was_big_enough(n, sizeof(var));
+      int n1 = snprintf(var, sizeof(var), "%d", p->addr->content.val);
+      check_if_buffer_was_big_enough(n1, sizeof(var));
 
-      final_reg = var;
+      int n2 = snprintf(final_reg, sizeof(final_reg), "%s",var);
+      check_if_buffer_was_big_enough(n2, sizeof(final_reg));
+
       return p;
     case A_varExp:
       p = makePair(makeVar(e->u.var), NULL);
-      final_reg = p->addr->content.var;
+
+      int n3 = snprintf(final_reg, sizeof(final_reg), "%s",p->addr->content.var);
+      check_if_buffer_was_big_enough(n3, sizeof(final_reg));
+
       return p;
     case A_boolExp: {
       p = makePair(makeVal(e->u.intt), NULL);
@@ -280,11 +288,13 @@ Pair compile_exp(A_EXP e) {
       }
 
       char v[2];
-      int n2= snprintf(v, sizeof(v), "%d", val);
-      check_if_buffer_was_big_enough(n2, sizeof(v));
+      int n4= snprintf(v, sizeof(v), "%d", val);
+      check_if_buffer_was_big_enough(n4, sizeof(v));
 
-      free(final_reg);  // Xcode and Valgrind don't seem to think this is necessary :S
-      final_reg = v;
+      int n5 = snprintf(final_reg, sizeof(final_reg), "%s",v);
+      check_if_buffer_was_big_enough(n5, sizeof(final_reg));
+
+
       return p;
     }
     default:
