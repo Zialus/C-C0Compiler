@@ -53,7 +53,7 @@ void print_A_exp(A_EXP exp) {
                 printf("Times) ");
             }
             else {
-                printf("Div)");
+                printf("Div) ");
             }
             print_A_exp(exp->u.opA.right);
             break;
@@ -83,11 +83,14 @@ void print_A_exp(A_EXP exp) {
                 case OpOR:
                     printf("OR) ");
                     break;
-                default:
+                case OpEQ:
+                    break;
+                case OpASSIGN:
                     break;
             }
             print_A_exp(exp->u.opA.right);
             break;
+            
         case A_varExp:
             printf("Var( %s ) ", exp->u.var);
     }
@@ -103,7 +106,7 @@ void print_DECL(DECL d) {
     else {
         printf("int) ");
     }
-    printf("Var(%s)) ", d->var);
+    printf("Var(%s) )", d->var);
 }
 
 /*** IMPRIME COMANDOS ***/
@@ -118,7 +121,7 @@ void print_CMD(CMD c) {
             printf(") ");
             printf("ELSE( ");
             print_tree(c->u.if_else.else_I_list_);
-            printf(") ");
+            printf(")");
             break;
 
         case WHILE_KIND:
@@ -130,9 +133,9 @@ void print_CMD(CMD c) {
             printf(")");
             break;
 
-        default:
+        case ASSIGN_KIND:
             printf("Assignment( Var(%s) ", c->u.ass.var_);
             print_A_exp(c->u.ass.assignment_);
-            printf(") ");
+            printf(")");
     }
 }
