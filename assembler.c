@@ -8,8 +8,13 @@
 #include "printMips.h"
 #include "tree.h"
 #include "assembler.h"
+#include "utils.h"
 
 #define MAX_SIZE 50
+#define MAX_SIZE_TO_REPRESENT_REG 4  // supondo que serão usados no maximo 100 registos (0-99)
+#define MAX_SIZE_TO_REPRESENT_LABEL 3 // supondo que serão usados no maximo 10 labels (0-9)
+#define MAX_SIZE_INTS 10 // supondo que no maximo ints terão 10 digitos
+
 
 // variaveis para crirar nomes de registos temporarios
 int i = 0;
@@ -24,32 +29,6 @@ ENTRY* symbolTable;
 void create_hasht() {
   hcreate(500);
   init_hash = 1;
-}
-
-void reverse(char s[]) {
-  int i, j;
-  char c;
-
-  for (i = 0, j = strlen(s) - 1; i < j; i++, j--) {
-    c = s[i];
-    s[i] = s[j];
-    s[j] = c;
-  }
-}
-
-void itoa(int n, char s[]) {
-  int i, sign;
-
-  if ((sign = n) < 0)
-    n = -n;
-  i = 0;
-  do {
-    s[i++] = n % 10 + '0';
-  } while ((n /= 10) > 0);
-  if (sign < 0)
-    s[i++] = '-';
-  s[i] = '\0';
-  reverse(s);
 }
 
 Address makeVal(int n) {
@@ -79,33 +58,39 @@ Address makeEmpty() {
 }
 
 Address makeNewVar() {
-  char* v = malloc(sizeof(char) * 4);
-  char* var = malloc(sizeof(char) * 5);
+  char v[MAX_SIZE_TO_REPRESENT_REG];
+  char* var = malloc(sizeof(char) * (MAX_SIZE_TO_REPRESENT_REG+2));
+
   var[0] = '$';
   var[1] = 't';
   var[2] = '\0';
-  // supondo que não serão usados 100 registos
-  itoa(i, v);
+
+  int chars_written = snprintf(v, MAX_SIZE_TO_REPRESENT_REG, "%d", i );
+  //fprintf(stderr,"||%d -- %s||\n",chars_written,v);
+  check_if_buffer_was_big_enough(chars_written, MAX_SIZE_TO_REPRESENT_REG);
+
   strcat(var, v);
-  free(v);
+
   i++;
   Address a = makeReg(var);
-  free(var);
   return a;
 }
 
 Address makeNewLabel() {
-  char* v = malloc(sizeof(char) * 3);
-  char* var = malloc(sizeof(char) * 4);
+  char v[MAX_SIZE_TO_REPRESENT_LABEL];
+  char* var = malloc(sizeof(char) * (MAX_SIZE_TO_REPRESENT_LABEL+1));
+
   var[0] = 'l';
   var[1] = '\0';
-  // supondo que não serão usados 100 registos
-  itoa(lb, v);
+
+  int chars_written = snprintf(v, MAX_SIZE_TO_REPRESENT_LABEL, "%d", lb );
+  //fprintf(stderr,"||%d -- %s||\n",chars_written,v);
+  check_if_buffer_was_big_enough(chars_written, MAX_SIZE_TO_REPRESENT_LABEL);
+
   strcat(var, v);
-  free(v);
+
   lb++;
   Address a = makeVar(var);
-  free(var);
   return a;
 }
 
@@ -276,22 +261,28 @@ Pair compile_exp(A_EXP e) {
       return res;
     case A_intExp:
       p = makePair(makeVal(e->u.intt), NULL);
-      char* var = malloc(sizeof(char) * 2);
-      itoa(p->addr->content.val, var);
+
+      char var[MAX_SIZE_INTS];
+      int n = snprintf(var, sizeof(var), "%d", p->addr->content.val);
+      check_if_buffer_was_big_enough(n, sizeof(var));
+
       final_reg = var;
-      free(var);
       return p;
     case A_varExp:
       p = makePair(makeVar(e->u.var), NULL);
       final_reg = p->addr->content.var;
       return p;
     case A_boolExp: {
-      char* v = malloc(sizeof(char) * 2);
-      int val = 0;
-      if (e->u.booll == BOOL_TRUE)
-        val = 1;
       p = makePair(makeVal(e->u.intt), NULL);
-      itoa(val, v);
+      int val = 0;
+      if (e->u.booll == BOOL_TRUE) {
+        val = 1;
+      }
+
+      char v[2];
+      int n2= snprintf(v, sizeof(v), "%d", val);
+      check_if_buffer_was_big_enough(n2, sizeof(v));
+
       free(final_reg);  // Xcode and Valgrind don't seem to think this is necessary :S
       final_reg = v;
       return p;
