@@ -1,5 +1,5 @@
-#ifndef PRINTMIPS_H
-#define PRINTMIPS_H
+#ifndef PRINT_MIPS_H
+#define PRINT_MIPS_H
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -16,4 +16,4 @@ void print_TACLIST(TACList tl);
 
 void print_return(int l);
 
-#endif // PRINTMIPS_H
+#endif // PRINT_MIPS_H

@@ -2,7 +2,7 @@
 #include <stdio.h>
 
 #include "tree.h"
-#include "printer.h"
+#include "print_ast.h"
 #include "assembler.h"
 
 FILE *yyin;

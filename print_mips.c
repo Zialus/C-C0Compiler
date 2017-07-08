@@ -1,4 +1,4 @@
-#include "printMips.h"
+#include "print_mips.h"
 
 void print_AUX(TAC t) {}
 

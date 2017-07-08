@@ -5,7 +5,7 @@
 #include <fcntl.h>
 #include <search.h>
 
-#include "printMips.h"
+#include "print_mips.h"
 #include "tree.h"
 #include "assembler.h"
 #include "utils.h"
