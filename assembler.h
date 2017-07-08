@@ -9,26 +9,28 @@ typedef struct Output_* Output;
 typedef struct Address_* Address;
 typedef struct TACList_* TACList;
 typedef enum {
-  A_Plus,
-  A_Minus,
-  A_Times,
-  A_Div,
-  A_BNE,
-  A_BEQ,
-  A_BGT,
-  A_BGE,
-  A_BLT,
-  A_BLE,
-  A_AND,
-  A_OR,
-  A_Asn,
-  Label,
-  GoToLabel,
-  On_False,
-  Decl
+    A_Plus,
+    A_Minus,
+    A_Times,
+    A_Div,
+    A_BNE,
+    A_BEQ,
+    A_BGT,
+    A_BGE,
+    A_BLT,
+    A_BLE,
+    A_AND,
+    A_OR,
+    A_Asn,
+    Label,
+    GoToLabel,
+    On_False,
+    Decl
 } OpKind;
 
-typedef enum { Empty, Int, String, Register } AddrKind;
+typedef enum {
+    Empty, Int, String, Register
+} AddrKind;
 
 Address makeVal(int);
 Address makeVar(char*);
@@ -57,31 +59,31 @@ void superF(I_list);
 void print_return(int);
 
 struct Address_ {
-  AddrKind AddrKind;
-  union {
-    int val;
-    char* var;
-  } content;
+    AddrKind AddrKind;
+    union {
+        int val;
+        char* var;
+    } content;
 };
 
 struct TAC_ {
-  OpKind op;
-  Address addr1, addr2, addr3;
+    OpKind op;
+    Address addr1, addr2, addr3;
 };
 
 struct TACList_ {
-  TAC head;
-  TACList tail;
+    TAC head;
+    TACList tail;
 };
 
 struct Pair_ {
-  Address addr;
-  TACList clist;
+    Address addr;
+    TACList clist;
 };
 
 struct Output_ {
-  char* var;
-  TACList clist;
+    char* var;
+    TACList clist;
 };
 
 
