@@ -1,6 +1,8 @@
 #include "print_mips.h"
 
-void print_AUX(TAC t) {}
+void print_AUX(TAC t) {
+
+}
 
 void print_Address(Address a) {
   // printf("PRINTING_ADRESS\n");

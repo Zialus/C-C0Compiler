@@ -4,6 +4,7 @@
 #include "tree.h"
 #include "print_ast.h"
 #include "assembler.h"
+#include "print_mips.h"
 
 FILE *yyin;
 

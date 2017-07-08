@@ -34,9 +34,10 @@ typedef enum {
 
 Address makeVal(int);
 Address makeVar(char*);
-Address AddrEmpty();
+Address makeEmpty();
 Address makeNewVar();
 Address makeReg(char*);
+Address makeNewLabel();
 
 TAC makeTAC(OpKind, Address, Address, Address);
 TACList makeTACList(TAC, TACList);
@@ -46,9 +47,10 @@ Output makeOutput(char*, TACList);
 TACList append(TACList, TACList);
 
 OpKind getOp(A_AOper);
+OpKind getBop(A_BOper);
 
-Pair compile_exp(A_EXP);
 Pair compile(I_list);
+Pair compile_exp(A_EXP);
 void compile_decl(DECL);
 Pair compile_cmd(CMD);
 TACList compile_while(CMD);
@@ -56,7 +58,6 @@ TACList compile_ass(CMD);
 TACList compile_if(CMD);
 
 void superF(I_list);
-void print_return(int);
 
 struct Address_ {
     AddrKind AddrKind;

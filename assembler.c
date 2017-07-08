@@ -44,6 +44,7 @@ Address makeVar(char* c) {
   a->content.var = c;
   return a;
 }
+
 Address makeReg(char* c) {
   Address a = malloc(sizeof(*a));
   a->AddrKind = Register;
@@ -301,6 +302,7 @@ Pair compile_exp(A_EXP e) {
       return NULL;
   }
 }
+
 
 /******************/
 Pair compile(I_list il) {
