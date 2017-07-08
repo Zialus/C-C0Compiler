@@ -28,6 +28,8 @@ typedef enum {
   Decl
 } OpKind;
 
+typedef enum { Empty, Int, String, Register } AddrKind;
+
 Address makeVal(int);
 Address makeVar(char*);
 Address AddrEmpty();
@@ -50,11 +52,12 @@ Pair compile_cmd(CMD);
 TACList compile_while(CMD);
 TACList compile_ass(CMD);
 TACList compile_if(CMD);
+
 void superF(I_list);
 void print_return(int);
 
 struct Address_ {
-  enum { Empty, Int, String, Register } AddrKind;
+  AddrKind AddrKind;
   union {
     int val;
     char* var;
