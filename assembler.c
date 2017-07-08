@@ -492,6 +492,5 @@ TACList compile_if(CMD ift) {
       free(else_list);
     }
   }
-  free(end_if); // Not sure about this one. XCode told me to do it.... :X
   return ilb;
 }
