@@ -11,7 +11,7 @@ BISON_TARGET(MyParser parser.y ${CMAKE_CURRENT_BINARY_DIR}/parser.c)
 FLEX_TARGET(MyScanner lexer.l ${CMAKE_CURRENT_BINARY_DIR}/lexer.c)
 ADD_FLEX_BISON_DEPENDENCY(MyScanner MyParser)
 
-set(SOURCE_FILES assembler.c tree.c printer.c printMips.c)
+set(SOURCE_FILES assembler.c tree.c printer.c printMips.c utils.c)
 
 include_directories(Compiler ${CMAKE_CURRENT_BINARY_DIR})
 include_directories(Compiler ${CMAKE_CURRENT_SOURCE_DIR})
