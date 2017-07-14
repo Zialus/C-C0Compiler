@@ -6,8 +6,6 @@
 
 #include "assembler.h"
 
-void print_AUX(TAC t);
-
 void print_Address(Address a);
 
 void print_TAC(TAC t);
