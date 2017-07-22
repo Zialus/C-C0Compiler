@@ -41,14 +41,14 @@ Address makeVal(int n) {
 Address makeVar(char* c) {
   Address a = malloc(sizeof(*a));
   a->AddrKind = String;
-  a->content.var = c;
+  a->content.var = strdup(c);
   return a;
 }
 
 Address makeReg(char* c) {
   Address a = malloc(sizeof(*a));
   a->AddrKind = Register;
-  a->content.var = c;
+  a->content.var = strdup(c);
   return a;
 }
 
@@ -74,6 +74,7 @@ Address makeNewVar() {
 
   i++;
   Address a = makeReg(var);
+  free(var);
   return a;
 }
 
@@ -92,6 +93,7 @@ Address makeNewLabel() {
 
   lb++;
   Address a = makeVar(var);
+  free(var);
   return a;
 }
 
