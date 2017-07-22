@@ -7,14 +7,14 @@ set(CMAKE_C_STANDARD 11)
 find_package(BISON REQUIRED)
 find_package(FLEX REQUIRED)
 
-BISON_TARGET(MyParser parser.y ${CMAKE_CURRENT_BINARY_DIR}/parser.c)
-FLEX_TARGET(MyScanner lexer.l ${CMAKE_CURRENT_BINARY_DIR}/lexer.c)
+BISON_TARGET(MyParser parsing/parser.y ${PROJECT_SOURCE_DIR}/parsing/parser.c)
+FLEX_TARGET(MyScanner parsing/lexer.l ${PROJECT_SOURCE_DIR}/parsing/lexer.c)
 ADD_FLEX_BISON_DEPENDENCY(MyScanner MyParser)
 
-set(SOURCE_FILES assembler.c tree.c print_ast.c print_mips.c utils.c)
+set(SOURCE_FILES source/assembler.c source/tree.c source/print_ast.c source/print_mips.c source/utils.c)
 
-include_directories(Compiler ${CMAKE_CURRENT_BINARY_DIR})
-include_directories(Compiler ${CMAKE_CURRENT_SOURCE_DIR})
+include_directories(Compiler ${PROJECT_SOURCE_DIR}/parsing)
+include_directories(Compiler ${PROJECT_SOURCE_DIR}/source)
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/executable)
 
