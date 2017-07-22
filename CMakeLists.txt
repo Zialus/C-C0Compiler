@@ -11,7 +11,11 @@ BISON_TARGET(MyParser parsing/parser.y ${PROJECT_SOURCE_DIR}/parsing/parser.c)
 FLEX_TARGET(MyScanner parsing/lexer.l ${PROJECT_SOURCE_DIR}/parsing/lexer.c)
 ADD_FLEX_BISON_DEPENDENCY(MyScanner MyParser)
 
-set(SOURCE_FILES source/assembler.c source/tree.c source/print_ast.c source/print_mips.c source/utils.c)
+
+file(GLOB source_SRC "${PROJECT_SOURCE_DIR}/source/*.h")
+file(GLOB source_HDR "${PROJECT_SOURCE_DIR}/source/*.c")
+
+set(SOURCE_FILES ${source_SRC} ${source_HDR} parsing/parser.y parsing/lexer.l)
 
 include_directories(Compiler ${PROJECT_SOURCE_DIR}/parsing)
 include_directories(Compiler ${PROJECT_SOURCE_DIR}/source)

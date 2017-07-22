@@ -2,4 +2,11 @@
 cmake-build-debug/
 cmake-build-release/
 cmake-build-xcode/
-executable
+executable/
+cmake-linux/
+cmake-infer/
+build/
+.vscode/
+parsing/lexer.c
+parsing/parser.c
+parsing/parser.h
