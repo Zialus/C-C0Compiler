@@ -3,7 +3,7 @@
 
 #define MAX_SIZE 50
 
-typedef struct A_exp* A_EXP;
+typedef struct exp* A_EXP;
 typedef struct cmd* CMD;
 typedef struct cmdlist* CMD_List;
 typedef struct decl* DECL;
@@ -21,12 +21,22 @@ typedef enum {
     BOOL_TRUE, BOOL_FALSE
 } Bool;
 
+typedef enum {
+    A_AopExp, A_BopExp, A_intExp, A_boolExp, A_varExp
+} Exp_Kind;
+
+typedef enum {
+    WHILE_KIND, IF_KIND, ASSIGN_KIND
+} Cmd_Kind;
+
+typedef enum {
+    A_EXP_, CMD_, DECL_
+} IL_Kind;
+
 
 // ----- Expression ----- //
-struct A_exp {
-    enum {
-        A_AopExp, A_BopExp, A_intExp, A_boolExp, A_varExp
-    } kind;
+struct exp {
+    Exp_Kind kind;
     union {
         Bool booll;
         int intt;
@@ -54,9 +64,7 @@ A_EXP A_BOpExp_(A_BOper, A_EXP, A_EXP);
 
 // ----- Commands ----- //
 struct cmd {
-    enum {
-        WHILE_KIND, IF_KIND, ASSIGN_KIND
-    } kind;
+    Cmd_Kind kind;
     union {
         struct {
             A_EXP if_;
@@ -92,9 +100,7 @@ DECL DECL_declare(Type, char*);
 
 // ----- Instruction List ----- //
 struct Instruction_list {
-    enum {
-        A_EXP_, CMD_, DECL_
-    } kind;
+    IL_Kind kind;
     union {
         A_EXP a_exp;
         CMD cmd;
