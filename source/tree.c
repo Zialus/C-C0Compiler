@@ -6,21 +6,21 @@
 #include "utils.h"
 
 // ----- Expression CONSTRUCTORS ----- //
-EXP A_IntExp_(int i) {
+EXP make_Int_EXP_(int i) {
     EXP p = malloc(sizeof(*p));
     p->kind = EXP_int;
     p->u.intt = i;
     return p;
 }
 
-EXP A_BoolExp_(bool b) {
+EXP make_Bool_EXP_(bool b) {
     EXP p = malloc(sizeof(*p));
     p->kind = EXP_bool;
     p->u.booll = b;
     return p;
 }
 
-EXP A_VarExp_(char* c) {
+EXP make_Var_EXP_(char* c) {
     EXP p = malloc(sizeof(*p));
     p->kind = EXP_Var;
 
@@ -30,19 +30,19 @@ EXP A_VarExp_(char* c) {
     return p;
 }
 
-EXP A_AOpExp_(A_Operand oper, EXP l, EXP r) {
+EXP make_A_Op_EXP_(A_Operand op, EXP l, EXP r) {
     EXP p = malloc(sizeof(*p));
     p->kind = EXP_A_Op;
-    p->u.opA.oper = oper;
+    p->u.opA.oper = op;
     p->u.opA.left = l;
     p->u.opA.right = r;
     return p;
 }
 
-EXP A_BOpExp_(B_Operand oper, EXP l, EXP r) {
+EXP make_B_Op_EXP_(B_Operand op, EXP l, EXP r) {
     EXP p = malloc(sizeof(*p));
     p->kind = EXP_B_Op;
-    p->u.opB.oper = oper;
+    p->u.opB.oper = op;
     p->u.opB.left = l;
     p->u.opB.right = r;
     return p;

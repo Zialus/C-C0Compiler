@@ -54,11 +54,11 @@ struct exp {
     } u;
 };
 
-EXP A_IntExp_(int);
-EXP A_VarExp_(char*);
-EXP A_BoolExp_(bool);
-EXP A_AOpExp_(A_Operand, EXP, EXP);
-EXP A_BOpExp_(B_Operand, EXP, EXP);
+EXP make_Int_EXP_(int i);
+EXP make_Var_EXP_(char* c);
+EXP make_Bool_EXP_(bool b);
+EXP make_A_Op_EXP_(A_Operand op, EXP l, EXP r);
+EXP make_B_Op_EXP_(B_Operand op, EXP l, EXP r);
 // ----- Expression ----- //
 
 

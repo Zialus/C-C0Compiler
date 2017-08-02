@@ -97,22 +97,22 @@ THEN_STMT
 
 
 EXP
-  : VAR                    { $$ = A_VarExp_($1);}
-  | NUM                    { $$ = A_IntExp_($1); }
-  | TRUE                   { $$ = A_BoolExp_(true); }
-  | FALSE                  { $$ = A_BoolExp_(false); }
-  | EXP Plus EXP           { $$ = A_AOpExp_(OpPlus,$1,$3); }
-  | EXP Minus EXP          { $$ = A_AOpExp_(OpMinus,$1,$3); }
-  | EXP Times EXP          { $$ = A_AOpExp_(OpTimes,$1,$3); }
-  | EXP Div EXP            { $$ = A_AOpExp_(OpDiv,$1,$3); }
-  | EXP EQ EXP             { $$ = A_BOpExp_(OpEQ,$1,$3); }
-  | EXP NOTEQ EXP          { $$ = A_BOpExp_(OpNOTEQ,$1,$3); }
-  | EXP G EXP              { $$ = A_BOpExp_(OpG,$1,$3); }
-  | EXP GEQ EXP            { $$ = A_BOpExp_(OpGEQ,$1,$3); }
-  | EXP L EXP              { $$ = A_BOpExp_(OpL,$1,$3); }
-  | EXP LEQ EXP            { $$ = A_BOpExp_(OpLEQ,$1,$3); }
-  | EXP OR EXP             { $$ = A_BOpExp_(OpOR,$1,$3); }
-  | EXP AND EXP            { $$ = A_BOpExp_(OpAND,$1,$3); }
+  : VAR                    { $$ = make_Var_EXP_($1);}
+  | NUM                    { $$ = make_Int_EXP_($1); }
+  | TRUE                   { $$ = make_Bool_EXP_(true); }
+  | FALSE                  { $$ = make_Bool_EXP_(false); }
+  | EXP Plus EXP           { $$ = make_A_Op_EXP_(OpPlus,$1,$3); }
+  | EXP Minus EXP          { $$ = make_A_Op_EXP_(OpMinus,$1,$3); }
+  | EXP Times EXP          { $$ = make_A_Op_EXP_(OpTimes,$1,$3); }
+  | EXP Div EXP            { $$ = make_A_Op_EXP_(OpDiv,$1,$3); }
+  | EXP EQ EXP             { $$ = make_B_Op_EXP_(OpEQ,$1,$3); }
+  | EXP NOTEQ EXP          { $$ = make_B_Op_EXP_(OpNOTEQ,$1,$3); }
+  | EXP G EXP              { $$ = make_B_Op_EXP_(OpG,$1,$3); }
+  | EXP GEQ EXP            { $$ = make_B_Op_EXP_(OpGEQ,$1,$3); }
+  | EXP L EXP              { $$ = make_B_Op_EXP_(OpL,$1,$3); }
+  | EXP LEQ EXP            { $$ = make_B_Op_EXP_(OpLEQ,$1,$3); }
+  | EXP OR EXP             { $$ = make_B_Op_EXP_(OpOR,$1,$3); }
+  | EXP AND EXP            { $$ = make_B_Op_EXP_(OpAND,$1,$3); }
   | P0 EXP P1              { $$ = $2; }
   ;
 
