@@ -25,11 +25,11 @@ typedef enum {
 
 typedef enum {
     A_AopExp, A_BopExp, A_intExp, A_boolExp, A_varExp
-} Exp_Kind;
+} EXP_Kind;
 
 typedef enum {
     WHILE_KIND, IF_KIND, ASSIGN_KIND
-} Cmd_Kind;
+} CMD_Kind;
 
 typedef enum {
     A_EXP_, CMD_, DECL_
@@ -38,7 +38,7 @@ typedef enum {
 
 // ----- Expression ----- //
 struct exp {
-    Exp_Kind kind;
+    EXP_Kind kind;
     union {
         Bool booll;
         int intt;
@@ -66,7 +66,7 @@ EXP A_BOpExp_(B_Oper, EXP, EXP);
 
 // ----- Commands ----- //
 struct cmd {
-    Cmd_Kind kind;
+    CMD_Kind kind;
     union {
         struct {
             EXP if_;
