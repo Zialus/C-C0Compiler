@@ -3,7 +3,7 @@
 
 #define MAX_SIZE 50
 
-typedef struct exp* A_EXP;
+typedef struct exp* EXP;
 typedef struct cmd* CMD;
 typedef struct cmdlist* CMD_List;
 typedef struct decl* DECL;
@@ -43,22 +43,22 @@ struct exp {
         char var[MAX_SIZE];
         struct {
             A_AOper oper;
-            A_EXP left;
-            A_EXP right;
+            EXP left;
+            EXP right;
         } opA;
         struct {
             A_BOper oper;
-            A_EXP left;
-            A_EXP right;
+            EXP left;
+            EXP right;
         } opB;
     } u;
 };
 
-A_EXP A_IntExp_(int);
-A_EXP A_VarExp_(char*);
-A_EXP A_BoolExp_(Bool);
-A_EXP A_AOpExp_(A_AOper, A_EXP, A_EXP);
-A_EXP A_BOpExp_(A_BOper, A_EXP, A_EXP);
+EXP A_IntExp_(int);
+EXP A_VarExp_(char*);
+EXP A_BoolExp_(Bool);
+EXP A_AOpExp_(A_AOper, EXP, EXP);
+EXP A_BOpExp_(A_BOper, EXP, EXP);
 // ----- Expression ----- //
 
 
@@ -67,24 +67,24 @@ struct cmd {
     Cmd_Kind kind;
     union {
         struct {
-            A_EXP if_;
+            EXP if_;
             I_list then_I_list_;
             I_list else_I_list_;
         } if_else;
         struct {
-            A_EXP while_;
+            EXP while_;
             I_list while_I_list_;
         } w;
         struct {
             char var_[MAX_SIZE];
-            A_EXP assignment_;
+            EXP assignment_;
         } ass;
     } u;
 };
 
-CMD CMD_if_then_else(A_EXP, I_list, I_list);
-CMD CMD_while(A_EXP, I_list);
-CMD CMD_assignment(char*, A_EXP);
+CMD CMD_if_then_else(EXP, I_list, I_list);
+CMD CMD_while(EXP, I_list);
+CMD CMD_assignment(char*, EXP);
 // ----- Commands ----- //
 
 
@@ -102,14 +102,14 @@ DECL DECL_declare(Type, char*);
 struct Instruction_list {
     IL_Kind kind;
     union {
-        A_EXP a_exp;
+        EXP a_exp;
         CMD cmd;
         DECL decl;
     } head;
     I_list tail;
 };
 
-I_list Head_A_exp(A_EXP, I_list);
+I_list Head_A_exp(EXP, I_list);
 I_list Head_CMD(CMD, I_list);
 I_list Head_DECL(DECL, I_list);
 // ----- Instruction List ----- //

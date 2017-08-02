@@ -50,7 +50,7 @@ OpKind getOp(A_AOper);
 OpKind getBop(A_BOper);
 
 Pair compile(I_list);
-Pair compile_exp(A_EXP);
+Pair compile_exp(EXP);
 void compile_decl(DECL);
 Pair compile_cmd(CMD);
 TACList compile_while(CMD);

@@ -14,7 +14,7 @@ void yyerror(const char *);
 
 %union{
     int number;
-    A_EXP a_exp;
+    EXP a_exp;
     char* identifier;
     CMD cmd;
     DECL decl;

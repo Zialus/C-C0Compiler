@@ -6,22 +6,22 @@
 #include "utils.h"
 
 // ----- Expression CONSTRUCTORS ----- //
-A_EXP A_IntExp_(int i) {
-    A_EXP p = malloc(sizeof(*p));
+EXP A_IntExp_(int i) {
+    EXP p = malloc(sizeof(*p));
     p->kind = A_intExp;
     p->u.intt = i;
     return p;
 }
 
-A_EXP A_BoolExp_(Bool b) {
-    A_EXP p = malloc(sizeof(*p));
+EXP A_BoolExp_(Bool b) {
+    EXP p = malloc(sizeof(*p));
     p->kind = A_boolExp;
     p->u.booll = b;
     return p;
 }
 
-A_EXP A_VarExp_(char* c) {
-    A_EXP p = malloc(sizeof(*p));
+EXP A_VarExp_(char* c) {
+    EXP p = malloc(sizeof(*p));
     p->kind = A_varExp;
 
     int n = snprintf(p->u.var, sizeof(p->u.var), "%s", c);
@@ -30,8 +30,8 @@ A_EXP A_VarExp_(char* c) {
     return p;
 }
 
-A_EXP A_AOpExp_(A_AOper oper, A_EXP l, A_EXP r) {
-    A_EXP p = malloc(sizeof(*p));
+EXP A_AOpExp_(A_AOper oper, EXP l, EXP r) {
+    EXP p = malloc(sizeof(*p));
     p->kind = A_AopExp;
     p->u.opA.oper = oper;
     p->u.opA.left = l;
@@ -39,8 +39,8 @@ A_EXP A_AOpExp_(A_AOper oper, A_EXP l, A_EXP r) {
     return p;
 }
 
-A_EXP A_BOpExp_(A_BOper oper, A_EXP l, A_EXP r) {
-    A_EXP p = malloc(sizeof(*p));
+EXP A_BOpExp_(A_BOper oper, EXP l, EXP r) {
+    EXP p = malloc(sizeof(*p));
     p->kind = A_BopExp;
     p->u.opB.oper = oper;
     p->u.opB.left = l;
@@ -51,7 +51,7 @@ A_EXP A_BOpExp_(A_BOper oper, A_EXP l, A_EXP r) {
 
 
 // ----- Commands CONSTRUCTORS ----- //
-CMD CMD_if_then_else(A_EXP if_exp, I_list then_, I_list else_) {
+CMD CMD_if_then_else(EXP if_exp, I_list then_, I_list else_) {
     CMD cmd = malloc(sizeof(*cmd));
     cmd->kind = IF_KIND;
     cmd->u.if_else.if_ = if_exp;
@@ -60,7 +60,7 @@ CMD CMD_if_then_else(A_EXP if_exp, I_list then_, I_list else_) {
     return cmd;
 }
 
-CMD CMD_while(A_EXP while_exp, I_list while_) {
+CMD CMD_while(EXP while_exp, I_list while_) {
     CMD cmd = malloc(sizeof(*cmd));
     cmd->kind = WHILE_KIND;
     cmd->u.w.while_ = while_exp;
@@ -68,7 +68,7 @@ CMD CMD_while(A_EXP while_exp, I_list while_) {
     return cmd;
 }
 
-CMD CMD_assignment(char* v, A_EXP exp) {
+CMD CMD_assignment(char* v, EXP exp) {
     CMD cmd = malloc(sizeof(*cmd));
     cmd->kind = ASSIGN_KIND;
 
@@ -95,7 +95,7 @@ DECL DECL_declare(Type t, char* v) {
 
 
 // ----- Instruction List CONSTRUCTORS ----- //
-I_list Head_A_exp(A_EXP head, I_list tail) {
+I_list Head_A_exp(EXP head, I_list tail) {
     I_list il = malloc(sizeof(*il));
     il->kind = A_EXP_;
     il->head.a_exp = head;
