@@ -4,9 +4,7 @@
 /*** IMPRIME A ÁRVORE COMPLETA ***/
 void print_tree(I_list l) {
     if (l != NULL) {
-        if (l->kind == A_EXP_ && l->head.a_exp != NULL) {
-            print_A_EXP(l->head.a_exp);
-        } else if (l->kind == CMD_ && l->head.cmd != NULL) {
+        if (l->kind == CMD_ && l->head.cmd != NULL) {
             print_CMD(l->head.cmd);
         } else if (l->head.decl != NULL) {
             print_DECL(l->head.decl);

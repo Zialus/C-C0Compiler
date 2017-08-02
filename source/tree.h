@@ -30,7 +30,7 @@ typedef enum {
 } CMD_Kind;
 
 typedef enum {
-    A_EXP_, CMD_, DECL_
+    CMD_, DECL_
 } IL_Kind;
 
 
@@ -102,7 +102,6 @@ DECL DECL_declare(Type, char*);
 struct Instruction_list {
     IL_Kind kind;
     union {
-        EXP a_exp;
         CMD cmd;
         DECL decl;
     } head;

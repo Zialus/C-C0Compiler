@@ -312,9 +312,6 @@ Pair compile(I_list il) {
 
   Pair tl = NULL;
   switch (il->kind) {
-    case A_EXP_:
-      tl = compile_exp(il->head.a_exp);
-      break;
     case CMD_:
       tl = compile_cmd(il->head.cmd);
       break;
