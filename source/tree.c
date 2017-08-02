@@ -95,14 +95,6 @@ DECL DECL_declare(Type t, char* v) {
 
 
 // ----- Instruction List CONSTRUCTORS ----- //
-I_list Head_A_exp(EXP head, I_list tail) {
-    I_list il = malloc(sizeof(*il));
-    il->kind = A_EXP_;
-    il->head.a_exp = head;
-    il->tail = tail;
-    return il;
-}
-
 I_list Head_CMD(CMD head, I_list tail) {
     I_list il = malloc(sizeof(*il));
     il->kind = CMD_;

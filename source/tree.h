@@ -109,7 +109,6 @@ struct Instruction_list {
     I_list tail;
 };
 
-I_list Head_A_exp(EXP, I_list);
 I_list Head_CMD(CMD, I_list);
 I_list Head_DECL(DECL, I_list);
 // ----- Instruction List ----- //
