@@ -1,6 +1,8 @@
 #ifndef TREE_H
 #define TREE_H
 
+#include <stdbool.h>
+
 #define MAX_SIZE 50
 
 typedef struct exp* EXP;
@@ -20,10 +22,6 @@ typedef enum {
 } Type;
 
 typedef enum {
-    BOOL_TRUE, BOOL_FALSE
-} Bool;
-
-typedef enum {
     A_AopExp, A_BopExp, A_intExp, A_boolExp, A_varExp
 } EXP_Kind;
 
@@ -40,7 +38,7 @@ typedef enum {
 struct exp {
     EXP_Kind kind;
     union {
-        Bool booll;
+        bool booll;
         int intt;
         char var[MAX_SIZE];
         struct {
@@ -58,7 +56,7 @@ struct exp {
 
 EXP A_IntExp_(int);
 EXP A_VarExp_(char*);
-EXP A_BoolExp_(Bool);
+EXP A_BoolExp_(bool);
 EXP A_AOpExp_(A_Oper, EXP, EXP);
 EXP A_BOpExp_(B_Oper, EXP, EXP);
 // ----- Expression ----- //

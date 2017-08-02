@@ -286,7 +286,7 @@ Pair compile_exp(EXP e) {
     case A_boolExp: {
       p = makePair(makeVal(e->u.intt), NULL);
       int val = 0;
-      if (e->u.booll == BOOL_TRUE) {
+      if (e->u.booll == true) {
         val = 1;
       }
 

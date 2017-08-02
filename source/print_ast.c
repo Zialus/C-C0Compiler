@@ -29,13 +29,10 @@ void print_A_EXP(EXP exp) {
 
         case A_boolExp:
             printf("Bool( ");
-            switch (exp->u.booll) {
-                case BOOL_TRUE:
-                    printf("true) ");
-                    break;
-                case BOOL_FALSE:
-                    printf("false) ");
-                    break;
+            if (exp->u.booll) {
+                printf("true) ");
+            } else{
+                printf("false) ");
             }
             break;
 

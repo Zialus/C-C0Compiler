@@ -13,7 +13,7 @@ EXP A_IntExp_(int i) {
     return p;
 }
 
-EXP A_BoolExp_(Bool b) {
+EXP A_BoolExp_(bool b) {
     EXP p = malloc(sizeof(*p));
     p->kind = A_boolExp;
     p->u.booll = b;

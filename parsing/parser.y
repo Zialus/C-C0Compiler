@@ -99,8 +99,8 @@ THEN_STMT
 EXP
   : VAR                    { $$ = A_VarExp_($1);}
   | NUM                    { $$ = A_IntExp_($1); }
-  | TRUE                   { $$ = A_BoolExp_(BOOL_TRUE); }
-  | FALSE                  { $$ = A_BoolExp_(BOOL_FALSE); }
+  | TRUE                   { $$ = A_BoolExp_(true); }
+  | FALSE                  { $$ = A_BoolExp_(false); }
   | EXP Plus EXP           { $$ = A_AOpExp_(OpPlus,$1,$3); }
   | EXP Minus EXP          { $$ = A_AOpExp_(OpMinus,$1,$3); }
   | EXP Times EXP          { $$ = A_AOpExp_(OpTimes,$1,$3); }
