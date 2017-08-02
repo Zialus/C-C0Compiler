@@ -11,11 +11,11 @@ typedef struct decl* DECL;
 typedef struct Instruction_list* I_list;
 typedef enum {
     OpPlus, OpMinus, OpTimes, OpDiv
-} A_Oper;
+} A_Operand;
 
 typedef enum {
     OpG, OpL, OpLEQ, OpGEQ, OpEQ, OpNOTEQ, OpOR, OpAND, OpASSIGN
-} B_Oper;
+} B_Operand;
 
 typedef enum {
     BOOL_TYPE, INT_TYPE
@@ -42,12 +42,12 @@ struct exp {
         int intt;
         char var[MAX_SIZE];
         struct {
-            A_Oper oper;
+            A_Operand oper;
             EXP left;
             EXP right;
         } opA;
         struct {
-            B_Oper oper;
+            B_Operand oper;
             EXP left;
             EXP right;
         } opB;
@@ -57,8 +57,8 @@ struct exp {
 EXP A_IntExp_(int);
 EXP A_VarExp_(char*);
 EXP A_BoolExp_(bool);
-EXP A_AOpExp_(A_Oper, EXP, EXP);
-EXP A_BOpExp_(B_Oper, EXP, EXP);
+EXP A_AOpExp_(A_Operand, EXP, EXP);
+EXP A_BOpExp_(B_Operand, EXP, EXP);
 // ----- Expression ----- //
 
 

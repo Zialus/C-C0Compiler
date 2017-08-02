@@ -30,7 +30,7 @@ EXP A_VarExp_(char* c) {
     return p;
 }
 
-EXP A_AOpExp_(A_Oper oper, EXP l, EXP r) {
+EXP A_AOpExp_(A_Operand oper, EXP l, EXP r) {
     EXP p = malloc(sizeof(*p));
     p->kind = EXP_A_Op;
     p->u.opA.oper = oper;
@@ -39,7 +39,7 @@ EXP A_AOpExp_(A_Oper oper, EXP l, EXP r) {
     return p;
 }
 
-EXP A_BOpExp_(B_Oper oper, EXP l, EXP r) {
+EXP A_BOpExp_(B_Operand oper, EXP l, EXP r) {
     EXP p = malloc(sizeof(*p));
     p->kind = EXP_B_Op;
     p->u.opB.oper = oper;

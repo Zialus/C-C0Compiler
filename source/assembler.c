@@ -142,7 +142,7 @@ TACList append(TACList cl1, TACList cl2) {
   return cl3;
 }
 
-OpKind getOp(A_Oper o) {
+OpKind getOp(A_Operand o) {
   switch (o) {
     case OpPlus:
       return A_Plus;
@@ -155,7 +155,7 @@ OpKind getOp(A_Oper o) {
   }
 }
 
-OpKind getBop(B_Oper o) {
+OpKind getBop(B_Operand o) {
   switch (o) {
     case OpEQ:
       return A_BEQ;
