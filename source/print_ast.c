@@ -42,7 +42,7 @@ void print_A_EXP(EXP exp) {
         case A_AopExp:
             print_A_EXP(exp->u.opA.left);
 
-            printf("A_AOper( ");
+            printf("A_Oper( ");
             switch (exp->u.opA.oper) {
                 case OpPlus:
                     printf("Plus) ");
@@ -64,7 +64,7 @@ void print_A_EXP(EXP exp) {
         case A_BopExp:
             print_A_EXP(exp->u.opA.left);
 
-            printf("A_BOper( ");
+            printf("B_Oper( ");
             switch (exp->u.opB.oper) {
                 case OpG:
                     printf("G) ");

@@ -46,8 +46,8 @@ Output makeOutput(char*, TACList);
 
 TACList append(TACList, TACList);
 
-OpKind getOp(A_AOper);
-OpKind getBop(A_BOper);
+OpKind getOp(A_Oper);
+OpKind getBop(B_Oper);
 
 Pair compile(I_list);
 Pair compile_exp(EXP);
