@@ -5,7 +5,6 @@
 
 typedef struct exp* EXP;
 typedef struct cmd* CMD;
-typedef struct cmdlist* CMD_List;
 typedef struct decl* DECL;
 typedef struct Instruction_list* I_list;
 typedef enum {
