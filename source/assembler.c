@@ -188,7 +188,7 @@ Pair compile_exp(EXP e) {
   TAC elem, elem1 , elem2;
   OpKind op;
   switch (e->kind) {
-    case A_BopExp:
+    case EXP_B_Op:
       t0 = makeNewVar();                   // var. resultado
       auxA = compile_exp(e->u.opB.left);   // ramo esq.
       auxB = compile_exp(e->u.opB.right);  // ramo dir.
@@ -244,7 +244,7 @@ Pair compile_exp(EXP e) {
       check_if_buffer_was_big_enough(n0, sizeof(final_reg));
 
       return res;
-    case A_AopExp:
+    case EXP_A_Op:
       t0 = makeNewVar();                   // var. resultado
       auxA = compile_exp(e->u.opA.left);   // ramo esq.
       auxB = compile_exp(e->u.opA.right);  // ramo dir.
@@ -265,7 +265,7 @@ Pair compile_exp(EXP e) {
         list = tmp;
       res = makePair(t0, list);
       return res;
-    case A_intExp:
+    case EXP_int:
       p = makePair(makeVal(e->u.intt), NULL);
 
       char var[MAX_SIZE_INTS];
@@ -276,14 +276,14 @@ Pair compile_exp(EXP e) {
       check_if_buffer_was_big_enough(n2, sizeof(final_reg));
 
       return p;
-    case A_varExp:
+    case EXP_Var:
       p = makePair(makeVar(e->u.var), NULL);
 
       int n3 = snprintf(final_reg, sizeof(final_reg), "%s",p->addr->content.var);
       check_if_buffer_was_big_enough(n3, sizeof(final_reg));
 
       return p;
-    case A_boolExp: {
+    case EXP_bool: {
       p = makePair(makeVal(e->u.intt), NULL);
       int val = 0;
       if (e->u.booll == true) {

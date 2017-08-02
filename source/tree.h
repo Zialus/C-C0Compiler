@@ -22,7 +22,7 @@ typedef enum {
 } Type;
 
 typedef enum {
-    A_AopExp, A_BopExp, A_intExp, A_boolExp, A_varExp
+    EXP_A_Op, EXP_B_Op, EXP_int, EXP_bool, EXP_Var
 } EXP_Kind;
 
 typedef enum {

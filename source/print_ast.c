@@ -23,11 +23,11 @@ void print_tree(I_list l) {
 void print_A_EXP(EXP exp) {
     printf("EXP( ");
     switch (exp->kind) {
-        case A_intExp:
+        case EXP_int:
             printf("Int(%d) ", exp->u.intt);
             break;
 
-        case A_boolExp:
+        case EXP_bool:
             printf("Bool( ");
             if (exp->u.booll) {
                 printf("true) ");
@@ -36,7 +36,7 @@ void print_A_EXP(EXP exp) {
             }
             break;
 
-        case A_AopExp:
+        case EXP_A_Op:
             print_A_EXP(exp->u.opA.left);
 
             printf("A_Oper( ");
@@ -58,7 +58,7 @@ void print_A_EXP(EXP exp) {
             print_A_EXP(exp->u.opA.right);
             break;
 
-        case A_BopExp:
+        case EXP_B_Op:
             print_A_EXP(exp->u.opA.left);
 
             printf("B_Oper( ");
@@ -95,7 +95,7 @@ void print_A_EXP(EXP exp) {
             print_A_EXP(exp->u.opA.right);
             break;
 
-        case A_varExp:
+        case EXP_Var:
             printf("Var( %s ) ", exp->u.var);
     }
     printf(")");

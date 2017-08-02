@@ -8,21 +8,21 @@
 // ----- Expression CONSTRUCTORS ----- //
 EXP A_IntExp_(int i) {
     EXP p = malloc(sizeof(*p));
-    p->kind = A_intExp;
+    p->kind = EXP_int;
     p->u.intt = i;
     return p;
 }
 
 EXP A_BoolExp_(bool b) {
     EXP p = malloc(sizeof(*p));
-    p->kind = A_boolExp;
+    p->kind = EXP_bool;
     p->u.booll = b;
     return p;
 }
 
 EXP A_VarExp_(char* c) {
     EXP p = malloc(sizeof(*p));
-    p->kind = A_varExp;
+    p->kind = EXP_Var;
 
     int n = snprintf(p->u.var, sizeof(p->u.var), "%s", c);
     check_if_buffer_was_big_enough(n, sizeof(p->u.var));
@@ -32,7 +32,7 @@ EXP A_VarExp_(char* c) {
 
 EXP A_AOpExp_(A_Oper oper, EXP l, EXP r) {
     EXP p = malloc(sizeof(*p));
-    p->kind = A_AopExp;
+    p->kind = EXP_A_Op;
     p->u.opA.oper = oper;
     p->u.opA.left = l;
     p->u.opA.right = r;
@@ -41,7 +41,7 @@ EXP A_AOpExp_(A_Oper oper, EXP l, EXP r) {
 
 EXP A_BOpExp_(B_Oper oper, EXP l, EXP r) {
     EXP p = malloc(sizeof(*p));
-    p->kind = A_BopExp;
+    p->kind = EXP_B_Op;
     p->u.opB.oper = oper;
     p->u.opB.left = l;
     p->u.opB.right = r;
