@@ -1,3 +1,6 @@
+#include <stdio.h>
+#include <stdlib.h>
+
 #include "print_mips.h"
 
 void print_Address(Address a) {
@@ -581,8 +584,14 @@ void print_TAC(TAC t) {
             printf(", ");
             print_Address(t->addr2);
             printf("\n");
-        default:
-            break;
+        case A_BNE:
+            break; // Not finished yet
+        case A_BGE:
+            break; // Not finished yet
+        case A_BLE:
+            break; // Not finished yet
+        case Decl:
+            break; // Not finished yet
     }
     free(aux2);
     free(aux3);

@@ -43,18 +43,18 @@ Pair makePair(Address, TACList);
 
 TACList append(TACList, TACList);
 
-OpKind getOp(A_Operand);
-OpKind getBop(B_Operand);
+OpKind get_A_Op(A_Operand o);
+OpKind get_B_Op(B_Operand o);
 
-Pair compile(I_list);
-Pair compile_exp(EXP);
-void compile_decl(DECL);
-Pair compile_cmd(CMD);
-TACList compile_while(CMD);
-TACList compile_ass(CMD);
-TACList compile_if(CMD);
+Pair compile(I_List il);
+Pair compile_exp(EXP e);
+void compile_decl(DECL decl);
+Pair compile_cmd(CMD cmd);
+TACList compile_while(CMD wh);
+TACList compile_ass(CMD d);
+TACList compile_if(CMD ift);
 
-void compiler_start(I_list);
+void compiler_start(I_List il);
 
 struct Address_ {
     AddrKind AddrKind;

@@ -18,7 +18,7 @@ void yyerror(const char *);
     char* identifier;
     CMD cmd;
     DECL decl;
-    I_list i_l;
+    I_List i_l;
 }
 
 %token <number> NUM

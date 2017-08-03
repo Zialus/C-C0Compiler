@@ -1,6 +1,5 @@
 #include <stdlib.h>
 #include <stdio.h>
-#include <string.h>
 
 #include "tree.h"
 #include "utils.h"
@@ -51,7 +50,7 @@ EXP make_B_Op_EXP_(B_Operand op, EXP l, EXP r) {
 
 
 // ----- Commands CONSTRUCTORS ----- //
-CMD CMD_if_then_else(EXP if_exp, I_list then_, I_list else_) {
+CMD CMD_if_then_else(EXP if_exp, I_List then_, I_List else_) {
     CMD cmd = malloc(sizeof(*cmd));
     cmd->kind = IF_KIND;
     cmd->u.if_else.if_ = if_exp;
@@ -60,7 +59,7 @@ CMD CMD_if_then_else(EXP if_exp, I_list then_, I_list else_) {
     return cmd;
 }
 
-CMD CMD_while(EXP while_exp, I_list while_) {
+CMD CMD_while(EXP while_exp, I_List while_) {
     CMD cmd = malloc(sizeof(*cmd));
     cmd->kind = WHILE_KIND;
     cmd->u.w.while_ = while_exp;
@@ -95,16 +94,16 @@ DECL DECL_declare(Type t, char* v) {
 
 
 // ----- Instruction List CONSTRUCTORS ----- //
-I_list Head_CMD(CMD head, I_list tail) {
-    I_list il = malloc(sizeof(*il));
+I_List Head_CMD(CMD head, I_List tail) {
+    I_List il = malloc(sizeof(*il));
     il->kind = CMD_;
     il->head.cmd = head;
     il->tail = tail;
     return il;
 }
 
-I_list Head_DECL(DECL head, I_list tail) {
-    I_list il = malloc(sizeof(*il));
+I_List Head_DECL(DECL head, I_List tail) {
+    I_List il = malloc(sizeof(*il));
     il->kind = DECL_;
     il->head.decl = head;
     il->tail = tail;

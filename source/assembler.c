@@ -128,7 +128,7 @@ TACList append(TACList cl1, TACList cl2) {
     return cl3;
 }
 
-OpKind getOp(A_Operand o) {
+OpKind get_A_Op(A_Operand o) {
     switch (o) {
         case OpPlus:
             return A_Plus;
@@ -141,7 +141,7 @@ OpKind getOp(A_Operand o) {
     }
 }
 
-OpKind getBop(B_Operand o) {
+OpKind get_B_Op(B_Operand o) {
     switch (o) {
         case OpEQ:
             return A_BEQ;
@@ -178,7 +178,7 @@ Pair compile_exp(EXP e) {
             t0 = makeNewVar();                   // var. resultado
             auxA = compile_exp(e->u.opB.left);   // ramo esq.
             auxB = compile_exp(e->u.opB.right);  // ramo dir.
-            op = getBop(e->u.opB.oper);
+            op = get_B_Op(e->u.opB.oper);
 
             switch (op) {
                 case A_BLE:
@@ -235,7 +235,7 @@ Pair compile_exp(EXP e) {
             t0 = makeNewVar();                   // var. resultado
             auxA = compile_exp(e->u.opA.left);   // ramo esq.
             auxB = compile_exp(e->u.opA.right);  // ramo dir.
-            op = getOp(e->u.opA.oper);
+            op = get_A_Op(e->u.opA.oper);
             elem = makeTAC(op, t0, auxA->addr, auxB->addr);  // INSTRUÇÃO FINAL
             // APPEND esq. ++ dir.
             if (auxA->clist != NULL && auxB->clist != NULL) {
@@ -285,7 +285,6 @@ Pair compile_exp(EXP e) {
             int n5 = snprintf(final_reg, sizeof(final_reg), "%s", v);
             check_if_buffer_was_big_enough(n5, sizeof(final_reg));
 
-
             return p;
         }
 
@@ -294,7 +293,7 @@ Pair compile_exp(EXP e) {
 
 
 /******************/
-Pair compile(I_list il) {
+Pair compile(I_List il) {
     // printf("COMPILe\n" );
 
     Pair tl = NULL;
@@ -320,7 +319,7 @@ Pair compile(I_list il) {
     return tl;
 }
 
-void compiler_start(I_list il) {
+void compiler_start(I_List il) {
     fflush(STDIN_FILENO);
 
     int f = open("out.asm", O_CREAT | O_WRONLY | O_TRUNC, S_IWUSR | S_IRUSR);
@@ -398,6 +397,7 @@ Pair compile_cmd(CMD cmd) {
             tl = compile_while(cmd);
             break;
     }
+
     Pair p = makePair(NULL, tl);
     return p;
 }
@@ -442,8 +442,7 @@ TACList compile_while(CMD wh) {
     TACList j = makeTACList(makeTAC(GoToLabel, w->head->addr1, NULL, NULL), NULL);
     w = append(w, j);
     // adiciona label if false ao final do while
-    w = append(w,
-               makeTACList(makeTAC(Label, jlb->head->addr2, NULL, NULL), NULL));
+    w = append(w, makeTACList(makeTAC(Label, jlb->head->addr2, NULL, NULL), NULL));
     return w;
 }
 
@@ -482,8 +481,7 @@ TACList compile_if(CMD ift) {
         }
     }
     // adiciona jump_label (else/fim do if)
-    TACList elb = makeTACList(
-            makeTAC(Label, makeVar(jlb->head->addr2->content.var), NULL, NULL), NULL);
+    TACList elb = makeTACList(makeTAC(Label, makeVar(jlb->head->addr2->content.var), NULL, NULL), NULL);
     ilb = append(ilb, elb);
     // else
     if (ift->u.if_else.else_I_list_ != NULL) {

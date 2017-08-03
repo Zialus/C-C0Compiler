@@ -1,16 +1,18 @@
+#include <stdio.h>
+
 #include "tree.h"
 #include "print_ast.h"
 
 /*** IMPRIME A ÁRVORE COMPLETA ***/
-void print_tree(I_list l) {
-    if (l != NULL) {
-        if (l->kind == CMD_ && l->head.cmd != NULL) {
-            print_CMD(l->head.cmd);
-        } else if (l->head.decl != NULL) {
-            print_DECL(l->head.decl);
+void print_tree(I_List il) {
+    if (il != NULL) {
+        if (il->kind == CMD_ && il->head.cmd != NULL) {
+            print_CMD(il->head.cmd);
+        } else if (il->head.decl != NULL) {
+            print_DECL(il->head.decl);
         }
-        if (l->tail != NULL) {
-            print_tree(l->tail);
+        if (il->tail != NULL) {
+            print_tree(il->tail);
         }
     } else {
         printf("NULL");
@@ -29,7 +31,7 @@ void print_A_EXP(EXP exp) {
             printf("Bool( ");
             if (exp->u.booll) {
                 printf("true) ");
-            } else{
+            } else {
                 printf("false) ");
             }
             break;

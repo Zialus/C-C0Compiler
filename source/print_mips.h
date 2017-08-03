@@ -1,9 +1,6 @@
 #ifndef PRINT_MIPS_H
 #define PRINT_MIPS_H
 
-#include <stdio.h>
-#include <stdlib.h>
-
 #include "assembler.h"
 
 void print_Address(Address a);

@@ -8,7 +8,7 @@
 typedef struct exp* EXP;
 typedef struct cmd* CMD;
 typedef struct decl* DECL;
-typedef struct Instruction_list* I_list;
+typedef struct Instruction_list* I_List;
 typedef enum {
     OpPlus, OpMinus, OpTimes, OpDiv
 } A_Operand;
@@ -68,12 +68,12 @@ struct cmd {
     union {
         struct {
             EXP if_;
-            I_list then_I_list_;
-            I_list else_I_list_;
+            I_List then_I_list_;
+            I_List else_I_list_;
         } if_else;
         struct {
             EXP while_;
-            I_list while_I_list_;
+            I_List while_I_list_;
         } w;
         struct {
             char var_[MAX_SIZE];
@@ -82,8 +82,8 @@ struct cmd {
     } u;
 };
 
-CMD CMD_if_then_else(EXP, I_list, I_list);
-CMD CMD_while(EXP, I_list);
+CMD CMD_if_then_else(EXP, I_List, I_List);
+CMD CMD_while(EXP, I_List);
 CMD CMD_assignment(char*, EXP);
 // ----- Commands ----- //
 
@@ -105,11 +105,11 @@ struct Instruction_list {
         CMD cmd;
         DECL decl;
     } head;
-    I_list tail;
+    I_List tail;
 };
 
-I_list Head_CMD(CMD, I_list);
-I_list Head_DECL(DECL, I_list);
+I_List Head_CMD(CMD, I_List);
+I_List Head_DECL(DECL, I_List);
 // ----- Instruction List ----- //
 
 
