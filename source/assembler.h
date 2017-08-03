@@ -57,7 +57,7 @@ TACList compile_while(CMD);
 TACList compile_ass(CMD);
 TACList compile_if(CMD);
 
-void superF(I_list);
+void compiler_start(I_list);
 
 struct Address_ {
     AddrKind AddrKind;

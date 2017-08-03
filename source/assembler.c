@@ -334,19 +334,23 @@ Pair compile(I_list il) {
     return tl;
 }
 
-void superF(I_list il) {
+void compiler_start(I_list il) {
     fflush(STDIN_FILENO);
-    int f = 0, d = 0;
-    if ((f = open("out.asm", O_CREAT | O_WRONLY | O_TRUNC, S_IWUSR | S_IRUSR)) <
-        0) {
+
+    int f = open("out.asm", O_CREAT | O_WRONLY | O_TRUNC, S_IWUSR | S_IRUSR);
+
+    if (f < 0) {
         fprintf(stderr, "Não foi possivel abrir/criar o ficheiro\n");
         exit(EXIT_FAILURE);
     }
-    d = dup2(f, 1);
+
+    int d = dup2(f, 1);
+
     if (d < 0) {
         fprintf(stderr, "Não foi possivel escrever no ficheiros\n");
         exit(EXIT_FAILURE);
     }
+
     Pair p = compile(il);
     // hdestroy();
     // só declarações
