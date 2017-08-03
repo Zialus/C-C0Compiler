@@ -12,8 +12,6 @@ void print_Address(Address a) {
         case Int:
             printf("%d", a->content.val);
             break;
-        default:
-            break;
     }
 }
 

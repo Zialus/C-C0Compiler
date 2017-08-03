@@ -28,12 +28,11 @@ typedef enum {
 } OpKind;
 
 typedef enum {
-    Empty, Int, String, Register
+    Int, String, Register
 } AddrKind;
 
 Address makeVal(int);
 Address makeVar(char*);
-Address makeEmpty();
 Address makeNewVar();
 Address makeReg(char*);
 Address makeNewLabel();

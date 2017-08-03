@@ -52,12 +52,6 @@ Address makeReg(char* c) {
     return a;
 }
 
-Address makeEmpty() {
-    Address a = malloc(sizeof(*a));
-    a->AddrKind = Empty;
-    return a;
-}
-
 Address makeNewVar() {
     char v[MAX_SIZE_TO_REPRESENT_REG];
     char* var = malloc(sizeof(char) * (MAX_SIZE_TO_REPRESENT_REG + 2));
@@ -294,8 +288,7 @@ Pair compile_exp(EXP e) {
 
             return p;
         }
-        default:
-            return NULL;
+
     }
 }
 
