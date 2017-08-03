@@ -120,13 +120,6 @@ Pair makePair(Address a, TACList l) {
     return p;
 }
 
-Output makeOutput(char* c, TACList l) {
-    Output o = malloc(sizeof(*o));
-    o->var = c;
-    o->clist = l;
-    return o;
-}
-
 TACList append(TACList cl1, TACList cl2) {
     TACList cl3;
     if (cl1 != NULL) {

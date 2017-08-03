@@ -5,7 +5,6 @@
 
 typedef struct Pair_* Pair;
 typedef struct TAC_* TAC;
-typedef struct Output_* Output;
 typedef struct Address_* Address;
 typedef struct TACList_* TACList;
 typedef enum {
@@ -42,7 +41,6 @@ Address makeNewLabel();
 TAC makeTAC(OpKind, Address, Address, Address);
 TACList makeTACList(TAC, TACList);
 Pair makePair(Address, TACList);
-Output makeOutput(char*, TACList);
 
 TACList append(TACList, TACList);
 
@@ -81,11 +79,5 @@ struct Pair_ {
     Address addr;
     TACList clist;
 };
-
-struct Output_ {
-    char* var;
-    TACList clist;
-};
-
 
 #endif // ASSEMBLER_H
