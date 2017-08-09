@@ -3,7 +3,7 @@
 #include "tree.h"
 #include "print_ast.h"
 
-/*** IMPRIME A ÁRVORE COMPLETA ***/
+
 void print_tree(I_List il) {
     if (il != NULL) {
         if (il->kind == CMD_ && il->head.cmd != NULL) {
@@ -19,17 +19,17 @@ void print_tree(I_List il) {
     }
 }
 
-/*** IMPRIME EXPRESSÕES ***/
-void print_A_EXP(EXP exp) {
+
+void print_EXP(EXP e) {
     printf("EXP( ");
-    switch (exp->kind) {
+    switch (e->kind) {
         case EXP_int:
-            printf("Int(%d) ", exp->u.integer);
+            printf("Int(%d) ", e->u.integer);
             break;
 
         case EXP_bool:
             printf("Bool( ");
-            if (exp->u.boolean) {
+            if (e->u.boolean) {
                 printf("true) ");
             } else {
                 printf("false) ");
@@ -37,10 +37,10 @@ void print_A_EXP(EXP exp) {
             break;
 
         case EXP_A_Op:
-            print_A_EXP(exp->u.opA.left);
+            print_EXP(e->u.opA.left);
 
             printf("A_Operand( ");
-            switch (exp->u.opA.oper) {
+            switch (e->u.opA.oper) {
                 case OpPlus:
                     printf("Plus) ");
                     break;
@@ -55,14 +55,14 @@ void print_A_EXP(EXP exp) {
                     break;
             }
 
-            print_A_EXP(exp->u.opA.right);
+            print_EXP(e->u.opA.right);
             break;
 
         case EXP_B_Op:
-            print_A_EXP(exp->u.opA.left);
+            print_EXP(e->u.opA.left);
 
             printf("B_Operand( ");
-            switch (exp->u.opB.oper) {
+            switch (e->u.opB.oper) {
                 case OpG:
                     printf("G) ");
                     break;
@@ -92,16 +92,16 @@ void print_A_EXP(EXP exp) {
                     break;
             }
 
-            print_A_EXP(exp->u.opA.right);
+            print_EXP(e->u.opA.right);
             break;
 
         case EXP_Var:
-            printf("Var( %s ) ", exp->u.var);
+            printf("Var( %s ) ", e->u.var);
     }
     printf(")");
 }
 
-/*** IMPRIME DECLARAÇÕES ***/
+
 void print_DECL(DECL d) {
     printf("Declaration(Type( ");
     switch (d->type) {
@@ -115,12 +115,12 @@ void print_DECL(DECL d) {
     printf("Var(%s) )", d->var);
 }
 
-/*** IMPRIME COMANDOS ***/
+
 void print_CMD(CMD c) {
     switch (c->kind) {
         case IF_KIND:
             printf("IF( ");
-            print_A_EXP(c->u.if_else.if_);
+            print_EXP(c->u.if_else.if_);
             printf(") ");
             printf("THEN( ");
             print_tree(c->u.if_else.then_I_list_);
@@ -132,7 +132,7 @@ void print_CMD(CMD c) {
 
         case WHILE_KIND:
             printf("WHILE( ");
-            print_A_EXP(c->u.w.while_);
+            print_EXP(c->u.w.while_);
             printf("WHILE_I_LIST( ");
             print_tree(c->u.w.while_I_list_);
             printf(") ");
@@ -141,7 +141,7 @@ void print_CMD(CMD c) {
 
         case ASSIGN_KIND:
             printf("Assignment( Var(%s) ", c->u.ass.var_);
-            print_A_EXP(c->u.ass.assignment_);
+            print_EXP(c->u.ass.assignment_);
             printf(")");
     }
 }
