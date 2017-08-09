@@ -8,7 +8,7 @@
 typedef struct exp* EXP;
 typedef struct cmd* CMD;
 typedef struct decl* DECL;
-typedef struct Instruction_list* I_List;
+typedef struct instruction_list* I_List;
 typedef enum {
     OpPlus, OpMinus, OpTimes, OpDiv
 } A_Operand;
@@ -38,8 +38,8 @@ typedef enum {
 struct exp {
     EXP_Kind kind;
     union {
-        bool booll;
-        int intt;
+        bool boolean;
+        int integer;
         char var[MAX_SIZE];
         struct {
             A_Operand oper;
@@ -99,7 +99,7 @@ DECL DECL_declare(Type, char*);
 
 
 // ----- Instruction List ----- //
-struct Instruction_list {
+struct instruction_list {
     IL_Kind kind;
     union {
         CMD cmd;

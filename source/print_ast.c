@@ -24,12 +24,12 @@ void print_A_EXP(EXP exp) {
     printf("EXP( ");
     switch (exp->kind) {
         case EXP_int:
-            printf("Int(%d) ", exp->u.intt);
+            printf("Int(%d) ", exp->u.integer);
             break;
 
         case EXP_bool:
             printf("Bool( ");
-            if (exp->u.booll) {
+            if (exp->u.boolean) {
                 printf("true) ");
             } else {
                 printf("false) ");

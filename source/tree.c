@@ -8,14 +8,14 @@
 EXP make_Int_EXP_(int i) {
     EXP p = malloc(sizeof(*p));
     p->kind = EXP_int;
-    p->u.intt = i;
+    p->u.integer = i;
     return p;
 }
 
 EXP make_Bool_EXP_(bool b) {
     EXP p = malloc(sizeof(*p));
     p->kind = EXP_bool;
-    p->u.booll = b;
+    p->u.boolean = b;
     return p;
 }
 

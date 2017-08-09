@@ -254,7 +254,7 @@ Pair compile_exp(EXP e) {
             res = makePair(t0, list);
             return res;
         case EXP_int:
-            p = makePair(makeVal(e->u.intt), NULL);
+            p = makePair(makeVal(e->u.integer), NULL);
 
             char var[MAX_SIZE_INTS];
             int n1 = snprintf(var, sizeof(var), "%d", p->addr->content.val);
@@ -272,9 +272,9 @@ Pair compile_exp(EXP e) {
 
             return p;
         case EXP_bool: {
-            p = makePair(makeVal(e->u.intt), NULL);
+            p = makePair(makeVal(e->u.integer), NULL);
             int val = 0;
-            if (e->u.booll == true) {
+            if (e->u.boolean == true) {
                 val = 1;
             }
 
