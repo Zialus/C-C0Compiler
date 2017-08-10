@@ -5,17 +5,19 @@
 
 
 void print_tree(I_List il) {
+    printf("{ ");
     if (il != NULL) {
         if (il->kind == CMD_ && il->head.cmd != NULL) {
             print_CMD(il->head.cmd);
         } else if (il->head.decl != NULL) {
             print_DECL(il->head.decl);
         }
+        printf("}\n");
         if (il->tail != NULL) {
             print_tree(il->tail);
         }
     } else {
-        printf("NULL");
+        printf("NULL } ");
     }
 }
 
@@ -28,7 +30,7 @@ void print_EXP(EXP e) {
             break;
 
         case EXP_bool:
-            printf("Bool( ");
+            printf("Bool(");
             if (e->u.boolean) {
                 printf("true) ");
             } else {
@@ -39,7 +41,7 @@ void print_EXP(EXP e) {
         case EXP_A_Op:
             print_EXP(e->u.opA.left);
 
-            printf("A_Operand( ");
+            printf(" A_Operand(");
             switch (e->u.opA.oper) {
                 case OpPlus:
                     printf("Plus) ");
@@ -61,7 +63,7 @@ void print_EXP(EXP e) {
         case EXP_B_Op:
             print_EXP(e->u.opA.left);
 
-            printf("B_Operand( ");
+            printf(" B_Operand(");
             switch (e->u.opB.oper) {
                 case OpG:
                     printf("G) ");
@@ -103,7 +105,7 @@ void print_EXP(EXP e) {
 
 
 void print_DECL(DECL d) {
-    printf("Declaration(Type( ");
+    printf("Declaration(Type(");
     switch (d->type) {
         case BOOL_TYPE:
             printf("Bool) ");
@@ -112,36 +114,33 @@ void print_DECL(DECL d) {
             printf("Int) ");
             break;
     }
-    printf("Var(%s) )", d->var);
+    printf("Var(%s)) ", d->var);
 }
 
 
 void print_CMD(CMD c) {
     switch (c->kind) {
         case IF_KIND:
-            printf("IF( ");
+            printf("IF(");
             print_EXP(c->u.if_else.if_);
             printf(") ");
-            printf("THEN( ");
+            printf("THEN");
             print_tree(c->u.if_else.then_I_list_);
-            printf(") ");
-            printf("ELSE( ");
+            printf("ELSE");
             print_tree(c->u.if_else.else_I_list_);
-            printf(")");
             break;
 
         case WHILE_KIND:
-            printf("WHILE( ");
+            printf("WHILE(");
             print_EXP(c->u.w.while_);
-            printf("WHILE_I_LIST( ");
-            print_tree(c->u.w.while_I_list_);
             printf(") ");
-            printf(")");
+            printf("WHILE_I_LIST");
+            print_tree(c->u.w.while_I_list_);
             break;
 
         case ASSIGN_KIND:
-            printf("Assignment( Var(%s) ", c->u.ass.var_);
+            printf("Assignment(Var(%s) ", c->u.ass.var_);
             print_EXP(c->u.ass.assignment_);
-            printf(")");
+            printf(") ");
     }
 }
