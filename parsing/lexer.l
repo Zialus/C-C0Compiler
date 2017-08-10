@@ -1,4 +1,5 @@
 %option noyywrap
+%option nodefault
 
 %{
 #include <stdlib.h>
@@ -15,7 +16,7 @@ WS [ \r\n\t]*
 
 %%
 
-WS           { }
+{WS}         { }
 
 "int main()" { return(MAIN); }
 
@@ -56,5 +57,7 @@ WS           { }
 
 "return"     { return(RETURN); }
 
-{DIGIT}+  { yylval.number = atoi(yytext); return(NUM); }
-{ID}+     { yylval.identifier = strdup(yytext); return(VAR); }
+{DIGIT}+     { yylval.number = atoi(yytext); return(NUM); }
+{ID}+        { yylval.identifier = strdup(yytext); return(VAR); }
+
+.            { printf("Unknown character [%c]\n",yytext[0]);}
