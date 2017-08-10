@@ -23,7 +23,7 @@ void yyerror(const char *);
 
 %token <number> NUM
 %token <identifier> VAR
-%token SEMICOLON P0 P1
+%token SEMICOLON PL PR CBL CBR
 %token Plus Minus Times Div EQ G L LEQ GEQ NOTEQ OR AND IF ELSE WHILE ASSIGN
 %token INT BOOL
 %token TRUE FALSE
@@ -43,14 +43,14 @@ void yyerror(const char *);
 %left Plus Minus
 %left Times Div
 %left INT BOOL
-%left P0 P1 CB0 CB1 SEMICOLON
+%left PL PR CBL CBR SEMICOLON
 
 %start START
 
 %%
 
 START
-    : MAIN CB0 INST_L RETURN NUM SEMICOLON CB1   { $$ = $3; print_tree($3); compiler_start($3); print_return($5); }
+    : MAIN CBL INST_L RETURN NUM SEMICOLON CBR   { $$ = $3; print_tree($3); compiler_start($3); print_return($5); }
     ;
 
 
@@ -70,29 +70,29 @@ SINGLE_INST
 COMMAND
       : VAR ASSIGN EXP SEMICOLON                             { $$ = CMD_assignment($1,$3); }
 
-      | IF P0 EXP P1 SEMICOLON                               { $$ = CMD_if_then_else($3,NULL,NULL); }
-      | IF P0 EXP P1 SINGLE_INST                             { $$ = CMD_if_then_else($3,$5,NULL); }
-      | IF P0 EXP P1 CB0 INST_L CB1                          { $$ = CMD_if_then_else($3,$6,NULL); }
+      | IF PL EXP PR SEMICOLON                               { $$ = CMD_if_then_else($3,NULL,NULL); }
+      | IF PL EXP PR SINGLE_INST                             { $$ = CMD_if_then_else($3,$5,NULL); }
+      | IF PL EXP PR CBL INST_L CBR                          { $$ = CMD_if_then_else($3,$6,NULL); }
 
-      | IF P0 EXP P1 THEN_STMT ELSE SINGLE_INST              { $$ = CMD_if_then_else($3,$5,$7); }
-      | IF P0 EXP P1 THEN_STMT ELSE CB0 INST_L CB1           { $$ = CMD_if_then_else($3,$5,$8); }
+      | IF PL EXP PR THEN_STMT ELSE SINGLE_INST              { $$ = CMD_if_then_else($3,$5,$7); }
+      | IF PL EXP PR THEN_STMT ELSE CBL INST_L CBR           { $$ = CMD_if_then_else($3,$5,$8); }
 
-      | IF P0 EXP P1 CB0 INST_L CB1 ELSE SINGLE_INST         { $$ = CMD_if_then_else($3,$6,$9); }
-      | IF P0 EXP P1 CB0 INST_L CB1 ELSE CB0 INST_L CB1      { $$ = CMD_if_then_else($3,$6,$10); }
+      | IF PL EXP PR CBL INST_L CBR ELSE SINGLE_INST         { $$ = CMD_if_then_else($3,$6,$9); }
+      | IF PL EXP PR CBL INST_L CBR ELSE CBL INST_L CBR      { $$ = CMD_if_then_else($3,$6,$10); }
 
-      | WHILE P0 EXP P1 SEMICOLON                            { $$ = CMD_while($3,NULL); }
-      | WHILE P0 EXP P1 SINGLE_INST                          { $$ = CMD_while($3,$5); }
-      | WHILE P0 EXP P1 CB0 INST_L CB1                       { $$ = CMD_while($3,$6); }
+      | WHILE PL EXP PR SEMICOLON                            { $$ = CMD_while($3,NULL); }
+      | WHILE PL EXP PR SINGLE_INST                          { $$ = CMD_while($3,$5); }
+      | WHILE PL EXP PR CBL INST_L CBR                       { $$ = CMD_while($3,$6); }
       ;
 
 
 THEN_STMT
         : VAR ASSIGN EXP SEMICOLON                 { $$ = make_List_CMD_Head(CMD_assignment($1,$3),NULL); }
         | DEC                                      { $$ = make_List_DECL_Head($1,NULL); }
-        | WHILE P0 EXP P1 SEMICOLON                { $$ = make_List_CMD_Head(CMD_while($3,NULL),NULL); }
-        | WHILE P0 EXP P1 THEN_STMT                { $$ = make_List_CMD_Head(CMD_while($3,$5),NULL); }
-        | WHILE P0 EXP P1 CB0 INST_L CB1           { $$ = make_List_CMD_Head(CMD_while($3,$6),NULL); }
-        | IF P0 EXP P1 THEN_STMT ELSE THEN_STMT    { $$ = make_List_CMD_Head(CMD_if_then_else($3,$5,$7),NULL); }
+        | WHILE PL EXP PR SEMICOLON                { $$ = make_List_CMD_Head(CMD_while($3,NULL),NULL); }
+        | WHILE PL EXP PR THEN_STMT                { $$ = make_List_CMD_Head(CMD_while($3,$5),NULL); }
+        | WHILE PL EXP PR CBL INST_L CBR           { $$ = make_List_CMD_Head(CMD_while($3,$6),NULL); }
+        | IF PL EXP PR THEN_STMT ELSE THEN_STMT    { $$ = make_List_CMD_Head(CMD_if_then_else($3,$5,$7),NULL); }
         ;
 
 
@@ -113,7 +113,7 @@ EXP
   | EXP LEQ EXP            { $$ = make_B_Op_EXP_(OpLEQ,$1,$3); }
   | EXP OR EXP             { $$ = make_B_Op_EXP_(OpOR,$1,$3); }
   | EXP AND EXP            { $$ = make_B_Op_EXP_(OpAND,$1,$3); }
-  | P0 EXP P1              { $$ = $2; }
+  | PL EXP PR              { $$ = $2; }
   ;
 
 

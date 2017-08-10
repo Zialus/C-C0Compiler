@@ -48,11 +48,11 @@ WS           { }
 "int"        { return(INT); }
 "bool"       { return(BOOL); }
 
-"("          { return(P0); }
-")"          { return(P1); }
+"("          { return(PL); }
+")"          { return(PR); }
 
-"{"          { return(CB0); }
-"}"          { return(CB1); }
+"{"          { return(CBL); }
+"}"          { return(CBR); }
 
 "return"     { return(RETURN); }
 
