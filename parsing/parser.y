@@ -49,9 +49,9 @@ void yyerror(const char *);
 
 %%
 
-START:
-MAIN CB0 INST_L RETURN NUM SEMICOLON CB1   { $$ = $3; print_tree($3); printf("\n"); compiler_start($3); print_return($5);}
-;
+START
+    : MAIN CB0 INST_L RETURN NUM SEMICOLON CB1   { $$ = $3; print_tree($3); compiler_start($3); print_return($5); }
+    ;
 
 
 INST_L
@@ -97,7 +97,7 @@ THEN_STMT
 
 
 EXP
-  : VAR                    { $$ = make_Var_EXP_($1);}
+  : VAR                    { $$ = make_Var_EXP_($1); }
   | NUM                    { $$ = make_Int_EXP_($1); }
   | TRUE                   { $$ = make_Bool_EXP_(true); }
   | FALSE                  { $$ = make_Bool_EXP_(false); }
@@ -118,8 +118,8 @@ EXP
 
 
 DEC
-  : INT VAR SEMICOLON       { $$ = DECL_declare(INT_TYPE, $2); }
-  | BOOL VAR SEMICOLON      { $$ = DECL_declare(BOOL_TYPE, $2); }
+  : INT VAR SEMICOLON      { $$ = DECL_declare(INT_TYPE, $2); }
+  | BOOL VAR SEMICOLON     { $$ = DECL_declare(BOOL_TYPE, $2); }
   ;
 
 
