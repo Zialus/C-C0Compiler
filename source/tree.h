@@ -38,8 +38,8 @@ typedef enum {
 struct exp {
     EXP_Kind kind;
     union {
-        bool boolean;
         int integer;
+        bool boolean;
         char var[MAX_SIZE];
         struct {
             A_Operand oper;
@@ -55,8 +55,8 @@ struct exp {
 };
 
 EXP make_Int_EXP_(int i);
-EXP make_Var_EXP_(char* c);
 EXP make_Bool_EXP_(bool b);
+EXP make_Var_EXP_(char* c);
 EXP make_A_Op_EXP_(A_Operand op, EXP l, EXP r);
 EXP make_B_Op_EXP_(B_Operand op, EXP l, EXP r);
 // ----- Expression ----- //
@@ -70,21 +70,21 @@ struct cmd {
             EXP if_;
             I_List then_I_list_;
             I_List else_I_list_;
-        } if_else;
+        } if_cmd;
         struct {
             EXP while_;
             I_List while_I_list_;
-        } w;
+        } while_cmd;
         struct {
             char var_[MAX_SIZE];
             EXP assignment_;
-        } ass;
+        } assign_cmd;
     } u;
 };
 
-CMD CMD_if_then_else(EXP, I_List, I_List);
-CMD CMD_while(EXP, I_List);
-CMD CMD_assignment(char*, EXP);
+CMD CMD_if_then_else(EXP if_exp, I_List then_list, I_List else_list);
+CMD CMD_while(EXP exp, I_List il);
+CMD CMD_assignment(char* var, EXP exp);
 // ----- Commands ----- //
 
 
@@ -94,7 +94,7 @@ struct decl {
     char var[MAX_SIZE];
 };
 
-DECL DECL_declare(Type, char*);
+DECL DECL_declare(Type t, char* v);
 // ----- Declarations ----- //
 
 
@@ -108,8 +108,8 @@ struct instruction_list {
     I_List tail;
 };
 
-I_List Head_CMD(CMD, I_List);
-I_List Head_DECL(DECL, I_List);
+I_List make_List_CMD_Head(CMD head, I_List tail);
+I_List make_List_DECL_Head(DECL head, I_List tail);
 // ----- Instruction List ----- //
 
 

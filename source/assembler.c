@@ -405,8 +405,8 @@ Pair compile_cmd(CMD cmd) {
 TACList compile_ass(CMD d) {
     // printf("ASS\n" );
 
-    Pair p_exp = compile_exp(d->u.ass.assignment_);
-    Address addr1 = makeVar(d->u.ass.var_);
+    Pair p_exp = compile_exp(d->u.assign_cmd.assignment_);
+    Address addr1 = makeVar(d->u.assign_cmd.var_);
     Address addr2 = p_exp->addr;
     TAC t = makeTAC(A_Asn, addr1, addr2, NULL);
     TACList l = makeTACList(t, NULL);
@@ -426,15 +426,15 @@ TACList compile_while(CMD wh) {
 
     TACList jlb = malloc(sizeof(*jlb));
 
-    Pair p_exp = compile_exp(wh->u.w.while_);
+    Pair p_exp = compile_exp(wh->u.while_cmd.while_);
     // cria while_label e coloca exp. na cauda da label
     TACList w = makeTACList(makeTAC(Label, makeNewLabel(), NULL, NULL), p_exp->clist);
     // adiciona On_false label
     jlb->head = makeTAC(On_False, makeVar(final_reg), makeNewLabel(), NULL);
     jlb->tail = NULL;
     w = append(w, jlb);
-    if (wh->u.w.while_I_list_) {
-        Pair ptl = compile(wh->u.w.while_I_list_);
+    if (wh->u.while_cmd.while_I_list_) {
+        Pair ptl = compile(wh->u.while_cmd.while_I_list_);
         if (ptl != NULL) {
             w = append(w, ptl->clist);
         }
@@ -451,7 +451,7 @@ TACList compile_if(CMD ift) {
 
     TACList jlb = malloc(sizeof(*jlb));
     // IF LABEL
-    Pair p_exp = compile_exp(ift->u.if_else.if_);
+    Pair p_exp = compile_exp(ift->u.if_cmd.if_);
     // cria if_label e coloca exp. na cauda da label
     TACList ilb = makeTACList(makeTAC(Label, makeNewLabel(), NULL, NULL), p_exp->clist);
     free(p_exp);
@@ -462,14 +462,14 @@ TACList compile_if(CMD ift) {
     ilb = append(ilb, jlb);
     // then statement
     Address end_if = makeNewLabel();
-    if (ift->u.if_else.then_I_list_ != NULL) {
+    if (ift->u.if_cmd.then_I_list_ != NULL) {
         TACList aux = NULL;
-        Pair then_list = compile(ift->u.if_else.then_I_list_);
+        Pair then_list = compile(ift->u.if_cmd.then_I_list_);
         // adiciona jump ao fim das instruçoes (salta else)
         // VERIFICA SE EXISTE else
-        if (ift->u.if_else.else_I_list_ != NULL && then_list != NULL) {
+        if (ift->u.if_cmd.else_I_list_ != NULL && then_list != NULL) {
             then_list->clist = append(then_list->clist, makeTACList(makeTAC(GoToLabel, end_if, NULL, NULL), NULL));
-        } else if (ift->u.if_else.else_I_list_ != NULL) {
+        } else if (ift->u.if_cmd.else_I_list_ != NULL) {
             aux = makeTACList(makeTAC(GoToLabel, end_if, NULL, NULL), NULL);
         }
 
@@ -484,8 +484,8 @@ TACList compile_if(CMD ift) {
     TACList elb = makeTACList(makeTAC(Label, makeVar(jlb->head->addr2->content.var), NULL, NULL), NULL);
     ilb = append(ilb, elb);
     // else
-    if (ift->u.if_else.else_I_list_ != NULL) {
-        Pair else_list = compile(ift->u.if_else.else_I_list_);
+    if (ift->u.if_cmd.else_I_list_ != NULL) {
+        Pair else_list = compile(ift->u.if_cmd.else_I_list_);
         // adiciona end_if ao fim da lista de instruções
         if (else_list != NULL) {
             else_list->clist = append(else_list->clist, makeTACList(makeTAC(Label, end_if, NULL, NULL), NULL));

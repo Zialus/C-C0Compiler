@@ -122,25 +122,25 @@ void print_CMD(CMD c) {
     switch (c->kind) {
         case IF_KIND:
             printf("IF(");
-            print_EXP(c->u.if_else.if_);
+            print_EXP(c->u.if_cmd.if_);
             printf(") ");
             printf("THEN");
-            print_tree(c->u.if_else.then_I_list_);
+            print_tree(c->u.if_cmd.then_I_list_);
             printf("ELSE");
-            print_tree(c->u.if_else.else_I_list_);
+            print_tree(c->u.if_cmd.else_I_list_);
             break;
 
         case WHILE_KIND:
             printf("WHILE(");
-            print_EXP(c->u.w.while_);
+            print_EXP(c->u.while_cmd.while_);
             printf(") ");
             printf("WHILE_I_LIST");
-            print_tree(c->u.w.while_I_list_);
+            print_tree(c->u.while_cmd.while_I_list_);
             break;
 
         case ASSIGN_KIND:
-            printf("Assignment(Var(%s) ", c->u.ass.var_);
-            print_EXP(c->u.ass.assignment_);
+            printf("Assignment(Var(%s) ", c->u.assign_cmd.var_);
+            print_EXP(c->u.assign_cmd.assignment_);
             printf(") ");
     }
 }

@@ -56,14 +56,14 @@ MAIN CB0 INST_L RETURN NUM SEMICOLON CB1   { $$ = $3; print_tree($3); printf("\n
 
 INST_L
      : SINGLE_INST          { $$ = $1; }
-     | COMMAND INST_L       { $$ = Head_CMD($1,$2); }
-     | DEC INST_L           { $$ = Head_DECL($1,$2); }
+     | COMMAND INST_L       { $$ = make_List_CMD_Head($1,$2); }
+     | DEC INST_L           { $$ = make_List_DECL_Head($1,$2); }
      ;
 
 
 SINGLE_INST
-          : COMMAND         { $$ = Head_CMD($1,NULL); }
-          | DEC             { $$ = Head_DECL($1,NULL); }
+          : COMMAND         { $$ = make_List_CMD_Head($1,NULL); }
+          | DEC             { $$ = make_List_DECL_Head($1,NULL); }
           ;
 
 
@@ -87,12 +87,12 @@ COMMAND
 
 
 THEN_STMT
-        : VAR ASSIGN EXP SEMICOLON                 { $$ = Head_CMD(CMD_assignment($1,$3),NULL); }
-        | DEC                                      { $$ = Head_DECL($1,NULL); }
-        | WHILE P0 EXP P1 SEMICOLON                { $$ = Head_CMD(CMD_while($3,NULL),NULL); }
-        | WHILE P0 EXP P1 THEN_STMT                { $$ = Head_CMD(CMD_while($3,$5),NULL); }
-        | WHILE P0 EXP P1 CB0 INST_L CB1           { $$ = Head_CMD(CMD_while($3,$6),NULL); }
-        | IF P0 EXP P1 THEN_STMT ELSE THEN_STMT    { $$ = Head_CMD(CMD_if_then_else($3,$5,$7),NULL); }
+        : VAR ASSIGN EXP SEMICOLON                 { $$ = make_List_CMD_Head(CMD_assignment($1,$3),NULL); }
+        | DEC                                      { $$ = make_List_DECL_Head($1,NULL); }
+        | WHILE P0 EXP P1 SEMICOLON                { $$ = make_List_CMD_Head(CMD_while($3,NULL),NULL); }
+        | WHILE P0 EXP P1 THEN_STMT                { $$ = make_List_CMD_Head(CMD_while($3,$5),NULL); }
+        | WHILE P0 EXP P1 CB0 INST_L CB1           { $$ = make_List_CMD_Head(CMD_while($3,$6),NULL); }
+        | IF P0 EXP P1 THEN_STMT ELSE THEN_STMT    { $$ = make_List_CMD_Head(CMD_if_then_else($3,$5,$7),NULL); }
         ;
 
 

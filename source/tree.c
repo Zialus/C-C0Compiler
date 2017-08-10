@@ -50,31 +50,31 @@ EXP make_B_Op_EXP_(B_Operand op, EXP l, EXP r) {
 
 
 // ----- Commands CONSTRUCTORS ----- //
-CMD CMD_if_then_else(EXP if_exp, I_List then_, I_List else_) {
+CMD CMD_if_then_else(EXP if_exp, I_List then_list, I_List else_list) {
     CMD cmd = malloc(sizeof(*cmd));
     cmd->kind = IF_KIND;
-    cmd->u.if_else.if_ = if_exp;
-    cmd->u.if_else.then_I_list_ = then_;
-    cmd->u.if_else.else_I_list_ = else_;
+    cmd->u.if_cmd.if_ = if_exp;
+    cmd->u.if_cmd.then_I_list_ = then_list;
+    cmd->u.if_cmd.else_I_list_ = else_list;
     return cmd;
 }
 
-CMD CMD_while(EXP while_exp, I_List while_) {
+CMD CMD_while(EXP exp, I_List il) {
     CMD cmd = malloc(sizeof(*cmd));
     cmd->kind = WHILE_KIND;
-    cmd->u.w.while_ = while_exp;
-    cmd->u.w.while_I_list_ = while_;
+    cmd->u.while_cmd.while_ = exp;
+    cmd->u.while_cmd.while_I_list_ = il;
     return cmd;
 }
 
-CMD CMD_assignment(char* v, EXP exp) {
+CMD CMD_assignment(char* var, EXP exp) {
     CMD cmd = malloc(sizeof(*cmd));
     cmd->kind = ASSIGN_KIND;
 
-    int n = snprintf(cmd->u.ass.var_, sizeof(cmd->u.ass.var_), "%s", v);
-    check_if_buffer_was_big_enough(n, sizeof(cmd->u.ass.var_));
+    int n = snprintf(cmd->u.assign_cmd.var_, sizeof(cmd->u.assign_cmd.var_), "%s", var);
+    check_if_buffer_was_big_enough(n, sizeof(cmd->u.assign_cmd.var_));
 
-    cmd->u.ass.assignment_ = exp;
+    cmd->u.assign_cmd.assignment_ = exp;
     return cmd;
 }
 // ----- Commands CONSTRUCTORS ----- //
@@ -94,7 +94,7 @@ DECL DECL_declare(Type t, char* v) {
 
 
 // ----- Instruction List CONSTRUCTORS ----- //
-I_List Head_CMD(CMD head, I_List tail) {
+I_List make_List_CMD_Head(CMD head, I_List tail) {
     I_List il = malloc(sizeof(*il));
     il->kind = CMD_;
     il->head.cmd = head;
@@ -102,7 +102,7 @@ I_List Head_CMD(CMD head, I_List tail) {
     return il;
 }
 
-I_List Head_DECL(DECL head, I_List tail) {
+I_List make_List_DECL_Head(DECL head, I_List tail) {
     I_List il = malloc(sizeof(*il));
     il->kind = DECL_;
     il->head.decl = head;
