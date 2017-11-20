@@ -2,6 +2,7 @@
 #define TREE_H
 
 #include <stdbool.h>
+#include <string.h>
 
 #define MAX_SIZE 50
 

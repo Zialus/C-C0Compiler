@@ -14,6 +14,7 @@ EXP make_Int_EXP_(int i) {
 
 EXP make_Bool_EXP_(bool b) {
     EXP p = malloc(sizeof(*p));
+    memset(p,0,sizeof(*p));
     p->kind = EXP_bool;
     p->u.boolean = b;
     return p;
