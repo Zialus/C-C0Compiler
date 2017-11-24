@@ -1,0 +1,18 @@
+image:
+  - Visual Studio 2017
+  - Visual Studio 2015
+
+install:
+  - appveyor DownloadFile "http://downloads.sourceforge.net/project/winflexbison/win_flex_bison-latest.zip"
+  - 7z x -y -owinflexbison\ "win_flex_bison-latest.zip" > nul
+  - set Path=%CD%\winflexbison;%Path%
+  - win_flex --version
+  - win_bison --version
+
+build_script:
+  - mkdir build && cd build
+  - cmake ..
+  - cmake --build . --config Release
+
+test_script:
+  - ctest -V
