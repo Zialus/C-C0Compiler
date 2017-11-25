@@ -4,7 +4,6 @@ image:
 
 install:
   - choco install winflexbison3
-  - set Path=%CD%\winflexbison;%Path%
   - win_flex --version
   - win_bison --version
 
@@ -14,4 +13,4 @@ build_script:
   - cmake --build . --config Release
 
 test_script:
-  - ctest -V
+  - ctest -VV
