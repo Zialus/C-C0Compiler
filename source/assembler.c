@@ -1,17 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <fcntl.h>
+
 #include "uthash.h"
-
-#ifdef _WIN32
-#include <io.h>
-#else
-
-#include <unistd.h>
-
-#endif // _WIN32
-
 #include "print_mips.h"
 #include "tree.h"
 #include "assembler.h"
@@ -315,19 +306,8 @@ Pair compile(I_List il) {
 }
 
 void compiler_start(I_List il) {
-    fflush(STDIN_FILENO);
-
-    int f = open("out.asm", O_CREAT | O_WRONLY | O_TRUNC, S_IWUSR | S_IRUSR);
-
-    if (f < 0) {
-        fprintf(stderr, "Não foi possivel abrir/criar o ficheiro\n");
-        exit(EXIT_FAILURE);
-    }
-
-    int d = dup2(f, 1);
-
-    if (d < 0) {
-        fprintf(stderr, "Não foi possivel escrever no ficheiros\n");
+    if (freopen("out.asm", "w", stdout) == NULL) {
+        perror("freopen() failed");
         exit(EXIT_FAILURE);
     }
 
@@ -348,7 +328,8 @@ void compiler_start(I_List il) {
     if (p->clist != NULL) {
         print_TACLIST(p->clist);
     }
-    close(f);
+
+    fclose(stdout);
     free(p);
 }
 
