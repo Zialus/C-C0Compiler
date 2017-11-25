@@ -407,6 +407,7 @@ TACList compile_ass(CMD d) {
     } else {
         aux = append(p_exp->clist, l);
     }
+    free(p_exp);
     return aux;
 }
 
@@ -419,6 +420,7 @@ TACList compile_while(CMD wh) {
     Pair p_exp = compile_exp(wh->u.while_cmd.while_);
     // cria while_label e coloca exp. na cauda da label
     TACList w = makeTACList(makeTAC(Label, makeNewLabel(), NULL, NULL), p_exp->clist);
+    free(p_exp);
     // adiciona On_false label
     jlb->head = makeTAC(On_False, makeVar(final_reg), makeNewLabel(), NULL);
     jlb->tail = NULL;

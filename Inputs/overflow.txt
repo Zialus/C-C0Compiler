@@ -2,7 +2,7 @@ int main(){
 
 if (x==2)
 
-basadadadasdsadasdsadadadasdasdasdsdfsfdsfdsdfsfsfsfsfsfdsskfsjjfsjdfjkskfjskfjskjfksjfksjfksjfkjskfjksjfksjkfjskfjskfjskfjs=2+3;
+basadadadasdsadasdsadadadasdasdasdsdfsfdsfdsdfsasdfs=2+3;
 
 return 0;
 }
