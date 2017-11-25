@@ -1,5 +1,6 @@
 %option noyywrap
 %option nodefault
+%option nounistd
 
 %{
 #include <stdlib.h>
