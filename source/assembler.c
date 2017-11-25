@@ -2,23 +2,20 @@
 #include <stdlib.h>
 #include <string.h>
 #include <fcntl.h>
-#include <search.h>
+#include "uthash.h"
 
 #ifdef _WIN32
 #include <io.h>
 #else
+
 #include <unistd.h>
+
 #endif // _WIN32
 
 #include "print_mips.h"
 #include "tree.h"
 #include "assembler.h"
 #include "utils.h"
-
-#define MAX_SIZE 50
-#define MAX_SIZE_TO_REPRESENT_REG 4  // supondo que serão usados no maximo 100 registos (0-99)
-#define MAX_SIZE_TO_REPRESENT_LABEL 3 // supondo que serão usados no maximo 10 labels (0-9)
-#define MAX_SIZE_INTS 10 // supondo que no maximo ints terão 10 digitos
 
 
 // variaveis para crirar nomes de registos temporarios
@@ -27,14 +24,7 @@ int lb = 0;
 char final_reg[MAX_SIZE];
 
 // tabela de símbolos
-int init_hash = 0;
-ENTRY* symbolTable;
-// tabela de simbolos
-
-void create_hasht() {
-    hcreate(500);
-    init_hash = 1;
-}
+struct decl_hash* symbol_table = NULL;
 
 Address makeVal(int n) {
     Address a = malloc(sizeof(*a));
@@ -341,9 +331,18 @@ void compiler_start(I_List il) {
         exit(EXIT_FAILURE);
     }
 
+    printf("\t\t.data\n");
+
     Pair p = compile(il);
-    // hdestroy();
-    // só declarações
+
+    struct decl_hash* s;
+
+    for (s = symbol_table; s != NULL; s = (struct decl_hash*) (s->hh.next)) {
+        fprintf(stderr, "variable name %s: type %d\n", s->variable, s->type);
+    }
+
+    delete_hash();
+
     printf("\t\t.text\n");
     printf("main:\n");
     if (p->clist != NULL) {
@@ -356,38 +355,37 @@ void compiler_start(I_List il) {
 void compile_decl(DECL decl) {
     // printf("DECL\n" );
 
-    // verifica se a tabela de símbolos já foi inicializada
-    if (init_hash == 0) {
-        create_hasht();
-        printf("\t\t.data\n");
-    }
     add_to_hash(decl);
 
     printf("%s: \t.space 4\n", decl->var);
 }
 
 void add_to_hash(DECL decl) {
-    ENTRY init;
-    // chave
-    init.key = decl->var;
-    // valor
-    if (decl->type == INT_TYPE) {
-        init.data = (void*) INT_TYPE;
+    struct decl_hash* s;
+
+    HASH_FIND_STR(symbol_table, decl->var, s);  /* id already in the hash? */
+    if (s == NULL) {
+
+        s = malloc(sizeof(struct decl_hash));
+
+        strcpy(s->variable, decl->var);
+        s->type = decl->type;
+
+        HASH_ADD_STR(symbol_table, variable, s);  /* id: name of key field */
     } else {
-        init.data = (void*) BOOL_TYPE;
-    }
-    symbolTable = hsearch(init, FIND);
-    // verifica se a variável já foi declarada
-    if (symbolTable != NULL) {
         fprintf(stderr, "Variável já declarada\n");
         exit(EXIT_FAILURE);
     }
 
-    symbolTable = hsearch(init, ENTER);
-    //
-    if (symbolTable == NULL) {
-        fprintf(stderr, "entry failed\n");
-        exit(EXIT_FAILURE);
+}
+
+void delete_hash() {
+    struct decl_hash* current_element;
+    struct decl_hash* tmp;
+
+    HASH_ITER(hh, symbol_table, current_element, tmp) {
+        HASH_DEL(symbol_table, current_element);  /* delete it (users advances to next) */
+        free(current_element);             /* free it */
     }
 }
 

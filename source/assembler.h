@@ -31,7 +31,7 @@ typedef enum {
     Int, String, Register
 } AddrKind;
 
-void create_hasht();
+void delete_hash();
 
 void add_to_hash(DECL decl);
 
