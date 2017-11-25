@@ -31,6 +31,10 @@ typedef enum {
     Int, String, Register
 } AddrKind;
 
+void create_hasht();
+
+void add_to_hash(DECL decl);
+
 Address makeVal(int);
 Address makeVar(char*);
 Address makeNewVar();

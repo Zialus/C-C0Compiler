@@ -8,7 +8,7 @@
 #include <io.h>
 #else
 #include <unistd.h>
-#endif _WIN32
+#endif // _WIN32
 
 #include "print_mips.h"
 #include "tree.h"
@@ -361,6 +361,12 @@ void compile_decl(DECL decl) {
         create_hasht();
         printf("\t\t.data\n");
     }
+    add_to_hash(decl);
+
+    printf("%s: \t.space 4\n", decl->var);
+}
+
+void add_to_hash(DECL decl) {
     ENTRY init;
     // chave
     init.key = decl->var;
@@ -376,7 +382,7 @@ void compile_decl(DECL decl) {
         fprintf(stderr, "Variável já declarada\n");
         exit(EXIT_FAILURE);
     }
-    printf("%s: \t.space 4\n", decl->var);
+
     symbolTable = hsearch(init, ENTER);
     //
     if (symbolTable == NULL) {
