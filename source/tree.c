@@ -47,6 +47,53 @@ EXP make_B_Op_EXP_(B_Operand op, EXP l, EXP r) {
     p->u.opB.right = r;
     return p;
 }
+
+void delete_EXP(EXP exp) {
+
+    switch (exp->kind) {
+
+        case EXP_A_Op:
+            delete_EXP_A_Op(exp);
+            break;
+        case EXP_B_Op:
+            delete_EXP_B_Op(exp);
+            break;
+        case EXP_int:
+            delete_EXP_int(exp);
+            break;
+        case EXP_bool:
+            delete_EXP_bool(exp);
+            break;
+        case EXP_Var:
+            delete_EXP_Var(exp);
+            break;
+    }
+
+    free(exp);
+}
+
+void delete_EXP_Var(EXP exp) {
+
+}
+
+void delete_EXP_bool(EXP exp) {
+
+}
+
+void delete_EXP_int(EXP exp) {
+
+}
+
+void delete_EXP_B_Op(EXP exp) {
+    free(exp->u.opB.left);
+    free(exp->u.opB.right);
+}
+
+void delete_EXP_A_Op(EXP exp) {
+    free(exp->u.opA.left);
+    free(exp->u.opA.right);
+}
+
 // ----- Expression CONSTRUCTORS ----- //
 
 
@@ -97,18 +144,18 @@ void delete_CMD(CMD cmd) {
 }
 
 void delete_CMD_while(CMD cmd) {
-    free(cmd->u.while_cmd.while_exp);
-    free(cmd->u.while_cmd.while_I_list);
+    delete_EXP(cmd->u.while_cmd.while_exp);
+    delete_IL(cmd->u.while_cmd.while_I_list);
 }
 
 void delete_CMD_if_then_else(CMD cmd) {
-    free(cmd->u.if_cmd.if_exp);
-    free(cmd->u.if_cmd.else_I_list);
-    free(cmd->u.if_cmd.then_I_list);
+    delete_EXP(cmd->u.if_cmd.if_exp);
+    delete_IL(cmd->u.if_cmd.else_I_list);
+    delete_IL(cmd->u.if_cmd.then_I_list);
 }
 
 void delete_CMD_assignment(CMD cmd) {
-    free(cmd->u.assign_cmd.assignment_exp);
+    delete_EXP(cmd->u.assign_cmd.assignment_exp);
 }
 // ----- Commands CONSTRUCTORS ----- //
 
@@ -149,6 +196,8 @@ I_List make_List_DECL_Head(DECL head, I_List tail) {
 
 void delete_IL(I_List il) {
 
+    if (il == NULL) return;
+
     switch (il->kind) {
         case CMD_:
             delete_CMD(il->head.cmd);
@@ -161,5 +210,7 @@ void delete_IL(I_List il) {
     if (il->tail != NULL) {
         delete_IL(il->tail);
     }
+
+    free(il);
 }
 // ----- Instruction List CONSTRUCTORS ----- //

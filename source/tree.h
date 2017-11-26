@@ -65,6 +65,16 @@ EXP make_Var_EXP_(char* c);
 EXP make_A_Op_EXP_(A_Operand op, EXP l, EXP r);
 
 EXP make_B_Op_EXP_(B_Operand op, EXP l, EXP r);
+
+void delete_EXP_A_Op(EXP exp);
+
+void delete_EXP_B_Op(EXP exp);
+
+void delete_EXP_int(EXP exp);
+
+void delete_EXP_bool(EXP exp);
+
+void delete_EXP_Var(EXP exp);
 // ----- Expression ----- //
 
 
