@@ -607,6 +607,16 @@ void print_TACLIST(TACList tl) {
     }
 }
 
+void delete_TACLIST(TACList tl) {
+    // printf("TACList\n");
+    if (tl->head != NULL) {
+        free(tl->head);
+    }
+    if (tl->tail != NULL) {
+        delete_TACLIST(tl->tail);
+    }
+}
+
 void print_return(int l) {
     printf("li $v0, 10\n");
     printf("addi $a0, $zero, %d\n", l);

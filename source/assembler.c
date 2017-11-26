@@ -327,8 +327,8 @@ void compiler_start(I_List il) {
     printf("main:\n");
     if (p->clist != NULL) {
         print_TACLIST(p->clist);
+        delete_TACLIST(p->clist);
     }
-
     fclose(stdout);
     free(p);
 }
@@ -485,5 +485,6 @@ TACList compile_if(CMD ift) {
             free(else_list);
         }
     }
+    free(end_if);
     return ilb;
 }

@@ -11,4 +11,6 @@ void print_TACLIST(TACList tl);
 
 void print_return(int l);
 
+void delete_TACLIST(TACList tl);
+
 #endif // PRINT_MIPS_H
