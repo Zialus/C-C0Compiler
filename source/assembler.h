@@ -32,7 +32,9 @@ typedef enum {
 } AddrKind;
 
 void delete_hash();
-
+void delete_IL(I_List il);
+void deleteCMD(CMD cmd);
+void deleteDECL(DECL decl);
 void add_to_hash(DECL decl);
 
 Address makeVal(int);

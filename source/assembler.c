@@ -328,6 +328,7 @@ void compiler_start(I_List il) {
     }
     fclose(stdout);
     free(p);
+    delete_IL(il);
 }
 
 
@@ -363,6 +364,30 @@ void delete_hash() {
     HASH_ITER(hh, symbol_table, current_element, tmp) { /* macro transforms into a for loop */
         HASH_DEL(symbol_table, current_element);  /* delete element from hash */
         free(current_element); /* free element */
+    }
+}
+
+void deleteCMD(CMD cmd) {
+    free(cmd);
+}
+
+void deleteDECL(DECL decl) {
+    free(decl);
+}
+
+void delete_IL(I_List il) {
+
+    switch (il->kind) {
+        case CMD_:
+            deleteCMD(il->head.cmd);
+            break;
+        case DECL_:
+            deleteDECL(il->head.decl);
+            break;
+    }
+
+    if (il->tail != NULL) {
+        delete_IL(il->tail);
     }
 }
 
