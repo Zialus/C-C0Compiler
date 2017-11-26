@@ -584,6 +584,7 @@ void print_TAC(TAC t) {
             printf(", ");
             print_Address(t->addr2);
             printf("\n");
+            break;
         case A_BNE:
             break; // Not finished yet
         case A_BGE:
@@ -598,7 +599,6 @@ void print_TAC(TAC t) {
 }
 
 void print_TACLIST(TACList tl) {
-    // printf("TACList\n");
     if (tl->head != NULL) {
         print_TAC(tl->head);
     }
@@ -608,7 +608,6 @@ void print_TACLIST(TACList tl) {
 }
 
 void delete_TACLIST(TACList tl) {
-    // printf("TACList\n");
     if (tl->head != NULL) {
         free(tl->head);
     }
