@@ -88,11 +88,11 @@ struct cmd {
     } u;
 };
 
-CMD CMD_if_then_else(EXP if_exp, I_List then_list, I_List else_list);
+CMD make_CMD_if_then_else(EXP if_exp, I_List then_list, I_List else_list);
 
-CMD CMD_while(EXP exp, I_List il);
+CMD make_CMD_while(EXP exp, I_List il);
 
-CMD CMD_assignment(char* var, EXP exp);
+CMD make_CMD_assignment(char* var, EXP exp);
 
 void delete_CMD(CMD cmd);
 
@@ -110,7 +110,7 @@ struct decl {
     char var_name[MAX_SIZE];
 };
 
-DECL DECL_declare(Type t, char* v);
+DECL make_DECL(Type t, char* v);
 
 void delete_DECL(DECL decl);
 // ----- Declarations ----- //

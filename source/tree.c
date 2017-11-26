@@ -51,7 +51,7 @@ EXP make_B_Op_EXP_(B_Operand op, EXP l, EXP r) {
 
 
 // ----- Commands CONSTRUCTORS ----- //
-CMD CMD_if_then_else(EXP if_exp, I_List then_list, I_List else_list) {
+CMD make_CMD_if_then_else(EXP if_exp, I_List then_list, I_List else_list) {
     CMD cmd = malloc(sizeof(*cmd));
     cmd->kind = IF_KIND;
     cmd->u.if_cmd.if_exp = if_exp;
@@ -60,7 +60,7 @@ CMD CMD_if_then_else(EXP if_exp, I_List then_list, I_List else_list) {
     return cmd;
 }
 
-CMD CMD_while(EXP exp, I_List il) {
+CMD make_CMD_while(EXP exp, I_List il) {
     CMD cmd = malloc(sizeof(*cmd));
     cmd->kind = WHILE_KIND;
     cmd->u.while_cmd.while_exp = exp;
@@ -68,7 +68,7 @@ CMD CMD_while(EXP exp, I_List il) {
     return cmd;
 }
 
-CMD CMD_assignment(char* var, EXP exp) {
+CMD make_CMD_assignment(char* var, EXP exp) {
     CMD cmd = malloc(sizeof(*cmd));
     cmd->kind = ASSIGN_KIND;
 
@@ -114,7 +114,7 @@ void delete_CMD_assignment(CMD cmd) {
 
 
 // ----- Declarations CONSTRUCTORS ----- //
-DECL DECL_declare(Type t, char* v) {
+DECL make_DECL(Type t, char* v) {
     DECL decl = malloc(sizeof(*decl));
     decl->var_type = t;
 

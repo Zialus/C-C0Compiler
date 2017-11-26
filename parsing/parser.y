@@ -68,31 +68,31 @@ SINGLE_INST
 
 
 COMMAND
-      : VAR ASSIGN EXP SEMICOLON                             { $$ = CMD_assignment($1,$3); }
+      : VAR ASSIGN EXP SEMICOLON                             { $$ = make_CMD_assignment($1,$3); }
 
-      | IF PL EXP PR SEMICOLON                               { $$ = CMD_if_then_else($3,NULL,NULL); }
-      | IF PL EXP PR SINGLE_INST                             { $$ = CMD_if_then_else($3,$5,NULL); }
-      | IF PL EXP PR CBL INST_L CBR                          { $$ = CMD_if_then_else($3,$6,NULL); }
+      | IF PL EXP PR SEMICOLON                               { $$ = make_CMD_if_then_else($3,NULL,NULL); }
+      | IF PL EXP PR SINGLE_INST                             { $$ = make_CMD_if_then_else($3,$5,NULL); }
+      | IF PL EXP PR CBL INST_L CBR                          { $$ = make_CMD_if_then_else($3,$6,NULL); }
 
-      | IF PL EXP PR THEN_STMT ELSE SINGLE_INST              { $$ = CMD_if_then_else($3,$5,$7); }
-      | IF PL EXP PR THEN_STMT ELSE CBL INST_L CBR           { $$ = CMD_if_then_else($3,$5,$8); }
+      | IF PL EXP PR THEN_STMT ELSE SINGLE_INST              { $$ = make_CMD_if_then_else($3,$5,$7); }
+      | IF PL EXP PR THEN_STMT ELSE CBL INST_L CBR           { $$ = make_CMD_if_then_else($3,$5,$8); }
 
-      | IF PL EXP PR CBL INST_L CBR ELSE SINGLE_INST         { $$ = CMD_if_then_else($3,$6,$9); }
-      | IF PL EXP PR CBL INST_L CBR ELSE CBL INST_L CBR      { $$ = CMD_if_then_else($3,$6,$10); }
-
-      | WHILE PL EXP PR SEMICOLON                            { $$ = CMD_while($3,NULL); }
-      | WHILE PL EXP PR SINGLE_INST                          { $$ = CMD_while($3,$5); }
-      | WHILE PL EXP PR CBL INST_L CBR                       { $$ = CMD_while($3,$6); }
+      | IF PL EXP PR CBL INST_L CBR ELSE SINGLE_INST         { $$ = make_CMD_if_then_else($3,$6,$9); }
+      | IF PL EXP PR CBL INST_L CBR ELSE CBL INST_L CBR      { $$ = make_CMD_if_then_else($3,$6,$10); }
+                                                                    
+      | WHILE PL EXP PR SEMICOLON                            { $$ = make_CMD_while($3,NULL); }
+      | WHILE PL EXP PR SINGLE_INST                          { $$ = make_CMD_while($3,$5); }
+      | WHILE PL EXP PR CBL INST_L CBR                       { $$ = make_CMD_while($3,$6); }
       ;
 
 
 THEN_STMT
-        : VAR ASSIGN EXP SEMICOLON                 { $$ = make_List_CMD_Head(CMD_assignment($1,$3),NULL); }
+        : VAR ASSIGN EXP SEMICOLON                 { $$ = make_List_CMD_Head(make_CMD_assignment($1,$3),NULL); }
         | DEC                                      { $$ = make_List_DECL_Head($1,NULL); }
-        | WHILE PL EXP PR SEMICOLON                { $$ = make_List_CMD_Head(CMD_while($3,NULL),NULL); }
-        | WHILE PL EXP PR THEN_STMT                { $$ = make_List_CMD_Head(CMD_while($3,$5),NULL); }
-        | WHILE PL EXP PR CBL INST_L CBR           { $$ = make_List_CMD_Head(CMD_while($3,$6),NULL); }
-        | IF PL EXP PR THEN_STMT ELSE THEN_STMT    { $$ = make_List_CMD_Head(CMD_if_then_else($3,$5,$7),NULL); }
+        | WHILE PL EXP PR SEMICOLON                { $$ = make_List_CMD_Head(make_CMD_while($3,NULL),NULL); }
+        | WHILE PL EXP PR THEN_STMT                { $$ = make_List_CMD_Head(make_CMD_while($3,$5),NULL); }
+        | WHILE PL EXP PR CBL INST_L CBR           { $$ = make_List_CMD_Head(make_CMD_while($3,$6),NULL); }
+        | IF PL EXP PR THEN_STMT ELSE THEN_STMT    { $$ = make_List_CMD_Head(make_CMD_if_then_else($3,$5,$7),NULL); }
         ;
 
 
@@ -118,8 +118,8 @@ EXP
 
 
 DEC
-  : INT VAR SEMICOLON      { $$ = DECL_declare(INT_TYPE, $2); }
-  | BOOL VAR SEMICOLON     { $$ = DECL_declare(BOOL_TYPE, $2); }
+  : INT VAR SEMICOLON      { $$ = make_DECL(INT_TYPE, $2); }
+  | BOOL VAR SEMICOLON     { $$ = make_DECL(BOOL_TYPE, $2); }
   ;
 
 
