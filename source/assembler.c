@@ -342,15 +342,15 @@ void compile_decl(DECL decl) {
 void add_to_hash(DECL decl) {
     struct decl_hash* s;
 
-    HASH_FIND_STR(symbol_table, decl->var, s);  /* id already in the hash? */
+    HASH_FIND_STR(symbol_table, decl->var, s);  /* var already in the hash? */
     if (s == NULL) {
 
         s = malloc(sizeof(struct decl_hash));
 
-        strcpy(s->variable, decl->var);
+        strncpy(s->variable, decl->var, MAX_SIZE);
         s->type = decl->type;
 
-        HASH_ADD_STR(symbol_table, variable, s);  /* id: name of key field */
+        HASH_ADD_STR(symbol_table, variable, s);  /* variable: name of key field */
     } else {
         fprintf(stderr, "Variável já declarada\n");
         exit(EXIT_FAILURE);
@@ -362,9 +362,9 @@ void delete_hash() {
     struct decl_hash* current_element;
     struct decl_hash* tmp;
 
-    HASH_ITER(hh, symbol_table, current_element, tmp) {
-        HASH_DEL(symbol_table, current_element);  /* delete it (users advances to next) */
-        free(current_element);             /* free it */
+    HASH_ITER(hh, symbol_table, current_element, tmp) { /* macro transforms into a for loop */
+        HASH_DEL(symbol_table, current_element);  /* delete element from hash */
+        free(current_element); /* free element */
     }
 }
 
