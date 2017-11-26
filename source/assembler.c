@@ -276,11 +276,10 @@ Pair compile_exp(EXP e) {
 }
 
 
-/******************/
 Pair compile(I_List il) {
-    // printf("COMPILe\n" );
 
     Pair tl = NULL;
+
     switch (il->kind) {
         case CMD_:
             tl = compile_cmd(il->head.cmd);
@@ -289,17 +288,17 @@ Pair compile(I_List il) {
             compile_decl(il->head.decl);
             break;
     }
+
     if (il->tail != NULL) {
-        // printf("il->tail NOT_NULL\n" );
         Pair aux = compile(il->tail);
         if (tl != NULL && aux != NULL) {
-            // printf("IF\n" );
             tl->clist = append(tl->clist, aux->clist);
             free(aux);
         } else if (aux != NULL) {
             tl = aux;
         }
     }
+
     return tl;
 }
 
@@ -331,9 +330,8 @@ void compiler_start(I_List il) {
     free(p);
 }
 
-void compile_decl(DECL decl) {
-    // printf("DECL\n" );
 
+void compile_decl(DECL decl) {
     add_to_hash(decl);
 
     printf("%s: \t.space 4\n", decl->var);
@@ -393,28 +391,25 @@ Pair compile_cmd(CMD cmd) {
 }
 
 TACList compile_ass(CMD d) {
-    // printf("ASS\n" );
-
     Pair p_exp = compile_exp(d->u.assign_cmd.assignment_);
     Address addr1 = makeVar(d->u.assign_cmd.var_);
     Address addr2 = p_exp->addr;
     TAC t = makeTAC(A_Asn, addr1, addr2, NULL);
     TACList l = makeTACList(t, NULL);
     TACList aux;
+
     if (p_exp->clist == NULL) {
         p_exp->clist = l;
         aux = p_exp->clist;
     } else {
         aux = append(p_exp->clist, l);
     }
+
     free(p_exp);
     return aux;
 }
 
-// compila comando WHILE
 TACList compile_while(CMD wh) {
-    //  printf("WHILE\n" );
-
     TACList jlb = malloc(sizeof(*jlb));
 
     Pair p_exp = compile_exp(wh->u.while_cmd.while_);
