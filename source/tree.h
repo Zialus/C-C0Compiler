@@ -93,6 +93,8 @@ CMD CMD_if_then_else(EXP if_exp, I_List then_list, I_List else_list);
 CMD CMD_while(EXP exp, I_List il);
 
 CMD CMD_assignment(char* var, EXP exp);
+
+void deleteCMD(CMD cmd);
 // ----- Commands ----- //
 
 
@@ -103,6 +105,8 @@ struct decl {
 };
 
 DECL DECL_declare(Type t, char* v);
+
+void deleteDECL(DECL decl);
 // ----- Declarations ----- //
 
 
@@ -119,6 +123,8 @@ struct instruction_list {
 I_List make_List_CMD_Head(CMD head, I_List tail);
 
 I_List make_List_DECL_Head(DECL head, I_List tail);
+
+void delete_IL(I_List il);
 // ----- Instruction List ----- //
 
 

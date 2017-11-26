@@ -367,29 +367,6 @@ void delete_hash() {
     }
 }
 
-void deleteCMD(CMD cmd) {
-    free(cmd);
-}
-
-void deleteDECL(DECL decl) {
-    free(decl);
-}
-
-void delete_IL(I_List il) {
-
-    switch (il->kind) {
-        case CMD_:
-            deleteCMD(il->head.cmd);
-            break;
-        case DECL_:
-            deleteDECL(il->head.decl);
-            break;
-    }
-
-    if (il->tail != NULL) {
-        delete_IL(il->tail);
-    }
-}
 
 Pair compile_cmd(CMD cmd) {
     TACList tl = NULL;

@@ -78,6 +78,10 @@ CMD CMD_assignment(char* var, EXP exp) {
     cmd->u.assign_cmd.assignment_exp = exp;
     return cmd;
 }
+
+void deleteCMD(CMD cmd) {
+    free(cmd);
+}
 // ----- Commands CONSTRUCTORS ----- //
 
 
@@ -90,6 +94,10 @@ DECL DECL_declare(Type t, char* v) {
     check_if_buffer_was_big_enough(n, sizeof(decl->var_name));
 
     return decl;
+}
+
+void deleteDECL(DECL decl) {
+    free(decl);
 }
 // ----- Declarations CONSTRUCTORS ----- //
 
@@ -109,5 +117,21 @@ I_List make_List_DECL_Head(DECL head, I_List tail) {
     il->head.decl = head;
     il->tail = tail;
     return il;
+}
+
+void delete_IL(I_List il) {
+
+    switch (il->kind) {
+        case CMD_:
+            deleteCMD(il->head.cmd);
+            break;
+        case DECL_:
+            deleteDECL(il->head.decl);
+            break;
+    }
+
+    if (il->tail != NULL) {
+        delete_IL(il->tail);
+    }
 }
 // ----- Instruction List CONSTRUCTORS ----- //
