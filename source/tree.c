@@ -54,17 +54,17 @@ EXP make_B_Op_EXP_(B_Operand op, EXP l, EXP r) {
 CMD CMD_if_then_else(EXP if_exp, I_List then_list, I_List else_list) {
     CMD cmd = malloc(sizeof(*cmd));
     cmd->kind = IF_KIND;
-    cmd->u.if_cmd.if_ = if_exp;
-    cmd->u.if_cmd.then_I_list_ = then_list;
-    cmd->u.if_cmd.else_I_list_ = else_list;
+    cmd->u.if_cmd.if_exp = if_exp;
+    cmd->u.if_cmd.then_I_list = then_list;
+    cmd->u.if_cmd.else_I_list = else_list;
     return cmd;
 }
 
 CMD CMD_while(EXP exp, I_List il) {
     CMD cmd = malloc(sizeof(*cmd));
     cmd->kind = WHILE_KIND;
-    cmd->u.while_cmd.while_ = exp;
-    cmd->u.while_cmd.while_I_list_ = il;
+    cmd->u.while_cmd.while_exp = exp;
+    cmd->u.while_cmd.while_I_list = il;
     return cmd;
 }
 
@@ -72,10 +72,10 @@ CMD CMD_assignment(char* var, EXP exp) {
     CMD cmd = malloc(sizeof(*cmd));
     cmd->kind = ASSIGN_KIND;
 
-    int n = snprintf(cmd->u.assign_cmd.var_, sizeof(cmd->u.assign_cmd.var_), "%s", var);
-    check_if_buffer_was_big_enough(n, sizeof(cmd->u.assign_cmd.var_));
+    int n = snprintf(cmd->u.assign_cmd.assignment_var, sizeof(cmd->u.assign_cmd.assignment_var), "%s", var);
+    check_if_buffer_was_big_enough(n, sizeof(cmd->u.assign_cmd.assignment_var));
 
-    cmd->u.assign_cmd.assignment_ = exp;
+    cmd->u.assign_cmd.assignment_exp = exp;
     return cmd;
 }
 // ----- Commands CONSTRUCTORS ----- //
@@ -84,10 +84,10 @@ CMD CMD_assignment(char* var, EXP exp) {
 // ----- Declarations CONSTRUCTORS ----- //
 DECL DECL_declare(Type t, char* v) {
     DECL decl = malloc(sizeof(*decl));
-    decl->type = t;
+    decl->var_type = t;
 
-    int n = snprintf(decl->var, sizeof(decl->var), "%s", v);
-    check_if_buffer_was_big_enough(n, sizeof(decl->var));
+    int n = snprintf(decl->var_name, sizeof(decl->var_name), "%s", v);
+    check_if_buffer_was_big_enough(n, sizeof(decl->var_name));
 
     return decl;
 }

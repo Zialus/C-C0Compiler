@@ -10,6 +10,7 @@ typedef struct exp* EXP;
 typedef struct cmd* CMD;
 typedef struct decl* DECL;
 typedef struct instruction_list* I_List;
+
 typedef enum {
     OpPlus, OpMinus, OpTimes, OpDiv
 } A_Operand;
@@ -56,9 +57,13 @@ struct exp {
 };
 
 EXP make_Int_EXP_(int i);
+
 EXP make_Bool_EXP_(bool b);
+
 EXP make_Var_EXP_(char* c);
+
 EXP make_A_Op_EXP_(A_Operand op, EXP l, EXP r);
+
 EXP make_B_Op_EXP_(B_Operand op, EXP l, EXP r);
 // ----- Expression ----- //
 
@@ -68,31 +73,33 @@ struct cmd {
     CMD_Kind kind;
     union {
         struct {
-            EXP if_;
-            I_List then_I_list_;
-            I_List else_I_list_;
+            EXP if_exp;
+            I_List then_I_list;
+            I_List else_I_list;
         } if_cmd;
         struct {
-            EXP while_;
-            I_List while_I_list_;
+            EXP while_exp;
+            I_List while_I_list;
         } while_cmd;
         struct {
-            char var_[MAX_SIZE];
-            EXP assignment_;
+            char assignment_var[MAX_SIZE];
+            EXP assignment_exp;
         } assign_cmd;
     } u;
 };
 
 CMD CMD_if_then_else(EXP if_exp, I_List then_list, I_List else_list);
+
 CMD CMD_while(EXP exp, I_List il);
+
 CMD CMD_assignment(char* var, EXP exp);
 // ----- Commands ----- //
 
 
 // ----- Declarations ----- //
 struct decl {
-    Type type;
-    char var[MAX_SIZE];
+    Type var_type;
+    char var_name[MAX_SIZE];
 };
 
 DECL DECL_declare(Type t, char* v);
@@ -110,6 +117,7 @@ struct instruction_list {
 };
 
 I_List make_List_CMD_Head(CMD head, I_List tail);
+
 I_List make_List_DECL_Head(DECL head, I_List tail);
 // ----- Instruction List ----- //
 

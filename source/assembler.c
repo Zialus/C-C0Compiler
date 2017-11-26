@@ -335,19 +335,19 @@ void compiler_start(I_List il) {
 void compile_decl(DECL decl) {
     add_to_hash(decl);
 
-    printf("%s: \t.space 4\n", decl->var);
+    printf("%s: \t.space 4\n", decl->var_name);
 }
 
 void add_to_hash(DECL decl) {
     struct decl_hash* s;
 
-    HASH_FIND_STR(symbol_table, decl->var, s);  /* var already in the hash? */
+    HASH_FIND_STR(symbol_table, decl->var_name, s);  /* var already in the hash? */
     if (s == NULL) {
 
         s = malloc(sizeof(struct decl_hash));
 
-        strncpy(s->variable, decl->var, MAX_SIZE);
-        s->type = decl->type;
+        strncpy(s->variable, decl->var_name, MAX_SIZE);
+        s->type = decl->var_type;
 
         HASH_ADD_STR(symbol_table, variable, s);  /* variable: name of key field */
     } else {
@@ -416,8 +416,8 @@ Pair compile_cmd(CMD cmd) {
 }
 
 TACList compile_ass(CMD d) {
-    Pair p_exp = compile_exp(d->u.assign_cmd.assignment_);
-    Address addr1 = makeVar(d->u.assign_cmd.var_);
+    Pair p_exp = compile_exp(d->u.assign_cmd.assignment_exp);
+    Address addr1 = makeVar(d->u.assign_cmd.assignment_var);
     Address addr2 = p_exp->addr;
     TAC t = makeTAC(A_Asn, addr1, addr2, NULL);
     TACList l = makeTACList(t, NULL);
@@ -437,7 +437,7 @@ TACList compile_ass(CMD d) {
 TACList compile_while(CMD wh) {
     TACList jlb = malloc(sizeof(*jlb));
 
-    Pair p_exp = compile_exp(wh->u.while_cmd.while_);
+    Pair p_exp = compile_exp(wh->u.while_cmd.while_exp);
     // cria while_label e coloca exp. na cauda da label
     TACList w = makeTACList(makeTAC(Label, makeNewLabel(), NULL, NULL), p_exp->clist);
     free(p_exp);
@@ -445,8 +445,8 @@ TACList compile_while(CMD wh) {
     jlb->head = makeTAC(On_False, makeVar(final_reg), makeNewLabel(), NULL);
     jlb->tail = NULL;
     w = append(w, jlb);
-    if (wh->u.while_cmd.while_I_list_) {
-        Pair ptl = compile(wh->u.while_cmd.while_I_list_);
+    if (wh->u.while_cmd.while_I_list) {
+        Pair ptl = compile(wh->u.while_cmd.while_I_list);
         if (ptl != NULL) {
             w = append(w, ptl->clist);
         }
@@ -463,7 +463,7 @@ TACList compile_if(CMD ift) {
 
     TACList jlb = malloc(sizeof(*jlb));
     // IF LABEL
-    Pair p_exp = compile_exp(ift->u.if_cmd.if_);
+    Pair p_exp = compile_exp(ift->u.if_cmd.if_exp);
     // cria if_label e coloca exp. na cauda da label
     TACList ilb = makeTACList(makeTAC(Label, makeNewLabel(), NULL, NULL), p_exp->clist);
     free(p_exp);
@@ -474,14 +474,14 @@ TACList compile_if(CMD ift) {
     ilb = append(ilb, jlb);
     // then statement
     Address end_if = makeNewLabel();
-    if (ift->u.if_cmd.then_I_list_ != NULL) {
+    if (ift->u.if_cmd.then_I_list != NULL) {
         TACList aux = NULL;
-        Pair then_list = compile(ift->u.if_cmd.then_I_list_);
+        Pair then_list = compile(ift->u.if_cmd.then_I_list);
         // adiciona jump ao fim das instruçoes (salta else)
         // VERIFICA SE EXISTE else
-        if (ift->u.if_cmd.else_I_list_ != NULL && then_list != NULL) {
+        if (ift->u.if_cmd.else_I_list != NULL && then_list != NULL) {
             then_list->clist = append(then_list->clist, makeTACList(makeTAC(GoToLabel, end_if, NULL, NULL), NULL));
-        } else if (ift->u.if_cmd.else_I_list_ != NULL) {
+        } else if (ift->u.if_cmd.else_I_list != NULL) {
             aux = makeTACList(makeTAC(GoToLabel, end_if, NULL, NULL), NULL);
         }
 
@@ -496,8 +496,8 @@ TACList compile_if(CMD ift) {
     TACList elb = makeTACList(makeTAC(Label, makeVar(jlb->head->addr2->content.var), NULL, NULL), NULL);
     ilb = append(ilb, elb);
     // else
-    if (ift->u.if_cmd.else_I_list_ != NULL) {
-        Pair else_list = compile(ift->u.if_cmd.else_I_list_);
+    if (ift->u.if_cmd.else_I_list != NULL) {
+        Pair else_list = compile(ift->u.if_cmd.else_I_list);
         // adiciona end_if ao fim da lista de instruções
         if (else_list != NULL) {
             else_list->clist = append(else_list->clist, makeTACList(makeTAC(Label, end_if, NULL, NULL), NULL));

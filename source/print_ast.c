@@ -106,7 +106,7 @@ void print_EXP(EXP e) {
 
 void print_DECL(DECL d) {
     printf("Declaration(Type(");
-    switch (d->type) {
+    switch (d->var_type) {
         case BOOL_TYPE:
             printf("Bool) ");
             break;
@@ -114,7 +114,7 @@ void print_DECL(DECL d) {
             printf("Int) ");
             break;
     }
-    printf("Var(%s)) ", d->var);
+    printf("Var(%s)) ", d->var_name);
 }
 
 
@@ -122,25 +122,25 @@ void print_CMD(CMD c) {
     switch (c->kind) {
         case IF_KIND:
             printf("IF(");
-            print_EXP(c->u.if_cmd.if_);
+            print_EXP(c->u.if_cmd.if_exp);
             printf(") ");
             printf("THEN");
-            print_tree(c->u.if_cmd.then_I_list_);
+            print_tree(c->u.if_cmd.then_I_list);
             printf("ELSE");
-            print_tree(c->u.if_cmd.else_I_list_);
+            print_tree(c->u.if_cmd.else_I_list);
             break;
 
         case WHILE_KIND:
             printf("WHILE(");
-            print_EXP(c->u.while_cmd.while_);
+            print_EXP(c->u.while_cmd.while_exp);
             printf(") ");
             printf("WHILE_I_LIST");
-            print_tree(c->u.while_cmd.while_I_list_);
+            print_tree(c->u.while_cmd.while_I_list);
             break;
 
         case ASSIGN_KIND:
-            printf("Assignment(Var(%s) ", c->u.assign_cmd.var_);
-            print_EXP(c->u.assign_cmd.assignment_);
+            printf("Assignment(Var(%s) ", c->u.assign_cmd.assignment_var);
+            print_EXP(c->u.assign_cmd.assignment_exp);
             printf(") ");
     }
 }
