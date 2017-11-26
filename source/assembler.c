@@ -324,11 +324,32 @@ void compiler_start(I_List il) {
     printf("main:\n");
     if (p->clist != NULL) {
         print_TACLIST(p->clist);
-        delete_TACLIST(p->clist);
     }
     fclose(stdout);
-    free(p);
     delete_IL(il);
+    delete_Pair(p);
+}
+
+void delete_Pair(Pair p) {
+
+    if (p->addr != NULL) delete_Address(p->addr);
+    delete_TACLIST(p->clist);
+
+    free(p);
+}
+
+void delete_Address(Address addr) {
+    switch (addr->AddrKind){
+
+        case Int:
+            break;
+        case String:
+            free(addr->content.var);
+            break;
+        case Register:
+            free(addr->content.var);
+            break;
+    }
 }
 
 
