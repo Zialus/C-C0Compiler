@@ -368,11 +368,8 @@ void delete_hash() {
     }
 }
 
-// compila um só comando
 Pair compile_cmd(CMD cmd) {
-    // printf("COMPILE_CMD\n");
-
-    TACList tl;
+    TACList tl = NULL;
 
     switch (cmd->kind) {
         case IF_KIND:
@@ -384,6 +381,11 @@ Pair compile_cmd(CMD cmd) {
         case WHILE_KIND:
             tl = compile_while(cmd);
             break;
+    }
+
+    if (tl == NULL) {
+        fprintf(stderr, "This will only happen if something went wrong with C enums!");
+        exit(1);
     }
 
     Pair p = makePair(NULL, tl);
