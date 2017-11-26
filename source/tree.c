@@ -79,8 +79,36 @@ CMD CMD_assignment(char* var, EXP exp) {
     return cmd;
 }
 
-void deleteCMD(CMD cmd) {
+void delete_CMD(CMD cmd) {
+
+    switch (cmd->kind) {
+        case WHILE_KIND:
+            delete_CMD_while(cmd);
+            break;
+        case IF_KIND:
+            delete_CMD_if_then_else(cmd);
+            break;
+        case ASSIGN_KIND:
+            delete_CMD_assignment(cmd);
+            break;
+    }
+
     free(cmd);
+}
+
+void delete_CMD_while(CMD cmd) {
+    free(cmd->u.while_cmd.while_exp);
+    free(cmd->u.while_cmd.while_I_list);
+}
+
+void delete_CMD_if_then_else(CMD cmd) {
+    free(cmd->u.if_cmd.if_exp);
+    free(cmd->u.if_cmd.else_I_list);
+    free(cmd->u.if_cmd.then_I_list);
+}
+
+void delete_CMD_assignment(CMD cmd) {
+    free(cmd->u.assign_cmd.assignment_exp);
 }
 // ----- Commands CONSTRUCTORS ----- //
 
@@ -96,7 +124,7 @@ DECL DECL_declare(Type t, char* v) {
     return decl;
 }
 
-void deleteDECL(DECL decl) {
+void delete_DECL(DECL decl) {
     free(decl);
 }
 // ----- Declarations CONSTRUCTORS ----- //
@@ -123,10 +151,10 @@ void delete_IL(I_List il) {
 
     switch (il->kind) {
         case CMD_:
-            deleteCMD(il->head.cmd);
+            delete_CMD(il->head.cmd);
             break;
         case DECL_:
-            deleteDECL(il->head.decl);
+            delete_DECL(il->head.decl);
             break;
     }
 

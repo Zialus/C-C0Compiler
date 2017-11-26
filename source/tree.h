@@ -94,7 +94,13 @@ CMD CMD_while(EXP exp, I_List il);
 
 CMD CMD_assignment(char* var, EXP exp);
 
-void deleteCMD(CMD cmd);
+void delete_CMD(CMD cmd);
+
+void delete_CMD_while(CMD cmd);
+
+void delete_CMD_if_then_else(CMD cmd);
+
+void delete_CMD_assignment(CMD cmd);
 // ----- Commands ----- //
 
 
@@ -106,7 +112,7 @@ struct decl {
 
 DECL DECL_declare(Type t, char* v);
 
-void deleteDECL(DECL decl);
+void delete_DECL(DECL decl);
 // ----- Declarations ----- //
 
 
