@@ -40,7 +40,7 @@ Address makeReg(char* reg) {
 
 Address makeNewVar() {
     char v[MAX_SIZE_TO_REPRESENT_REG];
-    char* var = malloc(sizeof(char) * (MAX_SIZE_TO_REPRESENT_REG + 2));
+    char* var = malloc(sizeof(char) * (MAX_SIZE_TO_REPRESENT_REG + 3));
 
     var[0] = '$';
     var[1] = 't';
@@ -50,7 +50,7 @@ Address makeNewVar() {
     //fprintf(stderr,"||%d -- %s||\n",chars_written,v);
     check_if_buffer_was_big_enough(chars_written, MAX_SIZE_TO_REPRESENT_REG);
 
-    strcat(var, v);
+    strncat(var, v, MAX_SIZE_TO_REPRESENT_REG);
 
     i++;
     Address a = makeReg(var);
@@ -59,7 +59,7 @@ Address makeNewVar() {
 
 Address makeNewLabel() {
     char v[MAX_SIZE_TO_REPRESENT_LABEL];
-    char* var = malloc(sizeof(char) * (MAX_SIZE_TO_REPRESENT_LABEL + 1));
+    char* var = malloc(sizeof(char) * (MAX_SIZE_TO_REPRESENT_LABEL + 2));
 
     var[0] = 'l';
     var[1] = '\0';
@@ -68,7 +68,7 @@ Address makeNewLabel() {
     //fprintf(stderr,"||%d -- %s||\n",chars_written,v);
     check_if_buffer_was_big_enough(chars_written, MAX_SIZE_TO_REPRESENT_LABEL);
 
-    strcat(var, v);
+    strncat(var, v, MAX_SIZE_TO_REPRESENT_LABEL);
 
     lb++;
     Address a = makeVar(var);
