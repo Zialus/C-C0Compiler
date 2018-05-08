@@ -37,7 +37,7 @@ matrix:
         - MATRIX_EVAL="CC=clang-5.0 && CXX=clang++"
       before_script:
         - brew update && brew cask uninstall oclint
-        - brew install llvm && brew link --overwrite llvm --force
+        - brew install llvm@5 && brew link --overwrite llvm@5 --force
 
     ######## OSX GCC ########
     - os: osx
@@ -67,7 +67,7 @@ matrix:
         - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
       before_script:
         - brew update && brew cask uninstall oclint
-        - brew install gcc
+        - brew install gcc@7
 
     ######## LINUX CLANG ########
     - os: linux
@@ -173,4 +173,4 @@ matrix:
         - echo -n | openssl s_client -connect https://scan.coverity.com:443 | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' | sudo tee -a /etc/ssl/certs/ca-
       env:
         - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
-        - secure: "HASmAsDPiOHN89ZtJiqrhL5dPtC7yRdU+ThVanCdGRsspt/z4gE0tC+tZ4OakoBiCOqB0y0RM6tXCqxJ3hvgHr/yMG07Qsh0gf3tAZycgL3BJ1AhXwyd7ySDU83UMyDFTWeFRBX96AHcDe0pCnNEviLEpz9Seb7HmnjwqGpEdr4JPjWDT670WUyqDWfBFDZkV1l3rYr7mgT8bzgTU9kH7kfR8YoigSZxN4OP4W/tbD3+jLnUMLvGTKfiuuP3mrZJHOgejrHKQZTKxGHKJyQFsmOSCL3RtMUaN+HI4X7bt+YZgMglmqX6l6iogNle1bJuobwnXlnvEZMBVNgMVYDYbmCISm2kRxsxbygMJZI8Vj9qNNFr8SqLJpfyyBsqNqoSST9ymFlUz6xM73BSTG3YiB4FdX1IghtGE46eaQ9sjm7rqjzGIxZ3urzKvHdcjK5jKZJpIO0zDrGYixtz9JabVrHlkfXciySa8xa3wQ18RY5WZS2kX7LTyF/G0uhdxwsfzHbRa+KSD46wzX3V77SjkuOBBclV5Yshagq9HA2eefepeQQXkauyP069Hv2Lk5TAgOwllcmLnhDsl6HWvFJAs6oH8Pm2TxM3UkAUvS/1Ij5QXXhrxoKCuV4kpPdGUTPgSAqbDmJ+Nuv/r4e2xvnG1ZBI2CZJJ+LqB8o8zhc05NA="
+        - secure: "XfGqM8sQu9DgimjAQUzUMFu3Xlu6/WSQNquIwslTI5mLGKi+9w2OpMvvTdhMz4dj0HAyY1G6OzzNKh5ZlQ6a2vQNRPwkWuxiFolEzqqP2t116cQnDh35MjCIohNT29224dBmzAxuKClP3iUBafTKhw1yN+zD6R3yfTfow7T3PUqc1eYG28EnXIHMs+Bg7WR/n5L5clfthds5pzsF473A9Tl/EkPRW9gEJatmRok0Tbxf1KLZ45nkLVEZqGuuOE+WJJYrfcEaRdHBFCQegxFJ9H9lhxalLizq5Q/Q7gZ4zjb/kGBJUSxxQduP9ntOy62AjcnnDgrhhSVoWmaHUeidjck/GtD5yXiaKjWJGcI5/hoEv8Mjri5jdMKglJB51RtAyLhKgQKgjZUqvXCN383SybvAYzfiazLfMG4iaKU3I3P2KGUPxLQFn2CBdr47dOB1AIYsi+k0FAb/yJNX+9Hpz0ZpeyEr/1UWsEUrtL954JkiKqzYVu7TuQtcUXsUbACibHlDUhP3z3kOYGHbSmGKhFuYVzhACGTyQIf5vGSHvFPwm+ne8u/Lc4eae9HirBqIpEdkLLY7nTUhsQzCunfOgBwfPe0Mx1oLUelsnd2d5PRmlLTC+tOLG6U8u8DfkoH/iLSgosK+9orY71IOW4u4xrUdz9xU3xJY+AxmtjqCdaw="
