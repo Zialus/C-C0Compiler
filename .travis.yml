@@ -38,6 +38,13 @@ matrix:
       before_script:
         - brew update && brew cask uninstall oclint
         - brew install llvm@5 && brew link --overwrite llvm@5 --force
+    - os: osx
+      osx_image: xcode9.1
+      env:
+        - MATRIX_EVAL="CC=clang-6.0 && CXX=clang++"
+      before_script:
+        - brew update && brew cask uninstall oclint
+        - brew install llvm@6 && brew link --overwrite llvm@6 --force
 
     ######## OSX GCC ########
     - os: osx
@@ -68,6 +75,13 @@ matrix:
       before_script:
         - brew update && brew cask uninstall oclint
         - brew install gcc@7
+    - os: osx
+      osx_image: xcode9.1
+      env:
+        - MATRIX_EVAL="CC=gcc-8 && CXX=g++-8"
+      before_script:
+        - brew update && brew cask uninstall oclint
+        - brew install gcc@8
 
     ######## LINUX CLANG ########
     - os: linux
@@ -128,6 +142,24 @@ matrix:
             - g++-6
       env:
         - MATRIX_EVAL="CC=gcc-6 && CXX=g++-6"
+    - os: linux
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-7
+      env:
+        - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
+    - os: linux
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-8
+      env:
+        - MATRIX_EVAL="CC=gcc-8 && CXX=g++-8"
 
     # SONARCLOUD
     - os : linux
@@ -149,7 +181,6 @@ matrix:
         - ctest -V
         - cd ..
         - sonar-scanner
-
       env:
         - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
 
@@ -168,8 +199,9 @@ matrix:
           notification_email: raulmendesferreira@gmail.com
           build_command_prepend: "mkdir build && cd build && cmake -D CMAKE_BUILD_TYPE=Release .."
           build_command: "make"
-          branch_pattern: coverity_scan
+          branch_pattern: master
       before_install:
+        - eval "${MATRIX_EVAL}"
         - echo -n | openssl s_client -connect https://scan.coverity.com:443 | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' | sudo tee -a /etc/ssl/certs/ca-
       env:
         - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
