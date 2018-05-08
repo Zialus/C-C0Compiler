@@ -128,6 +128,8 @@ matrix:
             - g++-6
       env:
         - MATRIX_EVAL="CC=gcc-6 && CXX=g++-6"
+
+    # SONARCLOUD
     - os : linux
       addons:
         apt:
@@ -150,3 +152,25 @@ matrix:
 
       env:
         - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
+
+    # COVERITY_SCAN
+    - os : linux
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-7
+        coverity_scan:
+          project:
+            name: "Zialus/C-C0Compiler"
+            description: "C0 Compiler"
+          notification_email: raulmendesferreira@gmail.com
+          build_command_prepend: "mkdir build && cd build && cmake -D CMAKE_BUILD_TYPE=Release .."
+          build_command: "make"
+          branch_pattern: coverity_scan
+      before_install:
+        - echo -n | openssl s_client -connect https://scan.coverity.com:443 | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' | sudo tee -a /etc/ssl/certs/ca-
+      env:
+        - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
+        - secure: "HASmAsDPiOHN89ZtJiqrhL5dPtC7yRdU+ThVanCdGRsspt/z4gE0tC+tZ4OakoBiCOqB0y0RM6tXCqxJ3hvgHr/yMG07Qsh0gf3tAZycgL3BJ1AhXwyd7ySDU83UMyDFTWeFRBX96AHcDe0pCnNEviLEpz9Seb7HmnjwqGpEdr4JPjWDT670WUyqDWfBFDZkV1l3rYr7mgT8bzgTU9kH7kfR8YoigSZxN4OP4W/tbD3+jLnUMLvGTKfiuuP3mrZJHOgejrHKQZTKxGHKJyQFsmOSCL3RtMUaN+HI4X7bt+YZgMglmqX6l6iogNle1bJuobwnXlnvEZMBVNgMVYDYbmCISm2kRxsxbygMJZI8Vj9qNNFr8SqLJpfyyBsqNqoSST9ymFlUz6xM73BSTG3YiB4FdX1IghtGE46eaQ9sjm7rqjzGIxZ3urzKvHdcjK5jKZJpIO0zDrGYixtz9JabVrHlkfXciySa8xa3wQ18RY5WZS2kX7LTyF/G0uhdxwsfzHbRa+KSD46wzX3V77SjkuOBBclV5Yshagq9HA2eefepeQQXkauyP069Hv2Lk5TAgOwllcmLnhDsl6HWvFJAs6oH8Pm2TxM3UkAUvS/1Ij5QXXhrxoKCuV4kpPdGUTPgSAqbDmJ+Nuv/r4e2xvnG1ZBI2CZJJ+LqB8o8zhc05NA="
