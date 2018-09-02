@@ -1,11 +1,7 @@
 .idea/
 .vscode/
-cmake-build-debug/
-cmake-build-release/
-cmake-xcode/
+cmake-*
 executable/
-cmake-linux/
-cmake-infer/
 parsing/lexer.c
 parsing/parser.c
 parsing/parser.h

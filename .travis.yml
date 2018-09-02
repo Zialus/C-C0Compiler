@@ -1,7 +1,4 @@
 language: cpp
-dist: trusty
-sudo: required
-
 
 script:
     - mkdir build
@@ -15,73 +12,6 @@ before_install:
 
 matrix:
   include:
-
-    ######## OSX CLANG ########
-    - os: osx
-      osx_image: xcode9.1
-      env:
-        - MATRIX_EVAL="CC=clang-3.9 && CXX=clang++"
-      before_script:
-        - brew update && brew cask uninstall oclint
-        - brew install llvm@3.9 && brew link --overwrite llvm@3.9 --force
-    - os: osx
-      osx_image: xcode9.1
-      env:
-        - MATRIX_EVAL="CC=clang-4.0 && CXX=clang++"
-      before_script:
-        - brew update && brew cask uninstall oclint
-        - brew install llvm@4 && brew link --overwrite llvm@4 --force
-    - os: osx
-      osx_image: xcode9.1
-      env:
-        - MATRIX_EVAL="CC=clang-5.0 && CXX=clang++"
-      before_script:
-        - brew update && brew cask uninstall oclint
-        - brew install llvm@5 && brew link --overwrite llvm@5 --force
-    - os: osx
-      osx_image: xcode9.1
-      env:
-        - MATRIX_EVAL="CC=clang-6.0 && CXX=clang++"
-      before_script:
-        - brew update && brew cask uninstall oclint
-        - brew install llvm@6 && brew link --overwrite llvm@6 --force
-
-    ######## OSX GCC ########
-    - os: osx
-      osx_image: xcode9.1
-      env:
-        - MATRIX_EVAL="CC=gcc-4.9 && CXX=g++-4.9"
-      before_script:
-        - brew update && brew cask uninstall oclint
-        - brew install gcc@4.9
-    - os: osx
-      osx_image: xcode9.1
-      env:
-        - MATRIX_EVAL="CC=gcc-5 && CXX=g++-5"
-      before_script:
-        - brew update && brew cask uninstall oclint
-        - brew install gcc@5
-    - os: osx
-      osx_image: xcode9.1
-      env:
-        - MATRIX_EVAL="CC=gcc-6 && CXX=g++-6"
-      before_script:
-        - brew update && brew cask uninstall oclint
-        - brew install gcc@6
-    - os: osx
-      osx_image: xcode9.1
-      env:
-        - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
-      before_script:
-        - brew update && brew cask uninstall oclint
-        - brew install gcc@7
-    - os: osx
-      osx_image: xcode9.1
-      env:
-        - MATRIX_EVAL="CC=gcc-8 && CXX=g++-8"
-      before_script:
-        - brew update && brew cask uninstall oclint
-        - brew install gcc@8
 
     ######## LINUX CLANG ########
     - os: linux
@@ -161,6 +91,73 @@ matrix:
       env:
         - MATRIX_EVAL="CC=gcc-8 && CXX=g++-8"
 
+    ######## OSX CLANG ########
+    - os: osx
+      osx_image: xcode9.2
+      env:
+        - MATRIX_EVAL="CC=clang-3.9 && CXX=clang++"
+      before_script:
+        - brew update && brew cask uninstall oclint
+        - brew install llvm@3.9 && brew link --overwrite llvm@3.9 --force
+    - os: osx
+      osx_image: xcode9.2
+      env:
+        - MATRIX_EVAL="CC=clang-4.0 && CXX=clang++"
+      before_script:
+        - brew update && brew cask uninstall oclint
+        - brew install llvm@4 && brew link --overwrite llvm@4 --force
+    - os: osx
+      osx_image: xcode9.2
+      env:
+        - MATRIX_EVAL="CC=clang-5.0 && CXX=clang++"
+      before_script:
+        - brew update && brew cask uninstall oclint
+        - brew install llvm@5 && brew link --overwrite llvm@5 --force
+    - os: osx
+      osx_image: xcode9.2
+      env:
+        - MATRIX_EVAL="CC=clang-6.0 && CXX=clang++"
+      before_script:
+        - brew update && brew cask uninstall oclint
+        - brew install llvm@6 && brew link --overwrite llvm@6 --force
+
+    ######## OSX GCC ########
+    - os: osx
+      osx_image: xcode9.2
+      env:
+        - MATRIX_EVAL="CC=gcc-4.9 && CXX=g++-4.9"
+      before_script:
+        - brew update && brew cask uninstall oclint
+        - brew install gcc@4.9
+    - os: osx
+      osx_image: xcode9.2
+      env:
+        - MATRIX_EVAL="CC=gcc-5 && CXX=g++-5"
+      before_script:
+        - brew update && brew cask uninstall oclint
+        - brew install gcc@5
+    - os: osx
+      osx_image: xcode9.2
+      env:
+        - MATRIX_EVAL="CC=gcc-6 && CXX=g++-6"
+      before_script:
+        - brew update && brew cask uninstall oclint
+        - brew install gcc@6
+    - os: osx
+      osx_image: xcode9.2
+      env:
+        - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
+      before_script:
+        - brew update && brew cask uninstall oclint
+        - brew install gcc@7
+    - os: osx
+      osx_image: xcode9.2
+      env:
+        - MATRIX_EVAL="CC=gcc-8 && CXX=g++-8"
+      before_script:
+        - brew update && brew cask uninstall oclint
+        - brew install gcc@8
+
     # SONARCLOUD
     - os : linux
       addons:
@@ -168,7 +165,7 @@ matrix:
           sources:
             - ubuntu-toolchain-r-test
           packages:
-            - g++-7
+            - g++-8
         sonarcloud:
           organization: "zialus-github"
           token:
@@ -182,7 +179,8 @@ matrix:
         - cd ..
         - sonar-scanner
       env:
-        - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
+        - SONAR_CLOUD="YUP"
+        - MATRIX_EVAL="CC=gcc-8 && CXX=g++-8"
 
     # COVERITY_SCAN
     - os : linux
@@ -195,9 +193,7 @@ matrix:
           build_command_prepend: "mkdir build && cd build && cmake -D CMAKE_BUILD_TYPE=Release .."
           build_command: "make"
           branch_pattern: master
-      before_install:
-        - echo -n | openssl s_client -connect https://scan.coverity.com:443 | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' | sudo tee -a /etc/ssl/certs/ca-
       script:
-        - ctest -V
+        - echo "Coverity Scan"
       env:
         - secure: "XfGqM8sQu9DgimjAQUzUMFu3Xlu6/WSQNquIwslTI5mLGKi+9w2OpMvvTdhMz4dj0HAyY1G6OzzNKh5ZlQ6a2vQNRPwkWuxiFolEzqqP2t116cQnDh35MjCIohNT29224dBmzAxuKClP3iUBafTKhw1yN+zD6R3yfTfow7T3PUqc1eYG28EnXIHMs+Bg7WR/n5L5clfthds5pzsF473A9Tl/EkPRW9gEJatmRok0Tbxf1KLZ45nkLVEZqGuuOE+WJJYrfcEaRdHBFCQegxFJ9H9lhxalLizq5Q/Q7gZ4zjb/kGBJUSxxQduP9ntOy62AjcnnDgrhhSVoWmaHUeidjck/GtD5yXiaKjWJGcI5/hoEv8Mjri5jdMKglJB51RtAyLhKgQKgjZUqvXCN383SybvAYzfiazLfMG4iaKU3I3P2KGUPxLQFn2CBdr47dOB1AIYsi+k0FAb/yJNX+9Hpz0ZpeyEr/1UWsEUrtL954JkiKqzYVu7TuQtcUXsUbACibHlDUhP3z3kOYGHbSmGKhFuYVzhACGTyQIf5vGSHvFPwm+ne8u/Lc4eae9HirBqIpEdkLLY7nTUhsQzCunfOgBwfPe0Mx1oLUelsnd2d5PRmlLTC+tOLG6U8u8DfkoH/iLSgosK+9orY71IOW4u4xrUdz9xU3xJY+AxmtjqCdaw="
