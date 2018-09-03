@@ -13,11 +13,11 @@ typedef struct instruction_list* I_List;
 
 typedef enum {
     OpPlus, OpMinus, OpTimes, OpDiv
-} A_Operand;
+} A_Operand; // Arithmetic Operand
 
 typedef enum {
     OpG, OpL, OpLEQ, OpGEQ, OpEQ, OpNOTEQ, OpOR, OpAND, OpASSIGN
-} B_Operand;
+} B_Operand; // Boolean Operand
 
 typedef enum {
     BOOL_TYPE, INT_TYPE
@@ -36,7 +36,7 @@ typedef enum {
 } IL_Kind;
 
 
-// ----- Expression ----- //
+// -------- Expressions -------- //
 struct exp {
     EXP_Kind kind;
     union {
@@ -75,10 +75,10 @@ void delete_EXP_int(EXP exp);
 void delete_EXP_bool(EXP exp);
 
 void delete_EXP_Var(EXP exp);
-// ----- Expression ----- //
+// -------- Expressions -------- //
 
 
-// ----- Commands ----- //
+// --------- Commands --------- //
 struct cmd {
     CMD_Kind kind;
     union {
@@ -111,10 +111,10 @@ void delete_CMD_while(CMD cmd);
 void delete_CMD_if_then_else(CMD cmd);
 
 void delete_CMD_assignment(CMD cmd);
-// ----- Commands ----- //
+// --------- Commands --------- //
 
 
-// ----- Declarations ----- //
+// ------- Declarations ------- //
 struct decl {
     Type var_type;
     char var_name[MAX_SIZE];
@@ -123,7 +123,7 @@ struct decl {
 DECL make_DECL(Type t, char* v);
 
 void delete_DECL(DECL decl);
-// ----- Declarations ----- //
+// ------- Declarations ------- //
 
 
 // ----- Instruction List ----- //
