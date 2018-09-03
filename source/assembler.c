@@ -325,7 +325,7 @@ void compiler_start(I_List il) {
     if (p->clist != NULL) {
         print_TACLIST(p->clist);
     }
-    fclose(stdout);
+
     delete_IL(il);
     delete_Pair(p);
 }
