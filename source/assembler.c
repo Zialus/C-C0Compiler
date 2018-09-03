@@ -348,14 +348,21 @@ void delete_Address(Address addr) {
         case Int:
             break;
         case String:
-            free(addr->content.var);
+//            free(addr->content.var);
             break;
         case Register:
-            free(addr->content.var);
+//            free(addr->content.var);
             break;
     }
+
+//    free(addr);
 }
 
+void delete_TAC(TAC t) {
+    if (t->addr1 != NULL) delete_Address(t->addr1);
+    if (t->addr2 != NULL) delete_Address(t->addr2);
+    if (t->addr3 != NULL) delete_Address(t->addr3);
+}
 
 void compile_decl(DECL decl) {
     add_to_hash(decl);

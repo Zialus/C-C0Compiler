@@ -609,7 +609,7 @@ void print_TACLIST(TACList tl) {
 
 void delete_TACLIST(TACList tl) {
     if (tl->head != NULL) {
-        free(tl->head);
+        delete_TAC(tl->head);
     }
     if (tl->tail != NULL) {
         delete_TACLIST(tl->tail);

@@ -37,6 +37,7 @@ void add_to_hash(DECL decl);
 
 void delete_Pair(Pair p);
 void delete_Address(Address addr);
+void delete_TAC(TAC t);
 
 Address makeVal(int);
 Address makeVar(char*);
