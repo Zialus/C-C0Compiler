@@ -378,7 +378,7 @@ void add_to_hash(DECL decl) {
 
         s = malloc(sizeof(struct decl_hash));
 
-        strncpy(s->variable, decl->var_name, MAX_SIZE);
+        strncpy(s->variable, decl->var_name, MAX_SIZE-1);
         s->type = decl->var_type;
 
         HASH_ADD_STR(symbol_table, variable, s);  /* variable: name of key field */
