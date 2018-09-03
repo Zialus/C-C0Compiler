@@ -123,6 +123,8 @@ OpKind get_A_Op(A_Operand o) {
         case OpDiv:
             return A_Div;
     }
+
+    exit(EXIT_FAILURE);
 }
 
 OpKind get_B_Op(B_Operand o) {
@@ -146,6 +148,8 @@ OpKind get_B_Op(B_Operand o) {
         case OpASSIGN:
             return A_Asn;
     }
+
+    exit(EXIT_FAILURE);
 }
 
 Pair compile_exp(EXP e) {
