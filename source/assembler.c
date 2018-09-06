@@ -99,17 +99,16 @@ Pair makePair(Address a, TACList l) {
 }
 
 TACList append(TACList cl1, TACList cl2) {
-    TACList cl3;
     if (cl1 != NULL) {
-        cl3 = cl1;
-        while (cl3->tail != NULL) {
-            cl3 = cl3->tail;
+        TACList tmp = cl1;
+        while (tmp->tail != NULL) {
+            tmp = tmp->tail;
         }
-        cl3->tail = cl2;
+        tmp->tail = cl2;
     } else { // cl1 is NULL cl2 could be NULL or not, doesn't matter
-        cl3 = cl2;
+        cl1 = cl2;
     }
-    return cl3;
+    return cl1;
 }
 
 OpKind get_A_Op(A_Operand o) {
