@@ -155,7 +155,6 @@ Pair compile_exp(EXP e) {
     // printf("EXP\n" );
     Pair auxA, auxB, p, res;
     TACList list = NULL;
-    TACList list3;
     TACList tmp;
     Address t0, t1, t2;
     TAC elem, elem1, elem2;
@@ -194,20 +193,12 @@ Pair compile_exp(EXP e) {
                     break;
                 default:
                     elem = makeTAC(op, t0, auxA->addr, auxB->addr);  // INSTRUÇÃO FINAL
-                    // APPEND esq. ++ dir.
-                    if (auxA->clist != NULL && auxB->clist != NULL) {
-                        list3 = append(auxA->clist, auxB->clist);
-                    } else if (auxA->clist != NULL) {
-                        list3 = auxA->clist;
-                    } else {
-                        list3 = auxB->clist;  // pode ser NULL
-                    }
+
                     tmp = makeTACList(elem, NULL);  // exp. final
-                    if (list3 != NULL) {
-                        list = append(list3, tmp);
-                    } else {
-                        list = tmp;
-                    }
+
+                    list = append(list, auxA->clist);
+                    list = append(list, auxB->clist);
+                    list = append(list, tmp);
                     break;
             }
 
@@ -224,20 +215,13 @@ Pair compile_exp(EXP e) {
             auxB = compile_exp(e->u.opA.right);  // ramo dir.
             op = get_A_Op(e->u.opA.oper);
             elem = makeTAC(op, t0, auxA->addr, auxB->addr);  // INSTRUÇÃO FINAL
-            // APPEND esq. ++ dir.
-            if (auxA->clist != NULL && auxB->clist != NULL) {
-                list3 = append(auxA->clist, auxB->clist);
-            } else if (auxA->clist != NULL) {
-                list3 = auxA->clist;
-            } else {
-                list3 = auxB->clist;  // pode ser NULL
-            }
+
             tmp = makeTACList(elem, NULL);  // exp. final
-            if (list3 != NULL) {
-                list = append(list3, tmp);
-            } else {
-                list = tmp;
-            }
+
+            list = append(list, auxA->clist);
+            list = append(list, auxB->clist);
+            list = append(list, tmp);
+
             res = makePair(t0, list);
             return res;
         case EXP_int:
