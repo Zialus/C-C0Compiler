@@ -1,14 +1,14 @@
 language: cpp
+dist: xenial
 
 script:
-    - mkdir build
-    - cd build
-    - cmake -D CMAKE_BUILD_TYPE=Release ..
-    - make
-    - ctest -V
+  - mkdir build && cd build
+  - cmake -DCMAKE_BUILD_TYPE=Release ..
+  - make -j2
+  - ctest -V
 
 before_install:
-    - eval "${MATRIX_EVAL}"
+  - eval "${MATRIX_EVAL}"
 
 matrix:
   include:
@@ -18,10 +18,8 @@ matrix:
       addons:
         apt:
           sources:
-            - llvm-toolchain-trusty-3.9
-            - ubuntu-toolchain-r-test
+            - llvm-toolchain-xenial-3.9
           packages:
-            - libstdc++-6-dev
             - clang-3.9
       env:
         - MATRIX_EVAL="CC=clang-3.9 && CXX=clang++-3.9"
@@ -29,7 +27,7 @@ matrix:
       addons:
         apt:
           sources:
-            - llvm-toolchain-trusty-4.0
+            - llvm-toolchain-xenial-4.0
           packages:
             - clang-4.0
       env:
@@ -38,12 +36,29 @@ matrix:
       addons:
         apt:
           sources:
-            - llvm-toolchain-trusty-5.0
+            - llvm-toolchain-xenial-5.0
           packages:
             - clang-5.0
       env:
         - MATRIX_EVAL="CC=clang-5.0 && CXX=clang++-5.0"
-
+    - os: linux
+      addons:
+        apt:
+          sources:
+            - llvm-toolchain-xenial-6.0
+          packages:
+            - clang-6.0
+      env:
+        - MATRIX_EVAL="CC=clang-6.0 && CXX=clang++-6.0"
+    - os: linux
+      addons:
+        apt:
+          sources:
+            - llvm-toolchain-xenial-7
+          packages:
+            - clang-7
+      env:
+        - MATRIX_EVAL="CC=clang-7 && CXX=clang++-7"
     ######## LINUX GCC ########
     - os: linux
       addons:
@@ -53,7 +68,7 @@ matrix:
           packages:
             - g++-4.9
       env:
-         - MATRIX_EVAL="CC=gcc-4.9 && CXX=g++-4.9"
+        - MATRIX_EVAL="CC=gcc-4.9 && CXX=g++-4.9"
     - os: linux
       addons:
         apt:
@@ -62,7 +77,7 @@ matrix:
           packages:
             - g++-5
       env:
-         - MATRIX_EVAL="CC=gcc-5 && CXX=g++-5"
+        - MATRIX_EVAL="CC=gcc-5 && CXX=g++-5"
     - os: linux
       addons:
         apt:
@@ -93,73 +108,73 @@ matrix:
 
     ######## OSX CLANG ########
     - os: osx
-      osx_image: xcode9.2
+      osx_image: xcode10.1
       env:
         - MATRIX_EVAL="CC=clang-3.9 && CXX=clang++"
       before_script:
-        - brew update && brew cask uninstall oclint
         - brew install llvm@3.9 && brew link --overwrite llvm@3.9 --force
     - os: osx
-      osx_image: xcode9.2
+      osx_image: xcode10.1
       env:
         - MATRIX_EVAL="CC=clang-4.0 && CXX=clang++"
       before_script:
-        - brew update && brew cask uninstall oclint
         - brew install llvm@4 && brew link --overwrite llvm@4 --force
     - os: osx
-      osx_image: xcode9.2
+      osx_image: xcode10.1
       env:
         - MATRIX_EVAL="CC=clang-5.0 && CXX=clang++"
       before_script:
-        - brew update && brew cask uninstall oclint
         - brew install llvm@5 && brew link --overwrite llvm@5 --force
     - os: osx
-      osx_image: xcode9.2
+      osx_image: xcode10.1
       env:
         - MATRIX_EVAL="CC=clang-6.0 && CXX=clang++"
       before_script:
-        - brew update && brew cask uninstall oclint
         - brew install llvm@6 && brew link --overwrite llvm@6 --force
+    - os: osx
+      osx_image: xcode10.1
+      env:
+        - MATRIX_EVAL="CC=clang-7 && CXX=clang++"
+      before_script:
+        - brew install llvm@7 && brew link --overwrite llvm@7 --force
+        - export PATH="/usr/local/opt/llvm/bin:$PATH"
+        - export LDFLAGS="-L/usr/local/opt/llvm/lib"
+        - export CPPFLAGS="-I/usr/local/opt/llvm/include"
 
     ######## OSX GCC ########
     - os: osx
-      osx_image: xcode9.2
+      osx_image: xcode10.1
       env:
         - MATRIX_EVAL="CC=gcc-4.9 && CXX=g++-4.9"
       before_script:
-        - brew update && brew cask uninstall oclint
         - brew install gcc@4.9
     - os: osx
-      osx_image: xcode9.2
+      osx_image: xcode10.1
       env:
         - MATRIX_EVAL="CC=gcc-5 && CXX=g++-5"
       before_script:
-        - brew update && brew cask uninstall oclint
         - brew install gcc@5
     - os: osx
-      osx_image: xcode9.2
+      osx_image: xcode10.1
       env:
         - MATRIX_EVAL="CC=gcc-6 && CXX=g++-6"
       before_script:
-        - brew update && brew cask uninstall oclint
         - brew install gcc@6
     - os: osx
-      osx_image: xcode9.2
+      osx_image: xcode10.1
       env:
         - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
       before_script:
-        - brew update && brew cask uninstall oclint
         - brew install gcc@7
     - os: osx
-      osx_image: xcode9.2
+      osx_image: xcode10.1
       env:
         - MATRIX_EVAL="CC=gcc-8 && CXX=g++-8"
       before_script:
-        - brew update && brew cask uninstall oclint
-        - brew install gcc@8
+        - brew link gcc@8
 
     # SONARCLOUD
-    - os : linux
+    - os: linux
       addons:
         apt:
           sources:
@@ -183,7 +198,7 @@ matrix:
         - MATRIX_EVAL="CC=gcc-8 && CXX=g++-8"
 
     # COVERITY_SCAN
-    - os : linux
+    - os: linux
       addons:
         coverity_scan:
           project:
