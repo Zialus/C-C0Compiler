@@ -186,11 +186,11 @@ matrix:
           token:
             secure: "l+4Wwj9uCrNvTyE2ZK3QYXRhoIsWaQ7hXzekI4rwV0Qiw6i5B1/rQlCyjHVx4VoCR2yKNu3f0I5j4f1CMrPURNxmDGueBEdVYpEMJF02Ys72GHB1RA6oQnB9SzqDnjznhokaJcCG3dg8YAv/jU0plJOKOg/HjzP70E6Lm0HechdgWYnWjzAPFyF3lrDqvltWE4aaGo+14m9UsiwgKUJgWD8rXJVe38TRZDv/1/TnWi846fqh7swqZ+1byK2tBH2uSh9+QZOkWNcRlVyQY/CnJrbQ+v99QKdP068RbhWaBX42IsZjHw6uSifrIvsa1OhmvvMlD7bDmmG/vMn5xqBOTMz9b7nWA1jWkoz3o2zCSJEBPzNfbwuiFzRrfzEqZURVlsx7dVzy6fqMGKOc/f5d+OSA3aks7kCzhlqWIVYfJOzwz5QpTRONjZhkj4dK28MfeDdVTMOJFKvLdX0GPtCra72LHKYR/rdRxXqaaFrxiSE5RMgkAGwBvadn2eslJ6ogY1jrgvR7UYKmeP5CBhVsIld1ARBAr5RB6gT4PXM1W+BGnyXDupNCAGu7IEOV12OixEv3nlUFdDrsW9gF+PtGRaq9G/tBmM1JZWYXTbFYn/3jXkMcIIxYfB7zaV2JKZ3J0baJtT4QBK9Y0eNJXQ9niI2XiH1/qdez0vMZ95Fd0wU="
       script:
-        - mkdir build
-        - cd build
-        - cmake -D CMAKE_BUILD_TYPE=Release ..
+        - git fetch --unshallow
+        - mkdir build && cd build
+        - cmake -DCMAKE_BUILD_TYPE=Release ..
         - build-wrapper-linux-x86-64 --out-dir bw-output make clean all
-        - ctest -V
+        - ctest -V -C Release
         - cd ..
         - sonar-scanner
       env:
@@ -200,15 +200,20 @@ matrix:
     # COVERITY_SCAN
     - os: linux
       addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-7 # Max version supported by coverity scan right now
         coverity_scan:
           project:
             name: "Zialus/C-C0Compiler"
-            description: "C0 Compiler"
           notification_email: raulmendesferreira@gmail.com
-          build_command_prepend: "mkdir build && cd build && cmake -D CMAKE_BUILD_TYPE=Release .."
+          build_command_prepend: "git fetch --unshallow && cov-configure --comptype gcc --compiler gcc-7 --template && mkdir build && cd build && cmake -DCMAKE_BUILD_TYPE=Release .."
           build_command: "make"
           branch_pattern: master
       script:
         - echo "Coverity Scan"
       env:
         - secure: "XfGqM8sQu9DgimjAQUzUMFu3Xlu6/WSQNquIwslTI5mLGKi+9w2OpMvvTdhMz4dj0HAyY1G6OzzNKh5ZlQ6a2vQNRPwkWuxiFolEzqqP2t116cQnDh35MjCIohNT29224dBmzAxuKClP3iUBafTKhw1yN+zD6R3yfTfow7T3PUqc1eYG28EnXIHMs+Bg7WR/n5L5clfthds5pzsF473A9Tl/EkPRW9gEJatmRok0Tbxf1KLZ45nkLVEZqGuuOE+WJJYrfcEaRdHBFCQegxFJ9H9lhxalLizq5Q/Q7gZ4zjb/kGBJUSxxQduP9ntOy62AjcnnDgrhhSVoWmaHUeidjck/GtD5yXiaKjWJGcI5/hoEv8Mjri5jdMKglJB51RtAyLhKgQKgjZUqvXCN383SybvAYzfiazLfMG4iaKU3I3P2KGUPxLQFn2CBdr47dOB1AIYsi+k0FAb/yJNX+9Hpz0ZpeyEr/1UWsEUrtL954JkiKqzYVu7TuQtcUXsUbACibHlDUhP3z3kOYGHbSmGKhFuYVzhACGTyQIf5vGSHvFPwm+ne8u/Lc4eae9HirBqIpEdkLLY7nTUhsQzCunfOgBwfPe0Mx1oLUelsnd2d5PRmlLTC+tOLG6U8u8DfkoH/iLSgosK+9orY71IOW4u4xrUdz9xU3xJY+AxmtjqCdaw="
+        - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
