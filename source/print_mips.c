@@ -316,7 +316,7 @@ void print_TAC(TAC t) {
                 print_Address(t->addr3);
                 printf("\n");
             }
-            if (t->addr2->AddrKind == String) {
+            if (t->addr2->AddrKind == String || t->addr2->AddrKind == Register) {
                 aux2 = makeNewVar();
                 printf("la ");
                 print_Address(aux2);
@@ -330,7 +330,7 @@ void print_TAC(TAC t) {
                 printf(")");
                 printf("\n");
             }
-            if (t->addr3->AddrKind == String) {
+            if (t->addr3->AddrKind == String || t->addr2->AddrKind == Register) {
                 aux3 = makeNewVar();
                 printf("la ");
                 print_Address(aux3);
@@ -370,7 +370,7 @@ void print_TAC(TAC t) {
                 print_Address(t->addr3);
                 printf("\n");
             }
-            if (t->addr2->AddrKind == String) {
+            if (t->addr2->AddrKind == String || t->addr2->AddrKind == Register) {
                 aux2 = makeNewVar();
                 printf("la ");
                 print_Address(aux2);
@@ -384,7 +384,7 @@ void print_TAC(TAC t) {
                 printf(")");
                 printf("\n");
             }
-            if (t->addr3->AddrKind == String) {
+            if (t->addr3->AddrKind == String || t->addr2->AddrKind == Register) {
                 aux3 = makeNewVar();
                 printf("la ");
                 print_Address(aux3);
@@ -424,7 +424,7 @@ void print_TAC(TAC t) {
                 print_Address(t->addr3);
                 printf("\n");
             }
-            if (t->addr2->AddrKind == String) {
+            if (t->addr2->AddrKind == String || t->addr2->AddrKind == Register) {
                 aux2 = makeNewVar();
                 printf("la ");
                 print_Address(aux2);
@@ -438,7 +438,7 @@ void print_TAC(TAC t) {
                 printf(")");
                 printf("\n");
             }
-            if (t->addr3->AddrKind == String) {
+            if (t->addr3->AddrKind == String || t->addr2->AddrKind == Register) {
                 aux3 = makeNewVar();
                 printf("la ");
                 print_Address(aux3);
@@ -478,7 +478,7 @@ void print_TAC(TAC t) {
                 print_Address(t->addr3);
                 printf("\n");
             }
-            if (t->addr2->AddrKind == String) {
+            if (t->addr2->AddrKind == String || t->addr2->AddrKind == Register) {
                 aux2 = makeNewVar();
                 printf("la ");
                 print_Address(aux2);
@@ -492,7 +492,7 @@ void print_TAC(TAC t) {
                 printf(")");
                 printf("\n");
             }
-            if (t->addr3->AddrKind == String) {
+            if (t->addr3->AddrKind == String || t->addr2->AddrKind == Register) {
                 aux3 = makeNewVar();
                 printf("la ");
                 print_Address(aux3);
