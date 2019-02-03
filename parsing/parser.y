@@ -79,7 +79,7 @@ COMMAND
 
       | IF PL EXP PR CBL INST_L CBR ELSE SINGLE_INST         { $$ = make_CMD_if_then_else($3,$6,$9); }
       | IF PL EXP PR CBL INST_L CBR ELSE CBL INST_L CBR      { $$ = make_CMD_if_then_else($3,$6,$10); }
-                                                                    
+
       | WHILE PL EXP PR SEMICOLON                            { $$ = make_CMD_while($3,NULL); }
       | WHILE PL EXP PR SINGLE_INST                          { $$ = make_CMD_while($3,$5); }
       | WHILE PL EXP PR CBL INST_L CBR                       { $$ = make_CMD_while($3,$6); }
@@ -134,6 +134,7 @@ int main(int argc, char **argv){
     yyin = fopen(argv[1], "r");
     yyparse();
     fclose(yyin);
+    yylex_destroy();
     return 0;
 }
 
