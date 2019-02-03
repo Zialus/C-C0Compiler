@@ -222,11 +222,14 @@ Pair compile_exp(EXP e) {
 
                     list = append(list, auxA->clist);
                     list = append(list, auxB->clist);
+
                     list = append(list, tmp);
                     break;
                 }
             }
 
+            free(auxA);
+            free(auxB);
             Pair res = makePair(t0, list);
             //última var. ()é usada no salto
 
@@ -249,6 +252,9 @@ Pair compile_exp(EXP e) {
 
             list = append(list, auxA->clist);
             list = append(list, auxB->clist);
+            free(auxA);
+            free(auxB);
+
             list = append(list, tmp);
 
             Pair res = makePair(t0, list);
