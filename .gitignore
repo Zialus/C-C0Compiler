@@ -1,7 +1,11 @@
+#Build tools
 .idea/
 .vscode/
 cmake-*
 executable/
+build/
+
+#Temporary parser files
 parsing/lexer.c
 parsing/parser.c
 parsing/parser.h
