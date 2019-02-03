@@ -50,7 +50,7 @@ void print_specific_instruction(TAC t) {
         case A_Asn:
             break;
         case A_BEQ:
-            printf("eq ");
+            printf("beq ");
             break;
         case A_BLT:
             printf("blt ");
@@ -89,16 +89,7 @@ void print_B(Address aux2, Address aux3, TAC t) {
         printf(", ");
         print_Address(t->addr2);
         printf("\n");
-    }
-    if (t->addr3->AddrKind == Int) {
-        aux3 = makeNewVar();
-        printf("li ");
-        print_Address(aux3);
-        printf(", ");
-        print_Address(t->addr3);
-        printf("\n");
-    }
-    if (t->addr2->AddrKind == String || t->addr2->AddrKind == Register) {
+    } else if (t->addr2->AddrKind == String || t->addr2->AddrKind == Register) {
         aux2 = makeNewVar();
         printf("la ");
         print_Address(aux2);
@@ -111,8 +102,19 @@ void print_B(Address aux2, Address aux3, TAC t) {
         print_Address(aux2);
         printf(")");
         printf("\n");
+    } else {
+        fprintf(stderr, "This will only happen if something went wrong with C enums!");
+        exit(EXIT_FAILURE);
     }
-    if (t->addr3->AddrKind == String || t->addr3->AddrKind == Register) {
+
+    if (t->addr3->AddrKind == Int) {
+        aux3 = makeNewVar();
+        printf("li ");
+        print_Address(aux3);
+        printf(", ");
+        print_Address(t->addr3);
+        printf("\n");
+    } else if (t->addr3->AddrKind == String || t->addr3->AddrKind == Register) {
         aux3 = makeNewVar();
         printf("la ");
         print_Address(aux3);
@@ -125,7 +127,11 @@ void print_B(Address aux2, Address aux3, TAC t) {
         print_Address(aux3);
         printf(")");
         printf("\n");
+    } else {
+        fprintf(stderr, "This will only happen if something went wrong with C enums!");
+        exit(EXIT_FAILURE);
     }
+
     print_specific_instruction(t);
     print_Address(t->addr1);
     printf(", ");
@@ -192,6 +198,38 @@ void print_A(Address aux2, Address aux3, TAC t) {
     printf("\n");
 }
 
+void print_Asn(Address aux2, Address aux3, TAC t) {
+    aux2 = makeNewVar();
+    printf("la ");
+    print_Address(aux2);
+    printf(", ");
+    print_Address(t->addr1);
+    printf("\n");
+    if (t->addr2->AddrKind == String || t->addr2->AddrKind == Register) {
+        printf("lw ");
+        print_Address(aux2);
+        printf(", ");
+        printf("0(");
+        print_Address(t->addr1);
+        printf(")\n");
+    }
+    if (t->addr2->AddrKind == String || t->addr2->AddrKind == Register) {
+        printf("lw ");
+    } else {
+        printf("li ");
+    }
+    print_Address(aux2);
+    printf(", ");
+    if (t->addr2->AddrKind == String || t->addr2->AddrKind == Register) {
+        printf("0(");
+    }
+    print_Address(t->addr2);
+    if (t->addr2->AddrKind == String || t->addr2->AddrKind == Register) {
+        printf(")");
+    }
+    printf("\n");
+}
+
 void print_TAC(TAC t) {
     Address aux2 = NULL;
     Address aux3 = NULL;
@@ -209,41 +247,13 @@ void print_TAC(TAC t) {
             print_A(aux2, aux3, t);
             break;
         case A_Asn:
-            aux2 = makeNewVar();
-            printf("la ");
-            print_Address(aux2);
-            printf(", ");
-            print_Address(t->addr1);
-            printf("\n");
-            if (t->addr2->AddrKind == String || t->addr2->AddrKind == Register) {
-                printf("lw ");
-                print_Address(aux2);
-                printf(", ");
-                printf("0(");
-                print_Address(t->addr1);
-                printf(")\n");
-            }
-            if (t->addr2->AddrKind == String || t->addr2->AddrKind == Register) {
-                printf("lw ");
-            } else {
-                printf("li ");
-            }
-            print_Address(aux2);
-            printf(", ");
-            if (t->addr2->AddrKind == String || t->addr2->AddrKind == Register) {
-                printf("0(");
-            }
-            print_Address(t->addr2);
-            if (t->addr2->AddrKind == String || t->addr2->AddrKind == Register) {
-                printf(")");
-            }
-            printf("\n");
+            print_Asn(aux2, aux3, t);
             break;
         case A_BEQ:
-            print_B(aux2,aux3,t);
+            print_B(aux2, aux3, t);
             break;
         case A_BLT:
-            print_B(aux2,aux3,t);
+            print_B(aux2, aux3, t);
             break;
         case A_BGT:
             print_B(aux2, aux3, t);

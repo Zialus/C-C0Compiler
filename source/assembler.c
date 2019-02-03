@@ -438,7 +438,7 @@ Pair compile_cmd(CMD cmd) {
 
     if (tl == NULL) {
         fprintf(stderr, "This will only happen if something went wrong with C enums!");
-        exit(1);
+        exit(EXIT_FAILURE);
     }
 
     Pair p = makePair(NULL, tl);
