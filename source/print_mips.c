@@ -148,8 +148,8 @@ void print_B(TAC t) {
 }
 
 void print_A(TAC t) {
-    Address aux2;
-    Address aux3;
+    Address aux2 = NULL;
+    Address aux3 = NULL;
 
     if (t->addr2->AddrKind == Int) {
         printf("li ");

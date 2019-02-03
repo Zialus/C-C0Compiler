@@ -137,9 +137,11 @@ OpKind get_A_Op(A_Operand o) {
             return A_Times;
         case OpDiv:
             return A_Div;
+        default: {
+            fprintf(stderr, "This will only happen if something went wrong with C enums!");
+            exit(EXIT_FAILURE);
+        }
     }
-
-    exit(EXIT_FAILURE);
 }
 
 OpKind get_B_Op(B_Operand o) {
@@ -162,9 +164,11 @@ OpKind get_B_Op(B_Operand o) {
             return A_OR;
         case OpASSIGN:
             return A_Asn;
+        default: {
+            fprintf(stderr, "This will only happen if something went wrong with C enums!");
+            exit(EXIT_FAILURE);
+        }
     }
-
-    exit(EXIT_FAILURE);
 }
 
 Pair compile_exp(EXP e) {
@@ -296,7 +300,10 @@ Pair compile_exp(EXP e) {
 
             return p;
         }
-
+        default: {
+            fprintf(stderr, "This will only happen if something went wrong with C enums!");
+            exit(EXIT_FAILURE);
+        }
     }
 }
 
@@ -312,6 +319,10 @@ Pair compile(I_List il) {
         case DECL_:
             compile_decl(il->head.decl);
             break;
+        default: {
+            fprintf(stderr, "This will only happen if something went wrong with C enums!");
+            exit(EXIT_FAILURE);
+        }
     }
 
     if (il->tail != NULL) {
