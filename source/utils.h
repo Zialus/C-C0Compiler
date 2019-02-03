@@ -5,8 +5,8 @@
 #include "tree.h"
 
 #define MAX_SIZE 50
-#define MAX_SIZE_TO_REPRESENT_REG 4  // supondo que serão usados no maximo 100 registos (0-99)
-#define MAX_SIZE_TO_REPRESENT_LABEL 3 // supondo que serão usados no maximo 10 labels (0-9)
+#define MAX_SIZE_TO_REPRESENT_REG 4  // supondo que serão usados no maximo 1000 registos (0-999)
+#define MAX_SIZE_TO_REPRESENT_LABEL 3 // supondo que serão usados no maximo 100 labels (0-99)
 #define MAX_SIZE_INTS 10 // supondo que no maximo ints terão 10 digitos
 
 struct decl_hash {
