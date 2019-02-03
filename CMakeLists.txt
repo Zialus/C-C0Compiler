@@ -11,6 +11,28 @@ BISON_TARGET(MyParser parsing/parser.y ${PROJECT_SOURCE_DIR}/parsing/parser.c)
 FLEX_TARGET(MyScanner parsing/lexer.l ${PROJECT_SOURCE_DIR}/parsing/lexer.c)
 ADD_FLEX_BISON_DEPENDENCY(MyScanner MyParser)
 
+# Compiler flags to enable more warnings
+if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra")
+elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang" OR "${CMAKE_CXX_COMPILER_ID}" STREQUAL "AppleClang")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra")
+elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /W4")
+endif ()
+
+# Compiler flags to silence/or add some warnings
+if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ")
+elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang" OR "${CMAKE_CXX_COMPILER_ID}" STREQUAL "AppleClang")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ")
+elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /w44365")
+endif ()
+
+# Silence warning C4996 on Microsoft Compilers
+if (MSVC)
+    add_definitions(-D_CRT_SECURE_NO_WARNINGS)
+endif ()
 
 file(GLOB source_SRC "${PROJECT_SOURCE_DIR}/source/*.h")
 file(GLOB source_HDR "${PROJECT_SOURCE_DIR}/source/*.c")
