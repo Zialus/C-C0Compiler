@@ -9,12 +9,12 @@
 #include "utils.h"
 
 
-// variaveis para crirar nomes de registos temporarios
+// Global variables to create names for temporary MIPS registers
 int i = 0;
 int lb = 0;
 char final_reg[MAX_SIZE];
 
-// tabela de símbolos
+// Hash table for declared variable types
 struct decl_hash* symbol_table = NULL;
 
 Address copyAddress(Address source_addr) {
@@ -61,7 +61,7 @@ Address makeNewVar() {
     var[2] = '\0';
 
     int chars_written = snprintf(v, MAX_SIZE_TO_REPRESENT_REG, "%d", i);
-    //fprintf(stderr,"||%d -- %s||\n",chars_written,v);
+//    fprintf(stderr,"||%d -- %s||\n",chars_written,v);
     check_if_buffer_was_big_enough(chars_written, MAX_SIZE_TO_REPRESENT_REG);
 
     strncat(var, v, MAX_SIZE_TO_REPRESENT_REG);
@@ -80,7 +80,7 @@ Address makeNewLabel() {
     var[1] = '\0';
 
     int chars_written = snprintf(v, MAX_SIZE_TO_REPRESENT_LABEL, "%d", lb);
-    //fprintf(stderr,"||%d -- %s||\n",chars_written,v);
+//    fprintf(stderr,"||%d -- %s||\n",chars_written,v);
     check_if_buffer_was_big_enough(chars_written, MAX_SIZE_TO_REPRESENT_LABEL);
 
     strncat(var, v, MAX_SIZE_TO_REPRESENT_LABEL);
@@ -168,63 +168,57 @@ OpKind get_B_Op(B_Operand o) {
 }
 
 Pair compile_exp(EXP e) {
-    // printf("EXP\n" );
-    Pair auxA, auxB, p, res;
-    TACList list = NULL;
-    TACList tmp;
-    Address t0, t1, t2;
-    TAC elem, elem1, elem2;
-    OpKind op;
     switch (e->kind) {
-        case EXP_B_Op:
-            t0 = makeNewVar();                   // var. resultado
-            auxA = compile_exp(e->u.opB.left);   // ramo esq.
-            auxB = compile_exp(e->u.opB.right);  // ramo dir.
-            op = get_B_Op(e->u.opB.oper);
+        case EXP_B_Op: {
+            TACList list = NULL;
+            Address t0 = makeNewVar();                   // var. resultado
+            Pair auxA = compile_exp(e->u.opB.left);   // ramo esq.
+            Pair auxB = compile_exp(e->u.opB.right);  // ramo dir.
+            OpKind op = get_B_Op(e->u.opB.oper);
 
             switch (op) {
                 case A_BLE: {
-                    t1 = makeNewVar();
-                    t2 = makeNewVar();
+                    Address t1 = makeNewVar();
+                    Address t2 = makeNewVar();
 
-                    elem1 = makeTAC(A_BLT, t1, auxA->addr, auxB->addr);
+                    TAC elem1 = makeTAC(A_BLT, t1, auxA->addr, auxB->addr);
 
                     Address addrAuxA = copyAddress(auxA->addr);
                     Address addrAuxB = copyAddress(auxB->addr);
-                    elem2 = makeTAC(A_BEQ, t2, addrAuxA, addrAuxB);
+                    TAC elem2 = makeTAC(A_BEQ, t2, addrAuxA, addrAuxB);
 
                     Address t1_again = copyAddress(t1);
                     Address t2_again = copyAddress(t2);
-                    elem = makeTAC(A_OR, t0, t1_again, t2_again);
+                    TAC elem = makeTAC(A_OR, t0, t1_again, t2_again);
 
-                    tmp = makeTACList(elem1, makeTACList(elem2, makeTACList(elem, NULL)));
+                    TACList tmp = makeTACList(elem1, makeTACList(elem2, makeTACList(elem, NULL)));
                     list = append(list, auxB->clist);
                     list = append(list, tmp);
                     break;
                 }
                 case A_BGE: {
-                    t1 = makeNewVar();
-                    t2 = makeNewVar();
+                    Address t1 = makeNewVar();
+                    Address t2 = makeNewVar();
 
-                    elem1 = makeTAC(A_BGT, t1, auxA->addr, auxB->addr);
+                    TAC elem1 = makeTAC(A_BGT, t1, auxA->addr, auxB->addr);
 
                     Address addrAuxA = copyAddress(auxA->addr);
                     Address addrAuxB = copyAddress(auxB->addr);
-                    elem2 = makeTAC(A_BEQ, t2, addrAuxA, addrAuxB);
+                    TAC elem2 = makeTAC(A_BEQ, t2, addrAuxA, addrAuxB);
 
                     Address t1_again = copyAddress(t1);
                     Address t2_again = copyAddress(t2);
-                    elem = makeTAC(A_OR, t0, t1_again, t2_again);
+                    TAC elem = makeTAC(A_OR, t0, t1_again, t2_again);
 
-                    tmp = makeTACList(elem1, makeTACList(elem2, makeTACList(elem, NULL)));
+                    TACList tmp = makeTACList(elem1, makeTACList(elem2, makeTACList(elem, NULL)));
                     list = append(list, auxB->clist);
                     list = append(list, tmp);
                     break;
                 }
                 default: {
-                    elem = makeTAC(op, t0, auxA->addr, auxB->addr);  // INSTRUÇÃO FINAL
+                    TAC elem = makeTAC(op, t0, auxA->addr, auxB->addr);  // INSTRUÇÃO FINAL
 
-                    tmp = makeTACList(elem, NULL);  // exp. final
+                    TACList tmp = makeTACList(elem, NULL);  // exp. final
 
                     list = append(list, auxA->clist);
                     list = append(list, auxB->clist);
@@ -233,32 +227,35 @@ Pair compile_exp(EXP e) {
                 }
             }
 
-            res = makePair(t0, list);
+            Pair res = makePair(t0, list);
             //última var. ()é usada no salto
 
             int n0 = snprintf(final_reg, sizeof(final_reg), "%s", res->addr->content.var);
             check_if_buffer_was_big_enough(n0, sizeof(final_reg));
 
             return res;
-        case EXP_A_Op:
-            t0 = makeNewVar();                   // var. resultado
-            auxA = compile_exp(e->u.opA.left);   // ramo esq.
-            auxB = compile_exp(e->u.opA.right);  // ramo dir.
-            op = get_A_Op(e->u.opA.oper);
+        }
+        case EXP_A_Op: {
+            TACList list = NULL;
+            Address t0 = makeNewVar();                   // var. resultado
+            Pair auxA = compile_exp(e->u.opA.left);   // ramo esq.
+            Pair auxB = compile_exp(e->u.opA.right);  // ramo dir.
+            OpKind op = get_A_Op(e->u.opA.oper);
             Address addrAuxA = copyAddress(auxA->addr);
             Address addrAuxB = copyAddress(auxB->addr);
-            elem = makeTAC(op, t0, addrAuxA, addrAuxB);  // INSTRUÇÃO FINAL
+            TAC elem = makeTAC(op, t0, addrAuxA, addrAuxB);  // INSTRUÇÃO FINAL
 
-            tmp = makeTACList(elem, NULL);  // exp. final
+            TACList tmp = makeTACList(elem, NULL);  // exp. final
 
             list = append(list, auxA->clist);
             list = append(list, auxB->clist);
             list = append(list, tmp);
 
-            res = makePair(t0, list);
+            Pair res = makePair(t0, list);
             return res;
-        case EXP_int:
-            p = makePair(makeVal(e->u.integer), NULL);
+        }
+        case EXP_int: {
+            Pair p = makePair(makeVal(e->u.integer), NULL);
 
             char var[MAX_SIZE_INTS];
             int n1 = snprintf(var, sizeof(var), "%d", p->addr->content.val);
@@ -268,15 +265,17 @@ Pair compile_exp(EXP e) {
             check_if_buffer_was_big_enough(n2, sizeof(final_reg));
 
             return p;
-        case EXP_Var:
-            p = makePair(makeVar(e->u.var), NULL);
+        }
+        case EXP_Var: {
+            Pair p = makePair(makeVar(e->u.var), NULL);
 
             int n3 = snprintf(final_reg, sizeof(final_reg), "%s", p->addr->content.var);
             check_if_buffer_was_big_enough(n3, sizeof(final_reg));
 
             return p;
+        }
         case EXP_bool: {
-            p = makePair(makeVal(e->u.integer), NULL);
+            Pair p = makePair(makeVal(e->u.integer), NULL);
             int val = 0;
             if (e->u.boolean == true) {
                 val = 1;
