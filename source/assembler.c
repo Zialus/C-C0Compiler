@@ -383,6 +383,9 @@ void delete_Address(Address addr) {
         case Register:
             free(addr->content.var);
             break;
+        default:
+            fprintf(stderr, "This will only happen if something went wrong with C enums!");
+            exit(EXIT_FAILURE);
     }
 
     free(addr);
@@ -445,11 +448,9 @@ Pair compile_cmd(CMD cmd) {
         case WHILE_KIND:
             tl = compile_while(cmd);
             break;
-    }
-
-    if (tl == NULL) {
-        fprintf(stderr, "This will only happen if something went wrong with C enums!");
-        exit(EXIT_FAILURE);
+        default:
+            fprintf(stderr, "This will only happen if something went wrong with C enums!");
+            exit(EXIT_FAILURE);
     }
 
     Pair p = makePair(NULL, tl);

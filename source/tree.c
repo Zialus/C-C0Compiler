@@ -49,9 +49,7 @@ EXP make_B_Op_EXP_(B_Operand op, EXP l, EXP r) {
 }
 
 void delete_EXP(EXP exp) {
-
     switch (exp->kind) {
-
         case EXP_A_Op:
             delete_EXP_A_Op(exp);
             break;
@@ -67,21 +65,24 @@ void delete_EXP(EXP exp) {
         case EXP_Var:
             delete_EXP_Var(exp);
             break;
+        default:
+            fprintf(stderr, "This will only happen if something went wrong with C enums!");
+            exit(EXIT_FAILURE);
     }
 
     free(exp);
 }
 
 void delete_EXP_Var(EXP exp) {
-
+    // nothing to be done here
 }
 
 void delete_EXP_bool(EXP exp) {
-
+    // nothing to be done here
 }
 
 void delete_EXP_int(EXP exp) {
-
+    // nothing to be done here
 }
 
 void delete_EXP_B_Op(EXP exp) {
