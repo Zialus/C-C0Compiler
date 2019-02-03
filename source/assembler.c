@@ -24,8 +24,7 @@ Address copyAddress(Address source_addr) {
 
     if (dest_addr->AddrKind == String || dest_addr->AddrKind == Register) {
         dest_addr->content.var = strdup(source_addr->content.var);
-    }
-    else {
+    } else {
         dest_addr->content.val = source_addr->content.val;
     }
 
@@ -352,15 +351,14 @@ void compiler_start(I_List il) {
 }
 
 void delete_Pair(Pair p) {
-    if (p->addr != NULL) delete_Address(p->addr);
+    if (p->addr != NULL) { delete_Address(p->addr); }
     delete_TACLIST(p->clist);
 
     free(p);
 }
 
 void delete_Address(Address addr) {
-    switch (addr->AddrKind){
-
+    switch (addr->AddrKind) {
         case Int:
             break;
         case String:
@@ -375,9 +373,9 @@ void delete_Address(Address addr) {
 }
 
 void delete_TAC(TAC t) {
-    if (t->addr1 != NULL) delete_Address(t->addr1);
-    if (t->addr2 != NULL) delete_Address(t->addr2);
-    if (t->addr3 != NULL) delete_Address(t->addr3);
+    if (t->addr1 != NULL) { delete_Address(t->addr1); }
+    if (t->addr2 != NULL) { delete_Address(t->addr2); }
+    if (t->addr3 != NULL) { delete_Address(t->addr3); }
 
     free(t);
 }
@@ -396,7 +394,7 @@ void add_to_hash(DECL decl) {
 
         s = malloc(sizeof(struct decl_hash));
 
-        strncpy(s->variable, decl->var_name, MAX_SIZE-1);
+        strncpy(s->variable, decl->var_name, MAX_SIZE - 1);
         s->type = decl->var_type;
 
         HASH_ADD_STR(symbol_table, variable, s);  /* variable: name of key field */
@@ -445,8 +443,8 @@ Pair compile_cmd(CMD cmd) {
 TACList compile_ass(CMD d) {
     Pair p_exp = compile_exp(d->u.assign_cmd.assignment_exp);
     Address addr1 = makeVar(d->u.assign_cmd.assignment_var);
-//    Address addr2 = p_exp->addr;
     Address addr2 = copyAddress(p_exp->addr);
+
     TAC t = makeTAC(A_Asn, addr1, addr2, NULL);
     TACList l = makeTACList(t, NULL);
 
@@ -462,7 +460,7 @@ TACList compile_while(CMD wh) {
     TACList w = makeTACList(makeTAC(Label, makeNewLabel(), NULL, NULL), p_exp->clist);
     free(p_exp);
     // adiciona On_false label
-    TACList jlb = makeTACList(makeTAC(On_False, makeVar(final_reg), makeNewLabel(), NULL),NULL);
+    TACList jlb = makeTACList(makeTAC(On_False, makeVar(final_reg), makeNewLabel(), NULL), NULL);
 
     w = append(w, jlb);
     if (wh->u.while_cmd.while_I_list) {
@@ -482,9 +480,6 @@ TACList compile_while(CMD wh) {
 }
 
 TACList compile_if(CMD ift) {
-    //  printf("IF\n" );
-
-    // IF LABEL
     Pair p_exp = compile_exp(ift->u.if_cmd.if_exp);
     // cria if_label e coloca exp. na cauda da label
     TACList ilb = makeTACList(makeTAC(Label, makeNewLabel(), NULL, NULL), p_exp->clist);

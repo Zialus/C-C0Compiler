@@ -195,7 +195,7 @@ I_List make_List_DECL_Head(DECL head, I_List tail) {
 
 void delete_IL(I_List il) {
 
-    if (il == NULL) return;
+    if (il == NULL) { return; }
 
     switch (il->kind) {
         case CMD_:
