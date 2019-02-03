@@ -55,7 +55,7 @@ void print_specific_instruction(TAC t) {
             printf("eq ");
             break;
         case A_BLT:
-            printf("slt ");
+            printf("blt ");
             break;
         case A_BNE:
             break;
@@ -295,12 +295,12 @@ void print_TAC(TAC t) {
                 printf(")");
                 printf("\n");
             }
-            printf("slt ");
+            printf("bgt ");
             print_Address(t->addr1);
             printf(", ");
-            print_Address(aux3);
-            printf(", ");
             print_Address(aux2);
+            printf(", ");
+            print_Address(aux3);
             printf("\n");
             break;
         case A_AND:
