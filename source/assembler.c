@@ -17,6 +17,21 @@ char final_reg[MAX_SIZE];
 // tabela de símbolos
 struct decl_hash* symbol_table = NULL;
 
+Address copyAddress(Address source_addr) {
+    Address dest_addr = malloc(sizeof(*dest_addr));
+
+    dest_addr->AddrKind = source_addr->AddrKind;
+
+    if (dest_addr->AddrKind == String || dest_addr->AddrKind == Register) {
+        dest_addr->content.var = strdup(source_addr->content.var);
+    }
+    else {
+        dest_addr->content.val = source_addr->content.val;
+    }
+
+    return dest_addr;
+}
+
 Address makeVal(int n) {
     Address a = malloc(sizeof(*a));
     a->AddrKind = Int;
@@ -27,14 +42,14 @@ Address makeVal(int n) {
 Address makeVar(char* str) {
     Address a = malloc(sizeof(*a));
     a->AddrKind = String;
-    a->content.var = str;
+    a->content.var = strdup(str);
     return a;
 }
 
 Address makeReg(char* reg) {
     Address a = malloc(sizeof(*a));
     a->AddrKind = Register;
-    a->content.var = reg;
+    a->content.var = strdup(reg);
     return a;
 }
 
@@ -54,6 +69,7 @@ Address makeNewVar() {
 
     i++;
     Address a = makeReg(var);
+    free(var);
     return a;
 }
 
@@ -72,6 +88,7 @@ Address makeNewLabel() {
 
     lb++;
     Address a = makeVar(var);
+    free(var);
     return a;
 }
 
@@ -167,31 +184,45 @@ Pair compile_exp(EXP e) {
             op = get_B_Op(e->u.opB.oper);
 
             switch (op) {
-                case A_BLE:
+                case A_BLE: {
                     t1 = makeNewVar();
                     t2 = makeNewVar();
 
                     elem1 = makeTAC(A_BLT, t1, auxA->addr, auxB->addr);
-                    elem2 = makeTAC(A_BEQ, t2, auxA->addr, auxB->addr);
-                    elem = makeTAC(A_OR, t0, t1, t2);
+
+                    Address addrAuxA = copyAddress(auxA->addr);
+                    Address addrAuxB = copyAddress(auxB->addr);
+                    elem2 = makeTAC(A_BEQ, t2, addrAuxA, addrAuxB);
+
+                    Address t1_again = copyAddress(t1);
+                    Address t2_again = copyAddress(t2);
+                    elem = makeTAC(A_OR, t0, t1_again, t2_again);
 
                     tmp = makeTACList(elem1, makeTACList(elem2, makeTACList(elem, NULL)));
                     list = append(list, auxB->clist);
                     list = append(list, tmp);
                     break;
-                case A_BGE:
+                }
+                case A_BGE: {
                     t1 = makeNewVar();
                     t2 = makeNewVar();
 
                     elem1 = makeTAC(A_BGT, t1, auxA->addr, auxB->addr);
-                    elem2 = makeTAC(A_BEQ, t2, auxA->addr, auxB->addr);
-                    elem = makeTAC(A_OR, t0, t1, t2);
+
+                    Address addrAuxA = copyAddress(auxA->addr);
+                    Address addrAuxB = copyAddress(auxB->addr);
+                    elem2 = makeTAC(A_BEQ, t2, addrAuxA, addrAuxB);
+
+                    Address t1_again = copyAddress(t1);
+                    Address t2_again = copyAddress(t2);
+                    elem = makeTAC(A_OR, t0, t1_again, t2_again);
 
                     tmp = makeTACList(elem1, makeTACList(elem2, makeTACList(elem, NULL)));
                     list = append(list, auxB->clist);
                     list = append(list, tmp);
                     break;
-                default:
+                }
+                default: {
                     elem = makeTAC(op, t0, auxA->addr, auxB->addr);  // INSTRUÇÃO FINAL
 
                     tmp = makeTACList(elem, NULL);  // exp. final
@@ -200,6 +231,7 @@ Pair compile_exp(EXP e) {
                     list = append(list, auxB->clist);
                     list = append(list, tmp);
                     break;
+                }
             }
 
             res = makePair(t0, list);
@@ -214,7 +246,9 @@ Pair compile_exp(EXP e) {
             auxA = compile_exp(e->u.opA.left);   // ramo esq.
             auxB = compile_exp(e->u.opA.right);  // ramo dir.
             op = get_A_Op(e->u.opA.oper);
-            elem = makeTAC(op, t0, auxA->addr, auxB->addr);  // INSTRUÇÃO FINAL
+            Address addrAuxA = copyAddress(auxA->addr);
+            Address addrAuxB = copyAddress(auxB->addr);
+            elem = makeTAC(op, t0, addrAuxA, addrAuxB);  // INSTRUÇÃO FINAL
 
             tmp = makeTACList(elem, NULL);  // exp. final
 
@@ -318,7 +352,6 @@ void compiler_start(I_List il) {
 }
 
 void delete_Pair(Pair p) {
-
     if (p->addr != NULL) delete_Address(p->addr);
     delete_TACLIST(p->clist);
 
@@ -331,20 +364,22 @@ void delete_Address(Address addr) {
         case Int:
             break;
         case String:
-//            free(addr->content.var);
+            free(addr->content.var);
             break;
         case Register:
-//            free(addr->content.var);
+            free(addr->content.var);
             break;
     }
 
-//    free(addr);
+    free(addr);
 }
 
 void delete_TAC(TAC t) {
     if (t->addr1 != NULL) delete_Address(t->addr1);
     if (t->addr2 != NULL) delete_Address(t->addr2);
     if (t->addr3 != NULL) delete_Address(t->addr3);
+
+    free(t);
 }
 
 void compile_decl(DECL decl) {
@@ -410,32 +445,25 @@ Pair compile_cmd(CMD cmd) {
 TACList compile_ass(CMD d) {
     Pair p_exp = compile_exp(d->u.assign_cmd.assignment_exp);
     Address addr1 = makeVar(d->u.assign_cmd.assignment_var);
-    Address addr2 = p_exp->addr;
+//    Address addr2 = p_exp->addr;
+    Address addr2 = copyAddress(p_exp->addr);
     TAC t = makeTAC(A_Asn, addr1, addr2, NULL);
     TACList l = makeTACList(t, NULL);
-    TACList aux;
 
-    if (p_exp->clist == NULL) {
-        p_exp->clist = l;
-        aux = p_exp->clist;
-    } else {
-        aux = append(p_exp->clist, l);
-    }
+    TACList aux = append(p_exp->clist, l);
 
     free(p_exp);
     return aux;
 }
 
 TACList compile_while(CMD wh) {
-    TACList jlb = malloc(sizeof(*jlb));
-
     Pair p_exp = compile_exp(wh->u.while_cmd.while_exp);
     // cria while_label e coloca exp. na cauda da label
     TACList w = makeTACList(makeTAC(Label, makeNewLabel(), NULL, NULL), p_exp->clist);
     free(p_exp);
     // adiciona On_false label
-    jlb->head = makeTAC(On_False, makeVar(final_reg), makeNewLabel(), NULL);
-    jlb->tail = NULL;
+    TACList jlb = makeTACList(makeTAC(On_False, makeVar(final_reg), makeNewLabel(), NULL),NULL);
+
     w = append(w, jlb);
     if (wh->u.while_cmd.while_I_list) {
         Pair ptl = compile(wh->u.while_cmd.while_I_list);
@@ -443,25 +471,27 @@ TACList compile_while(CMD wh) {
             w = append(w, ptl->clist);
         }
     }
-    TACList j = makeTACList(makeTAC(GoToLabel, w->head->addr1, NULL, NULL), NULL);
+
+    Address w_head_addr1_again = copyAddress(w->head->addr1);
+    TACList j = makeTACList(makeTAC(GoToLabel, w_head_addr1_again, NULL, NULL), NULL);
     w = append(w, j);
     // adiciona label if false ao final do while
-    w = append(w, makeTACList(makeTAC(Label, jlb->head->addr2, NULL, NULL), NULL));
+    Address jlb_head_addr2 = copyAddress(jlb->head->addr2);
+    w = append(w, makeTACList(makeTAC(Label, jlb_head_addr2, NULL, NULL), NULL));
     return w;
 }
 
 TACList compile_if(CMD ift) {
     //  printf("IF\n" );
 
-    TACList jlb = malloc(sizeof(*jlb));
     // IF LABEL
     Pair p_exp = compile_exp(ift->u.if_cmd.if_exp);
     // cria if_label e coloca exp. na cauda da label
     TACList ilb = makeTACList(makeTAC(Label, makeNewLabel(), NULL, NULL), p_exp->clist);
     free(p_exp);
     // IF_FALSE
-    jlb->head = makeTAC(On_False, makeVar(final_reg), makeNewLabel(), NULL);  // cria jump_label
-    jlb->tail = NULL;
+    TACList jlb = makeTACList(makeTAC(On_False, makeVar(final_reg), makeNewLabel(), NULL), NULL);  // cria jump_label
+
     // adiciona jump_label ao fim da exp.
     ilb = append(ilb, jlb);
     // then statement
@@ -492,11 +522,12 @@ TACList compile_if(CMD ift) {
         Pair else_list = compile(ift->u.if_cmd.else_I_list);
         // adiciona end_if ao fim da lista de instruções
         if (else_list != NULL) {
-            else_list->clist = append(else_list->clist, makeTACList(makeTAC(Label, end_if, NULL, NULL), NULL));
+            Address end_if_again = copyAddress(end_if);
+            else_list->clist = append(else_list->clist, makeTACList(makeTAC(Label, end_if_again, NULL, NULL), NULL));
             ilb = append(ilb, else_list->clist);
             free(else_list);
         }
     }
-    free(end_if);
+//    free(end_if);
     return ilb;
 }
