@@ -196,6 +196,10 @@ void print_A(TAC t) {
     } else if (t->addr2->AddrKind == Register) {
         print_Address(t->addr2);
     } else if (t->addr2->AddrKind == String) {
+        if (aux2 == NULL) {
+            fprintf(stderr, "this should never happen");
+            exit(EXIT_FAILURE);
+        }
         print_Address(aux2);
         free(aux2);
     }
@@ -204,6 +208,10 @@ void print_A(TAC t) {
     if (t->addr3->AddrKind == Int || t->addr3->AddrKind == Register) {
         print_Address(t->addr3);
     } else if (t->addr3->AddrKind == String) {
+        if (aux3 == NULL) {
+            fprintf(stderr, "this should never happen");
+            exit(EXIT_FAILURE);
+        }
         print_Address(aux3);
         free(aux3);
     }

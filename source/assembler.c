@@ -539,7 +539,8 @@ TACList compile_if(CMD ift) {
             ilb = append(ilb, else_list->clist);
             free(else_list);
         }
+    } else {
+        free(end_if);
     }
-//    free(end_if);
     return ilb;
 }
