@@ -507,8 +507,9 @@ TACList compile_if(CMD ift) {
     // adiciona jump_label ao fim da exp.
     ilb = append(ilb, jlb);
     // then statement
-    Address end_if = makeNewLabel();
+    Address end_if = NULL;
     if (ift->u.if_cmd.then_I_list != NULL) {
+        end_if = makeNewLabel();
         TACList aux = NULL;
         Pair then_list = compile(ift->u.if_cmd.then_I_list);
         // adiciona jump ao fim das instruçoes (salta else)
@@ -517,6 +518,8 @@ TACList compile_if(CMD ift) {
             then_list->clist = append(then_list->clist, makeTACList(makeTAC(GoToLabel, end_if, NULL, NULL), NULL));
         } else if (ift->u.if_cmd.else_I_list != NULL) {
             aux = makeTACList(makeTAC(GoToLabel, end_if, NULL, NULL), NULL);
+        } else {
+            free(end_if);
         }
 
         if (then_list != NULL) {
@@ -534,13 +537,16 @@ TACList compile_if(CMD ift) {
         Pair else_list = compile(ift->u.if_cmd.else_I_list);
         // adiciona end_if ao fim da lista de instruções
         if (else_list != NULL) {
+            if (end_if == NULL) {
+                fprintf(stderr, "this should never happen");
+                exit(EXIT_FAILURE);
+            }
             Address end_if_again = copyAddress(end_if);
             else_list->clist = append(else_list->clist, makeTACList(makeTAC(Label, end_if_again, NULL, NULL), NULL));
             ilb = append(ilb, else_list->clist);
             free(else_list);
         }
-    } else {
-        free(end_if);
     }
+
     return ilb;
 }

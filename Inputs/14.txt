@@ -1,0 +1,23 @@
+int main(){
+  if(x == z){
+    a = b;
+    int c;
+  } else {
+    c = 26;
+  }
+
+if(x == z){
+   if (a != b) {
+      t = b;
+      int u;
+   } else {
+      g = 26;
+   }
+}
+
+if (1){
+    b = 98;
+}
+
+  return 0;
+}
