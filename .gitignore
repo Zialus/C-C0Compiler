@@ -7,6 +7,5 @@ build/
 
 #Temporary parser files
 parsing/lexer.c
-parsing/lexer.h
 parsing/parser.c
 parsing/parser.h

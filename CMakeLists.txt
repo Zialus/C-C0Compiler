@@ -7,10 +7,8 @@ set(CMAKE_C_STANDARD 11)
 find_package(BISON REQUIRED)
 find_package(FLEX REQUIRED)
 
-BISON_TARGET(MyParser parsing/parser.y ${PROJECT_SOURCE_DIR}/parsing/parser.c
-        DEFINES_FILE ${PROJECT_SOURCE_DIR}/parsing/parser.h)
-FLEX_TARGET(MyScanner parsing/lexer.l ${PROJECT_SOURCE_DIR}/parsing/lexer.c
-        DEFINES_FILE ${PROJECT_SOURCE_DIR}/parsing/lexer.h)
+BISON_TARGET(MyParser parsing/parser.y ${PROJECT_SOURCE_DIR}/parsing/parser.c)
+FLEX_TARGET(MyScanner parsing/lexer.l ${PROJECT_SOURCE_DIR}/parsing/lexer.c)
 ADD_FLEX_BISON_DEPENDENCY(MyScanner MyParser)
 
 # Compiler flags to enable more warnings

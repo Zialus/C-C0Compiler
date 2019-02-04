@@ -1,6 +1,7 @@
 %option noyywrap
 %option nodefault
 %option nounistd
+%option never-interactive
 
 %{
 #include <stdlib.h>
