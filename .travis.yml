@@ -59,6 +59,15 @@ matrix:
             - clang-7
       env:
         - MATRIX_EVAL="CC=clang-7 && CXX=clang++-7"
+    - os: linux
+      addons:
+        apt:
+          sources:
+            - llvm-toolchain-xenial-8
+          packages:
+            - clang-8
+      env:
+        - MATRIX_EVAL="CC=clang-8 && CXX=clang++-8"
     ######## LINUX GCC ########
     - os: linux
       addons:
@@ -137,10 +146,15 @@ matrix:
         - MATRIX_EVAL="CC=clang-7 && CXX=clang++"
       before_script:
         - brew install llvm@7 && brew link --overwrite llvm@7 --force
+    - os: osx
+      osx_image: xcode10.1
+      env:
+        - MATRIX_EVAL="CC=clang-8 && CXX=clang++"
+      before_script:
+        - brew install llvm@8
         - export PATH="/usr/local/opt/llvm/bin:$PATH"
         - export LDFLAGS="-L/usr/local/opt/llvm/lib"
         - export CPPFLAGS="-I/usr/local/opt/llvm/include"
-
     ######## OSX GCC ########
     - os: osx
       osx_image: xcode10.1
@@ -171,7 +185,7 @@ matrix:
       env:
         - MATRIX_EVAL="CC=gcc-8 && CXX=g++-8"
       before_script:
-        - brew link gcc@8
+        - brew install gcc@8
 
     # SONARCLOUD
     - os: linux
