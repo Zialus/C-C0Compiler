@@ -347,6 +347,10 @@ void compiler_start(I_List il) {
     printf("\t\t.data\n");
 
     Pair p = compile(il);
+    if (p == NULL) {
+        fprintf(stderr, "Nothing to compile\n");
+        return;
+    }
 
     struct decl_hash* s;
 
