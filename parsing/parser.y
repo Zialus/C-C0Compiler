@@ -6,7 +6,7 @@
 #include "assembler.h"
 #include "print_mips.h"
 
-FILE *yyin;
+extern FILE *yyin;
 
 void yylex_destroy(void);
 int yylex(void);
