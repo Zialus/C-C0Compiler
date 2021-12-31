@@ -23,7 +23,6 @@ jobs:
       - name: Build with cov-build
         run: |
           export PATH=`pwd`/cov-analysis-linux64/bin:$PATH
-          cov-configure --comptype gcc --compiler gcc-9 --template
           mkdir build && cd build
           cmake -DCMAKE_BUILD_TYPE=Release ..
           cov-build --dir cov-int make
