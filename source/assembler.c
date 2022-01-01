@@ -348,6 +348,7 @@ void compiler_start(I_List il) {
 
     Pair p = compile(il);
     if (p == NULL) {
+        delete_IL(il);
         fprintf(stderr, "Nothing to compile\n");
         return;
     }
@@ -488,6 +489,7 @@ TACList compile_while(CMD wh) {
         Pair ptl = compile(wh->u.while_cmd.while_I_list);
         if (ptl != NULL) {
             w = append(w, ptl->clist);
+            free(ptl);
         }
     }
 
@@ -529,6 +531,7 @@ TACList compile_if(CMD ift) {
         if (then_list != NULL) {
             ilb = append(ilb, then_list->clist);
             free(aux);
+            free(then_list);
         } else {
             ilb = append(ilb, aux);
         }

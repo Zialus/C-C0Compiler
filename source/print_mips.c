@@ -143,8 +143,8 @@ void print_B(TAC t) {
     print_Address(aux3);
     printf("\n");
 
-    free(aux2);
-    free(aux3);
+    delete_Address(aux2);
+    delete_Address(aux3);
 }
 
 void print_A(TAC t) {
@@ -251,7 +251,7 @@ void print_Asn(TAC t) {
     }
     printf("\n");
 
-    free(aux2);
+    delete_Address(aux2);
 }
 
 void print_TAC(TAC t) {
