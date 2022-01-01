@@ -4,6 +4,8 @@ project(C0Compiler)
 
 set(CMAKE_C_STANDARD 11)
 
+#set(CMAKE_PREFIX_PATH /usr/local/opt/bison;/usr/local/opt/flex)
+
 find_package(BISON REQUIRED)
 find_package(FLEX REQUIRED)
 
@@ -37,6 +39,8 @@ elseif (CMAKE_C_COMPILER_ID STREQUAL "Clang" OR CMAKE_C_COMPILER_ID STREQUAL "Ap
 elseif (CMAKE_C_COMPILER_ID STREQUAL "MSVC")
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} /w44365")
 endif ()
+
+#set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fsanitize=address")
 
 # Silence warning C4996 on Microsoft Compilers
 if (MSVC)
