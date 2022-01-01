@@ -31,7 +31,7 @@ typedef enum {
     Int, String, Register
 } AddrKind;
 
-void delete_hash();
+void delete_hash(void);
 
 void add_to_hash(DECL decl);
 
@@ -39,11 +39,12 @@ void delete_Pair(Pair p);
 void delete_Address(Address addr);
 void delete_TAC(TAC t);
 
+Address copyAddress(Address);
 Address makeVal(int);
 Address makeVar(char*);
-Address makeNewVar();
+Address makeNewVar(void);
 Address makeReg(char*);
-Address makeNewLabel();
+Address makeNewLabel(void);
 
 TAC makeTAC(OpKind, Address, Address, Address);
 TACList makeTACList(TAC, TACList);

@@ -8,6 +8,7 @@
 
 extern FILE *yyin;
 
+int yyparse(void);
 void yylex_destroy(void);
 int yylex(void);
 void yyerror(const char *);
@@ -126,8 +127,6 @@ DEC
 
 
 %%
-
-int yyparse();
 
 int main(int argc, char **argv){
     if (argc != 2){
