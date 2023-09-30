@@ -17,150 +17,128 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ macos-10.15, ubuntu-20.04 ]
+        os: [ macos-latest, ubuntu-latest ]
         compiler-version: [ '' ]
         compiler-name: [ '' ]
         cc: [ '' ]
         cxx: [ '' ]
         include:
           # MacOS CLANG
-          - os: macos-10.15
-            compiler-name: llvm
-            compiler-version: 7
-            cc: /usr/local/opt/llvm@7/bin/clang-7
-            cxx: /usr/local/opt/llvm@7/bin/clang++
-          - os: macos-10.15
-            compiler-name: llvm
-            compiler-version: 8
-            cc: /usr/local/opt/llvm@8/bin/clang-8
-            cxx: /usr/local/opt/llvm@8/bin/clang++
-          - os: macos-10.15
-            compiler-name: llvm
-            compiler-version: 9
-            cc: /usr/local/opt/llvm@9/bin/clang-9
-            cxx: /usr/local/opt/llvm@9/bin/clang++
-           # FOR SOME REASON LLVM10 is not available
-#          - os: macos-10.15
-#            compiler-name: llvm
-#            compiler-version: 10
-#            cc: /usr/local/opt/llvm@10/bin/clang-10
-#            cxx: /usr/local/opt/llvm@10/bin/clang++
-          - os: macos-10.15
-            compiler-name: llvm
-            compiler-version: 11
-            cc: /usr/local/opt/llvm@11/bin/clang-11
-            cxx: /usr/local/opt/llvm@11/bin/clang++
-          - os: macos-10.15
-            compiler-name: llvm
-            compiler-version: 12
-            cc: /usr/local/opt/llvm@12/bin/clang-12
-            cxx: /usr/local/opt/llvm@12/bin/clang++
-          - os: macos-10.15
+          - os: macos-latest
             compiler-name: llvm
             compiler-version: 13
             cc: /usr/local/opt/llvm@13/bin/clang-13
             cxx: /usr/local/opt/llvm@13/bin/clang++
+          - os: macos-latest
+            compiler-name: llvm
+            compiler-version: 14
+            cc: /usr/local/opt/llvm@14/bin/clang-14
+            cxx: /usr/local/opt/llvm@14/bin/clang++
+          - os: macos-latest
+            compiler-name: llvm
+            compiler-version: 15
+            cc: /usr/local/opt/llvm@15/bin/clang-15
+            cxx: /usr/local/opt/llvm@15/bin/clang++
+          - os: macos-latest
+            compiler-name: llvm
+            compiler-version: 16
+            cc: /usr/local/opt/llvm@16/bin/clang-16
+            cxx: /usr/local/opt/llvm@16/bin/clang++
+          - os: macos-latest
+            compiler-name: llvm
+            compiler-version: 17
+            cc: /usr/local/opt/llvm@17/bin/clang-17
+            cxx: /usr/local/opt/llvm@17/bin/clang++
 
           # MacOS GCC
-          - os: macos-10.15
-            compiler-name: gcc
-            compiler-version: 7
-            cc: gcc-7
-            cxx: g++-7
-          - os: macos-10.15
-            compiler-name: gcc
-            compiler-version: 8
-            cc: gcc-8
-            cxx: g++-8
-          - os: macos-10.15
+          - os: macos-latest
             compiler-name: gcc
             compiler-version: 9
             cc: gcc-9
             cxx: g++-9
-          - os: macos-10.15
+          - os: macos-latest
             compiler-name: gcc
             compiler-version: 10
             cc: gcc-10
             cxx: g++-10
-          - os: macos-10.15
+          - os: macos-latest
             compiler-name: gcc
             compiler-version: 11
             cc: gcc-11
             cxx: g++-11
+          - os: macos-latest
+            compiler-name: gcc
+            compiler-version: 12
+            cc: gcc-12
+            cxx: g++-12
+          - os: macos-latest
+            compiler-name: gcc
+            compiler-version: 13
+            cc: gcc-13
+            cxx: g++-13
 
           # Ubuntu CLANG
-          - os: ubuntu-20.04
+          - os: ubuntu-latest
             compiler-name: llvm
-            compiler-version: 7
-            cc: clang-7
-            cxx: clang++-7
-          - os: ubuntu-20.04
+            compiler-version: 13
+            cc: clang-13
+            cxx: clang++-13
+          - os: ubuntu-latest
             compiler-name: llvm
-            compiler-version: 8
-            cc: clang-8
-            cxx: clang++-8
-          - os: ubuntu-20.04
+            compiler-version: 14
+            cc: clang-14
+            cxx: clang++-14
+          - os: ubuntu-latest
             compiler-name: llvm
-            compiler-version: 9
-            cc: clang-9
-            cxx: clang++-9
-          - os: ubuntu-20.04
+            compiler-version: 15
+            cc: clang-15
+            cxx: clang++-15
+          - os: ubuntu-latest
             compiler-name: llvm
-            compiler-version: 10
-            cc: clang-10
-            cxx: clang++-10
-          - os: ubuntu-20.04
+            compiler-version: 16
+            cc: clang-16
+            cxx: clang++-16
+          - os: ubuntu-latest
             compiler-name: llvm
-            compiler-version: 11
-            cc: clang-11
-            cxx: clang++-11
-          - os: ubuntu-20.04
-            compiler-name: llvm
-            compiler-version: 12
-            cc: clang-12
-            cxx: clang++-12
-          # FOR SOME REASON CLANG-13 is not available
-#          - os: ubuntu-20.04
-#            compiler-name: llvm
-#            compiler-version: 13
-#            cc: clang-13
-#            cxx: clang++-13
+            compiler-version: 17
+            cc: clang-17
+            cxx: clang++-17
 
           # Ubuntu GCC
-          - os: ubuntu-20.04
-            compiler-name: gcc
-            compiler-version: 7
-            cc: gcc-7
-            cxx: g++-7
-          - os: ubuntu-20.04
-            compiler-name: gcc
-            compiler-version: 8
-            cc: gcc-8
-            cxx: g++-8
-          - os: ubuntu-20.04
+          - os: ubuntu-latest
             compiler-name: gcc
             compiler-version: 9
             cc: gcc-9
             cxx: g++-9
-          - os: ubuntu-20.04
+          - os: ubuntu-latest
             compiler-name: gcc
             compiler-version: 10
             cc: gcc-10
             cxx: g++-10
-          - os: ubuntu-20.04
+          - os: ubuntu-latest
             compiler-name: gcc
             compiler-version: 11
             cc: gcc-11
             cxx: g++-11
+          - os: ubuntu-latest
+            compiler-name: gcc
+            compiler-version: 12
+            cc: gcc-12
+            cxx: g++-12
+          - os: ubuntu-latest
+            compiler-name: gcc
+            compiler-version: 13
+            cc: gcc-13
+            cxx: g++-13
 
         # Exclude the "base cases"
         exclude:
-          - os: macOS-10.15
+          - os: macos-latest
             compiler-version: ''
             compiler-name: ''
             cc: ''
             cxx: ''
-          - os: ubuntu-20.04
+          - os: ubuntu-latest
             compiler-version: ''
             compiler-name: ''
             cc: ''
@@ -176,19 +154,19 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Install LLVM on MacOS
-        if: ${{ matrix.os == 'macos-10.15' && matrix.compiler-name == 'llvm' }}
+        if: ${{ matrix.os == 'macos-latest' && matrix.compiler-name == 'llvm' }}
         run: brew install llvm@${{ matrix.compiler-version }}
 
       - name: Install GCC on MacOS
-        if: ${{ matrix.os == 'macos-10.15' && matrix.compiler-name == 'gcc' }}
+        if: ${{ matrix.os == 'macos-latest' && matrix.compiler-name == 'gcc' }}
         run: brew install gcc@${{ matrix.compiler-version }}
 
       - name: Install LLVM on Ubuntu
-        if: ${{ matrix.os == 'ubuntu-20.04' && matrix.compiler-name == 'llvm' }}
+        if: ${{ matrix.os == 'ubuntu-latest' && matrix.compiler-name == 'llvm' }}
         run: sudo apt-get install -y clang-${{ matrix.compiler-version }} libomp-${{ matrix.compiler-version }}-dev
 
       - name: Install GCC on Ubuntu
-        if: ${{ matrix.os == 'ubuntu-20.04' && matrix.compiler-name == 'gcc' }}
+        if: ${{ matrix.os == 'ubuntu-latest' && matrix.compiler-name == 'gcc' }}
         run: sudo apt-get install -y g++-${{ matrix.compiler-version }}
 
       - name: Configure CMake
@@ -210,7 +188,7 @@ jobs:
     name: SonarCloud
     runs-on: ubuntu-latest
     env:
-      SONAR_SCANNER_VERSION: 4.6.1.2450 # Find the latest version in the "Linux" link on this page:
+      SONAR_SCANNER_VERSION: 5.0.1.3006 # Find the latest version in the "Linux" link on this page:
       # https://sonarcloud.io/documentation/analysis/scan/sonarscanner/
       SONAR_SERVER_URL: "https://sonarcloud.io"
       BUILD_WRAPPER_OUT_DIR: build_wrapper_output_directory # Directory where build-wrapper output will be placed
