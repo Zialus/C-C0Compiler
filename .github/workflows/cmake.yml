@@ -78,16 +78,16 @@ jobs:
             compiler-version: 15
             cc: clang-15
             cxx: clang++-15
-#          - os: ubuntu-latest
-#            compiler-name: llvm
-#            compiler-version: 16
-#            cc: clang-16
-#            cxx: clang++-16
-#          - os: ubuntu-latest
-#            compiler-name: llvm
-#            compiler-version: 17
-#            cc: clang-17
-#            cxx: clang++-17
+          - os: ubuntu-latest
+            compiler-name: llvm
+            compiler-version: 16
+            cc: clang-16
+            cxx: clang++-16
+          - os: ubuntu-latest
+            compiler-name: llvm
+            compiler-version: 17
+            cc: clang-17
+            cxx: clang++-17
 
           # Ubuntu GCC
           - os: ubuntu-latest
@@ -143,7 +143,11 @@ jobs:
 
       - name: Install LLVM on Ubuntu
         if: ${{ matrix.os == 'ubuntu-latest' && matrix.compiler-name == 'llvm' }}
-        run: sudo apt-get install -y clang-${{ matrix.compiler-version }} libomp-${{ matrix.compiler-version }}-dev
+        run: |
+          - sudo add-apt-repository "deb http://apt.llvm.org/jammy/ llvm-toolchain-jammy-16 main"
+          - sudo add-apt-repository "deb http://apt.llvm.org/jammy/ llvm-toolchain-jammy-17 main"
+          - sudo apt-get update
+          - sudo apt-get install -y clang-${{ matrix.compiler-version }} libomp-${{ matrix.compiler-version }}-dev
 
       - name: Install GCC on Ubuntu
         if: ${{ matrix.os == 'ubuntu-latest' && matrix.compiler-name == 'gcc' }}
