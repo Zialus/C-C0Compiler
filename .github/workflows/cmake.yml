@@ -144,6 +144,8 @@ jobs:
       - name: Install LLVM on Ubuntu
         if: ${{ matrix.os == 'ubuntu-latest' && matrix.compiler-name == 'llvm' }}
         run: |
+          - sudo apt-get update
+          - sudo apt-get install -y software-properties-common
           - sudo add-apt-repository "deb http://apt.llvm.org/jammy/ llvm-toolchain-jammy-16 main"
           - sudo add-apt-repository "deb http://apt.llvm.org/jammy/ llvm-toolchain-jammy-17 main"
           - sudo apt-get update
