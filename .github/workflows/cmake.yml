@@ -168,6 +168,40 @@ jobs:
         # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
         run: ctest -C ${{env.BUILD_TYPE}} -V
 
+  valgrind:
+    name: Valgrind
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Valgrind and build dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y bison flex valgrind
+
+      - name: Configure CMake
+        run: cmake -B build -DCMAKE_BUILD_TYPE=Debug
+
+      - name: Build
+        run: cmake --build build --config Debug
+
+      - name: Run CTest under Valgrind
+        run: |
+          mkdir -p valgrind-results
+          ctest --test-dir build -T memcheck \
+            --overwrite "MemoryCheckCommand=$(command -v valgrind)" \
+            --overwrite "MemoryCheckCommandOptions=--leak-check=full --show-leak-kinds=all --track-origins=yes --error-exitcode=1 --xml=yes --xml-file=${{ github.workspace }}/valgrind-results/valgrind-%p.xml"
+
+      - name: Upload Valgrind reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: valgrind-reports
+          path: |
+            valgrind-results/
+            build/Testing/
+          if-no-files-found: warn
+
   sonar:
     name: SonarCloud
     runs-on: ubuntu-latest
