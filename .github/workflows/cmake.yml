@@ -26,90 +26,90 @@ jobs:
           # MacOS CLANG
           - os: macos-latest
             compiler-name: llvm
-            compiler-version: 14
-            cc: /usr/local/opt/llvm@14/bin/clang-14
-            cxx: /usr/local/opt/llvm@14/bin/clang++
+            compiler-version: 20
+            cc: /usr/local/opt/llvm@20/bin/clang-20
+            cxx: /usr/local/opt/llvm@20/bin/clang++
           - os: macos-latest
             compiler-name: llvm
-            compiler-version: 15
-            cc: /usr/local/opt/llvm@15/bin/clang-15
-            cxx: /usr/local/opt/llvm@15/bin/clang++
+            compiler-version: 21
+            cc: /usr/local/opt/llvm@21/bin/clang-21
+            cxx: /usr/local/opt/llvm@21/bin/clang++
           - os: macos-latest
             compiler-name: llvm
-            compiler-version: 16
-            cc: /usr/local/opt/llvm@16/bin/clang-16
-            cxx: /usr/local/opt/llvm@16/bin/clang++
+            compiler-version: 22
+            cc: /usr/local/opt/llvm@22/bin/clang-22
+            cxx: /usr/local/opt/llvm@22/bin/clang++
           - os: macos-latest
             compiler-name: llvm
-            compiler-version: 17
-            cc: /usr/local/opt/llvm@17/bin/clang-17
-            cxx: /usr/local/opt/llvm@17/bin/clang++
+            compiler-version: 23
+            cc: /usr/local/opt/llvm/bin/clang
+            cxx: /usr/local/opt/llvm/bin/clang++
 
           # MacOS GCC
           - os: macos-latest
             compiler-name: gcc
-            compiler-version: 10
-            cc: gcc-10
-            cxx: g++-10
-          - os: macos-latest
-            compiler-name: gcc
-            compiler-version: 11
-            cc: gcc-11
-            cxx: g++-11
-          - os: macos-latest
-            compiler-name: gcc
-            compiler-version: 12
-            cc: gcc-12
-            cxx: g++-12
-          - os: macos-latest
-            compiler-name: gcc
             compiler-version: 13
             cc: gcc-13
             cxx: g++-13
+          - os: macos-latest
+            compiler-name: gcc
+            compiler-version: 14
+            cc: gcc-14
+            cxx: g++-14
+          - os: macos-latest
+            compiler-name: gcc
+            compiler-version: 15
+            cc: gcc-15
+            cxx: g++-15
+          - os: macos-latest
+            compiler-name: gcc
+            compiler-version: 16
+            cc: gcc-16
+            cxx: g++-16
 
           # Ubuntu CLANG
           - os: ubuntu-latest
             compiler-name: llvm
-            compiler-version: 14
-            cc: clang-14
-            cxx: clang++-14
+            compiler-version: 20
+            cc: clang-20
+            cxx: clang++-20
           - os: ubuntu-latest
             compiler-name: llvm
-            compiler-version: 15
-            cc: clang-15
-            cxx: clang++-15
+            compiler-version: 21
+            cc: clang-21
+            cxx: clang++-21
           - os: ubuntu-latest
             compiler-name: llvm
-            compiler-version: 16
-            cc: clang-16
-            cxx: clang++-16
+            compiler-version: 22
+            cc: clang-22
+            cxx: clang++-22
           - os: ubuntu-latest
             compiler-name: llvm
-            compiler-version: 17
-            cc: clang-17
-            cxx: clang++-17
+            compiler-version: 23
+            cc: clang-23
+            cxx: clang++-23
 
           # Ubuntu GCC
-          - os: ubuntu-latest
-            compiler-name: gcc
-            compiler-version: 10
-            cc: gcc-10
-            cxx: g++-10
-          - os: ubuntu-latest
-            compiler-name: gcc
-            compiler-version: 11
-            cc: gcc-11
-            cxx: g++-11
-          - os: ubuntu-latest
-            compiler-name: gcc
-            compiler-version: 12
-            cc: gcc-12
-            cxx: g++-12
           - os: ubuntu-latest
             compiler-name: gcc
             compiler-version: 13
             cc: gcc-13
             cxx: g++-13
+          - os: ubuntu-latest
+            compiler-name: gcc
+            compiler-version: 14
+            cc: gcc-14
+            cxx: g++-14
+          - os: ubuntu-latest
+            compiler-name: gcc
+            compiler-version: 15
+            cc: gcc-15
+            cxx: g++-15
+          - os: ubuntu-latest
+            compiler-name: gcc
+            compiler-version: 16
+            cc: gcc-16
+            cxx: g++-16
 
         # Exclude the "base cases"
         exclude:
@@ -135,18 +135,30 @@ jobs:
 
       - name: Install LLVM on MacOS
         if: ${{ matrix.os == 'macos-latest' && matrix.compiler-name == 'llvm' }}
-        run: brew update && brew install llvm@${{ matrix.compiler-version }}
+        run: |
+          brew update
+          if [ "${{ matrix.compiler-version }}" -eq 23 ]; then
+            brew install llvm
+          else
+            brew install llvm@${{ matrix.compiler-version }}
+          fi
 
       - name: Install GCC on MacOS
         if: ${{ matrix.os == 'macos-latest' && matrix.compiler-name == 'gcc' }}
-        run: brew update && brew install gcc@${{ matrix.compiler-version }}
+        run: |
+          brew update
+          if [ "${{ matrix.compiler-version }}" -eq 16 ]; then
+            brew install gcc
+          else
+            brew install gcc@${{ matrix.compiler-version }}
+          fi
 
       - name: Install LLVM on Ubuntu
         if: ${{ matrix.os == 'ubuntu-latest' && matrix.compiler-name == 'llvm' }}
         run: |
-          sudo add-apt-repository "deb http://apt.llvm.org/jammy/ llvm-toolchain-jammy-16 main"
-          sudo add-apt-repository "deb http://apt.llvm.org/jammy/ llvm-toolchain-jammy-17 main"
-          sudo apt-get update
+          wget https://apt.llvm.org/llvm.sh
+          chmod +x llvm.sh
+          sudo ./llvm.sh ${{ matrix.compiler-version }}
           sudo apt-get install -y clang-${{ matrix.compiler-version }} libomp-${{ matrix.compiler-version }}-dev
 
       - name: Install GCC on Ubuntu
