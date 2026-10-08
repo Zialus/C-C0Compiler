@@ -42,8 +42,8 @@ jobs:
           - os: macos-latest
             compiler-name: llvm
             compiler-version: 23
-            cc: /usr/local/opt/llvm/bin/clang
-            cxx: /usr/local/opt/llvm/bin/clang++
+            cc: /usr/local/opt/llvm@23/bin/clang-23
+            cxx: /usr/local/opt/llvm@23/bin/clang++
 
           # MacOS GCC
           - os: macos-latest
@@ -135,23 +135,11 @@ jobs:
 
       - name: Install LLVM on MacOS
         if: ${{ matrix.os == 'macos-latest' && matrix.compiler-name == 'llvm' }}
-        run: |
-          brew update
-          if [ "${{ matrix.compiler-version }}" -eq 23 ]; then
-            brew install llvm
-          else
-            brew install llvm@${{ matrix.compiler-version }}
-          fi
+        run: brew update && brew install llvm@${{ matrix.compiler-version }}
 
       - name: Install GCC on MacOS
         if: ${{ matrix.os == 'macos-latest' && matrix.compiler-name == 'gcc' }}
-        run: |
-          brew update
-          if [ "${{ matrix.compiler-version }}" -eq 16 ]; then
-            brew install gcc
-          else
-            brew install gcc@${{ matrix.compiler-version }}
-          fi
+        run: brew update && brew install gcc@${{ matrix.compiler-version }}
 
       - name: Install LLVM on Ubuntu
         if: ${{ matrix.os == 'ubuntu-latest' && matrix.compiler-name == 'llvm' }}
