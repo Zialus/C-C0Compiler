@@ -172,8 +172,8 @@ jobs:
     name: SonarCloud
     runs-on: ubuntu-26.04
     env:
-      SONAR_SCANNER_VERSION: 8.1.0.6389
-      # https://sonarcloud.io/documentation/analysis/scan/sonarscanner/
+      SONAR_SCANNER_VERSION: 8.1.0.6389 # Find the latest version in the "Linux" link on this page:
+      # https://docs.sonarsource.com/sonarqube-server/analyzing-source-code/scanners/sonarscanner
       SONAR_SERVER_URL: "https://sonarcloud.io"
       BUILD_WRAPPER_OUT_DIR: build_wrapper_output_directory # Directory where build-wrapper output will be placed
     steps:
