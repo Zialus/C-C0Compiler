@@ -1,8 +1,8 @@
-cmake_minimum_required(VERSION 3.5)
+cmake_minimum_required(VERSION 3.21)
 
 project(C0Compiler)
 
-set(CMAKE_C_STANDARD 11)
+set(CMAKE_C_STANDARD 23)
 
 #set(CMAKE_PREFIX_PATH /usr/local/opt/bison;/usr/local/opt/flex)
 
