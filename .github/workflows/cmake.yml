@@ -135,11 +135,11 @@ jobs:
 
       - name: Install LLVM on MacOS
         if: ${{ matrix.os == 'macos-26' && matrix.compiler-name == 'llvm' }}
-        run: brew update && brew install llvm@${{ matrix.compiler-version }}
+        run: brew install llvm@${{ matrix.compiler-version }}
 
       - name: Install GCC on MacOS
         if: ${{ matrix.os == 'macos-26' && matrix.compiler-name == 'gcc' }}
-        run: brew update && brew install gcc@${{ matrix.compiler-version }}
+        run: brew install gcc@${{ matrix.compiler-version }}
 
       - name: Install LLVM on Ubuntu
         if: ${{ matrix.os == 'ubuntu-26.04' && matrix.compiler-name == 'llvm' }}
